@@ -200,6 +200,7 @@ ex) "최적화" 분석주제로 문제접근 -> 새로운 유형주제를 "발�
 |unknown   |(방법) 솔루션 <br> Solution    |발견 <br> Discovery  |
 |과제도출방식|하향식 접근<br>Top-Down<br>Problem Solving|상향식 접근<br>Bottom-Up<br>Problem Creation|
 ||주어진 문제 답 탐색|데이터로 인사이트 도출 + 시행착오|
+
 ** 빠르게 변하는 기업환경  => 문제 자체가 변화 => 상향식 접근 방식이 유용  
 
 ### 디자인 사고 프로세스 (IDEO)
