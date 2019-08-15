@@ -202,6 +202,7 @@ ex) "최적화" 분석주제로 문제접근
   - 세분화 태스크 (Specialized Task)
   - 프로세스 실행 (Process Instances)
 + 6단계  
+
      |단계|상세|
      |---|---|
      |업무이해 <br>Bus. Understanding| 업무목적/상황 파악<br> 목표/계획 수립|
