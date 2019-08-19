@@ -367,38 +367,76 @@
     |함수|내용|형식|
     |---|---|---|
     |paste|입력값 연결| paste(a, b, c, ..., sep = )| 
-    |substr|문자열에서 일부 추출| |
+    |substr|문자열에서 일부 추출| substr(word_vector, index_from, index_to)|
 
-    ```
-    > paste("The tree is", 10 , "years old") # 문자열 타입 자동변환
-    [1] "The tree is 10 years old"
+    - paste
+        ```
+        > paste("The tree is", 10 , "years old") # 문자열 타입 자동변환
+        [1] "The tree is 10 years old"
+    
+        > paste("The tree is", 10 , "years old", sep="_") # 기본 구분자는 공백
+        [1] "The tree is_10_years old"
+    
+        > numbers = 1:4
+        > words = c("",)
+        ```
 
-    > paste("The tree is", 10 , "years old", sep="_") # 기본 구분자는 공백
-    [1] "The tree is_10_years old"
-
-    > numbers = 1:4
-    > words = c("",)
-    ```
+    - substr
+        ```
+        > substr("BigDataAnalysis", 1, 4)
+        [1] "BigD"
+	
+	> country = c("Korea", "England", "Russia")
+	> substr(country, 1, 3)
+	[1] "Kor" "Eng" "Rus"
+        ```
 
 + 데이터구조 변환
 
-    |함수|내용|
-    |---|---|
-    |as.data.frame(x)| |
-    |as.list(x)| |
-    |as.matrix(x)| |
-    |as.vector(x)| |
-    |as.factor(x)| |
+    |함수|내용|비고|
+    |---|---|---|
+    |as.data.frame(x)| 데이터프레임으로 변환|
+    |as.list(x)| 리스트로 변환|
+    |as.matrix(x)| 행렬로 변환| 데이터프레임 변환 시 값들 문자형 데이터로 강제변환|
+    |as.vector(x)| 벡터로 변환|
+    |as.factor(x)| 팩터로 변환|
+    |as.integer(x)| 정수형 벡터로 변환|소수점 자동 제거|
+    |as.numeric(x)| 수치형 벡터로 변환| 변환 불가 시 NA 출력 ex) "foo"|
+    |as.logical(x)| 논리값 벡터로 변환 | 0 => FALSE, 0 이외 값 => TRUE|
 
     ```
+    > as.numeric("foo")
+    [1] NA
+    > as.numeric(FALSE)
+    [1] 0
+    > as.numeric(TRUE)
+    [1] 1
+
     ```
+
 + 날짜 변환
-    |함수|내용|
-    |---|---|
-    |Sys.Date()| |
-    |as.Date()| |
-    |format()||
-    |as.character()||
+    |함수|내용|비고|
+    |---|---|---|
+    |Sys.Date()| 현재 날짜|
+    |as.Date()| 날짜객체로 변환| format 옵션(기본:yyyy=mm=dd)|
+    |format()| 데이터 포맷 변경| format 옵션|
+    |as.character()| 문자열로 변환|
+
+    - format 함수 옵션
+
+        |옵션문자|의미|	
+	 |---|---|
+        |%a|요일|
+        |%b|월|
+        |%Y|연도(4자리)|
+        |%y|연도(2자리)|
+        |%m|월(2자리)|
+        |%d|일(2자리)|	
+
+        ```
+	> format(Sys.Date(), '%a')
+        ```
+
 
 ### 사용자 정의 함수
 : function  명령어 이용해 직접 함수 정의 => 복잡한 처리 반복 수행 용이
