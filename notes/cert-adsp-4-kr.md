@@ -1,5 +1,56 @@
 # ADsP :: 과목4. 데이터 분석
 
+- [ADsP :: 과목4. 데이터 분석](#adsp--%ea%b3%bc%eb%aa%a94-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%b6%84%ec%84%9d)
+- [1. R 기초와 데이터 마트](#1-r-%ea%b8%b0%ec%b4%88%ec%99%80-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a7%88%ed%8a%b8)
+  - [1.1 R 기초](#11-r-%ea%b8%b0%ec%b4%88)
+    - [R의 역사](#r%ec%9d%98-%ec%97%ad%ec%82%ac)
+    - [R의 특징](#r%ec%9d%98-%ed%8a%b9%ec%a7%95)
+    - [R 개발환경](#r-%ea%b0%9c%eb%b0%9c%ed%99%98%ea%b2%bd)
+    - [R 패키지 이용](#r-%ed%8c%a8%ed%82%a4%ec%a7%80-%ec%9d%b4%ec%9a%a9)
+    - [R 도움말 이용](#r-%eb%8f%84%ec%9b%80%eb%a7%90-%ec%9d%b4%ec%9a%a9)
+    - [R의 데이터 구조](#r%ec%9d%98-%eb%8d%b0%ec%9d%b4%ed%84%b0-%ea%b5%ac%ec%a1%b0)
+    - [R 외부 데이터 불러오기](#r-%ec%99%b8%eb%b6%80-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%b6%88%eb%9f%ac%ec%98%a4%ea%b8%b0)
+    - [R 기초함수](#r-%ea%b8%b0%ec%b4%88%ed%95%a8%ec%88%98)
+    - [사용자 정의 함수](#%ec%82%ac%ec%9a%a9%ec%9e%90-%ec%a0%95%ec%9d%98-%ed%95%a8%ec%88%98)
+    - [R 그래픽 기능](#r-%ea%b7%b8%eb%9e%98%ed%94%bd-%ea%b8%b0%eb%8a%a5)
+  - [1.2 데이터 마트](#12-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a7%88%ed%8a%b8)
+    - [reshape](#reshape)
+    - [sqldf](#sqldf)
+    - [plyr](#plyr)
+    - [데이터 테이블](#%eb%8d%b0%ec%9d%b4%ed%84%b0-%ed%85%8c%ec%9d%b4%eb%b8%94)
+  - [1.3 결측값 & 이상값 처리](#13-%ea%b2%b0%ec%b8%a1%ea%b0%92--%ec%9d%b4%ec%83%81%ea%b0%92-%ec%b2%98%eb%a6%ac)
+    - [데이터 탐색](#%eb%8d%b0%ec%9d%b4%ed%84%b0-%ed%83%90%ec%83%89)
+    - [결측값 처리](#%ea%b2%b0%ec%b8%a1%ea%b0%92-%ec%b2%98%eb%a6%ac)
+    - [이상값 검색](#%ec%9d%b4%ec%83%81%ea%b0%92-%ea%b2%80%ec%83%89)
+- [2. 통계 분석](#2-%ed%86%b5%ea%b3%84-%eb%b6%84%ec%84%9d)
+  - [2.1 통계학 개론](#21-%ed%86%b5%ea%b3%84%ed%95%99-%ea%b0%9c%eb%a1%a0)
+    - [통계학](#%ed%86%b5%ea%b3%84%ed%95%99)
+    - [모집단](#%eb%aa%a8%ec%a7%91%eb%8b%a8)
+    - [표본 (Sample)](#%ed%91%9c%eb%b3%b8-sample)
+    - [표본추출 방법](#%ed%91%9c%eb%b3%b8%ec%b6%94%ec%b6%9c-%eb%b0%a9%eb%b2%95)
+    - [실험](#%ec%8b%a4%ed%97%98)
+    - [자료의 종류](#%ec%9e%90%eb%a3%8c%ec%9d%98-%ec%a2%85%eb%a5%98)
+    - [측정](#%ec%b8%a1%ec%a0%95)
+  - [2.2 기초 통계 분석](#22-%ea%b8%b0%ec%b4%88-%ed%86%b5%ea%b3%84-%eb%b6%84%ec%84%9d)
+  - [2.3 다변량 분석](#23-%eb%8b%a4%eb%b3%80%eb%9f%89-%eb%b6%84%ec%84%9d)
+  - [2.4 시계열 예측](#24-%ec%8b%9c%ea%b3%84%ec%97%b4-%ec%98%88%ec%b8%a1)
+- [3. 정형 데이터 마이닝](#3-%ec%a0%95%ed%98%95-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a7%88%ec%9d%b4%eb%8b%9d)
+  - [3.1 데이터 마이닝 개요](#31-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a7%88%ec%9d%b4%eb%8b%9d-%ea%b0%9c%ec%9a%94)
+    - [데이터 마이닝 대표 6기능](#%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a7%88%ec%9d%b4%eb%8b%9d-%eb%8c%80%ed%91%9c-6%ea%b8%b0%eb%8a%a5)
+  - [3.2 분류 분석](#32-%eb%b6%84%eb%a5%98-%eb%b6%84%ec%84%9d)
+    - [로지스틱 회귀 모형](#%eb%a1%9c%ec%a7%80%ec%8a%a4%ed%8b%b1-%ed%9a%8c%ea%b7%80-%eb%aa%a8%ed%98%95)
+    - [신경망 모형](#%ec%8b%a0%ea%b2%bd%eb%a7%9d-%eb%aa%a8%ed%98%95)
+    - [의사결정나무 모형](#%ec%9d%98%ec%82%ac%ea%b2%b0%ec%a0%95%eb%82%98%eb%ac%b4-%eb%aa%a8%ed%98%95)
+    - [앙상블 모형](#%ec%95%99%ec%83%81%eb%b8%94-%eb%aa%a8%ed%98%95)
+    - [분류분석 모형 평가](#%eb%b6%84%eb%a5%98%eb%b6%84%ec%84%9d-%eb%aa%a8%ed%98%95-%ed%8f%89%ea%b0%80)
+  - [3.3 군집 분석](#33-%ea%b5%b0%ec%a7%91-%eb%b6%84%ec%84%9d)
+    - [계층적 군집](#%ea%b3%84%ec%b8%b5%ec%a0%81-%ea%b5%b0%ec%a7%91)
+    - [k-평균 군집](#k-%ed%8f%89%ea%b7%a0-%ea%b5%b0%ec%a7%91)
+    - [혼합분포 군집](#%ed%98%bc%ed%95%a9%eb%b6%84%ed%8f%ac-%ea%b5%b0%ec%a7%91)
+    - [자기조직화 지도 SOM(Self-Organizing Map)](#%ec%9e%90%ea%b8%b0%ec%a1%b0%ec%a7%81%ed%99%94-%ec%a7%80%eb%8f%84-somself-organizing-map)
+  - [3.4 연관 분석 (=장바구니 분석)](#34-%ec%97%b0%ea%b4%80-%eb%b6%84%ec%84%9d-%ec%9e%a5%eb%b0%94%ea%b5%ac%eb%8b%88-%eb%b6%84%ec%84%9d)
+    - [연관규칙](#%ec%97%b0%ea%b4%80%ea%b7%9c%ec%b9%99)
+
 # 1. R 기초와 데이터 마트
 * 분석 환경 이해
 * R과 R 스튜디오 설치방법 숙지
@@ -427,6 +478,7 @@
     ```
 
 + 날짜 변환
+
     |함수|내용|비고|
     |---|---|---|
     |Sys.Date()| 현재 날짜|
