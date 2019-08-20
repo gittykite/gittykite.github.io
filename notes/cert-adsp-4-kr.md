@@ -366,19 +366,27 @@
 
     |함수|내용|형식|
     |---|---|---|
-    |paste|입력값 연결| paste(a, b, c, ..., sep = )| 
-    |substr|문자열에서 일부 추출| substr(word_vector, index_from, index_to)|
+    |paste|입력값 연결| paste(..., sep = )| 
+    |substr|문자열에서 일부 추출| substr(word_vector, start, end)|
+    |sub|치환(첫번째)|sub(pattern, replacement, word)|
+    |gsub|치환(전부)|gsub(pattern, replacement, word)|
 
     - paste
         ```
-        > paste("The tree is", 10 , "years old") # 문자열 타입 자동변환
-        [1] "The tree is 10 years old"
+        > paste("It is", 10 , "years old") # 문자열 타입으로 자동변환
+        [1] "It is 10 years old"
     
-        > paste("The tree is", 10 , "years old", sep="_") # 기본 구분자는 공백
-        [1] "The tree is_10_years old"
+        > paste("It is", 10 , "years old", sep="_") # 기본 구분자는 공백
+        [1] "It is_10_years old"
     
-        > numbers = 1:4
-        > words = c("",)
+        > numbers = 1:3
+        > words = c("a", "b")
+
+        > paste(numbers, words)
+        [1] "1 a" "2 b" "3 a"
+        
+        > paste(numbers, words, sep=" to ")
+        [1] "1 to a" "2 to b" "3 to a"
         ```
 
     - substr
@@ -386,25 +394,29 @@
         > substr("BigDataAnalysis", 1, 4)
         [1] "BigD"
 	
-	> country = c("Korea", "England", "Russia")
-	> substr(country, 1, 3)
-	[1] "Kor" "Eng" "Rus"
+        > country = c("Korea", "England", "Russia")
+        > substr(country, 1, 3)
+        [1] "Kor" "Eng" "Rus"
         ```
 
 + 데이터구조 변환
 
     |함수|내용|비고|
     |---|---|---|
-    |as.data.frame(x)| 데이터프레임으로 변환|
-    |as.list(x)| 리스트로 변환|
+    |as.data.frame(x)| 데이터 프레임으로 변환|
+    |as.list(x)| 리스트로 변환| 벡터/행렬 모두 포함 가능 타입
     |as.matrix(x)| 행렬로 변환| 데이터프레임 변환 시 값들 문자형 데이터로 강제변환|
     |as.vector(x)| 벡터로 변환|
-    |as.factor(x)| 팩터로 변환|
+    |as.factor(x)| 팩터로 변환| 범주화 (Levels)
     |as.integer(x)| 정수형 벡터로 변환|소수점 자동 제거|
-    |as.numeric(x)| 수치형 벡터로 변환| 변환 불가 시 NA 출력 ex) "foo"|
-    |as.logical(x)| 논리값 벡터로 변환 | 0 => FALSE, 0 이외 값 => TRUE|
+    |as.numeric(x)| 수치형 벡터로 변환| 변환 불가 값은 NA 출력|
+    |as.logical(x)| 논리값 벡터로 변환 | 0 => FALSE <br> 0 아닌 값 => TRUE|
 
     ```
+    > as.factor(c("A", "B", "AB", "O"))
+    [1] A  B  AB O 
+    Levels: A AB B O
+
     > as.numeric("foo")
     [1] NA
     > as.numeric(FALSE)
@@ -418,14 +430,22 @@
     |함수|내용|비고|
     |---|---|---|
     |Sys.Date()| 현재 날짜|
-    |as.Date()| 날짜객체로 변환| format 옵션(기본:yyyy=mm=dd)|
-    |format()| 데이터 포맷 변경| format 옵션|
+    |as.Date()| 날짜객체로 변환| format 옵션 <br> (기본: "%Y-%m-%d")|
+    |format()| 데이터 포맷 변경| format 옵션문자|
     |as.character()| 문자열로 변환|
+
+    ```
+    > as.Date("2019-08-20")
+    > as.character(Sys.Date())  # 출력결과 (동일)
+    > format(Sys.Date())        # 출력결과 (동일)
+
+    [1] "2019-08-20"    
+    ```
 
     - format 함수 옵션
 
         |옵션문자|의미|	
-	 |---|---|
+	    |---|---|
         |%a|요일|
         |%b|월|
         |%Y|연도(4자리)|
@@ -434,9 +454,18 @@
         |%d|일(2자리)|	
 
         ```
-	> format(Sys.Date(), '%a')
-        ```
+        > as.Date("08/20", format="%m/%d")
+        [1] 08/20
 
+        > format(Sys.Date(), '%a')
+        [1] "Tue"
+
+        > format(Sys.Date(), '%b')
+        [1] "Aug"
+
+        > format(Sys.Date(), '%m')
+        [1] "08"
+        ```
 
 ### 사용자 정의 함수
 : function  명령어 이용해 직접 함수 정의 => 복잡한 처리 반복 수행 용이
@@ -455,29 +484,62 @@
 ```
 
 ### R 그래픽 기능
-+ 산점도 그래프
-: 
-    ```
++ [산점도 그래프](https://warwick.ac.uk/fac/sci/moac/people/students/peter_cock/r/iris_plots/)  
+: x, y 값을 한눈에 살펴볼 수 있게 평면/공간에 점 찍어 표현
 
     ```
-
-+ 산점도 행렬
-
-    ```
+    plot(iris$Petal.Length, iris$Petal.Width, main="Edgar Anderson's Iris Data")
     ```
 
-+ 히스토그램
+    ** main: 그래프 제목 설정    
+
+    ![](https://warwick.ac.uk/fac/sci/moac/people/students/peter_cock/r/iris_plots/iris_scatter.png?maxWidth=431&maxHeight=451)
+
++ [산점도 행렬](https://warwick.ac.uk/fac/sci/moac/people/students/peter_cock/r/iris_plots/#plot)   
+: 여러 변수에 대해 각각의 산점도 볼 수 있도록 확장된 산점도 행렬
 
     ```
+    pairs(iris[1:4], main="Edgar Anderson's Iris Data",
+        pch=21, bg = c("red", "green3", "blue")[unclass(iris$Species)])
     ```
 
-+ 상자그림
+    ** pch: 그래프 점 모양 설정  
+    ** bg: 색 지정
+
+    ![](https://warwick.ac.uk/fac/sci/moac/people/students/peter_cock/r/iris_plots/iris_pairs.png?maxWidth=431&maxHeight=451)
+
++ [히스토그램](https://www.datamentor.io/r-programming/histogram/)  
+: 보통 세로축에 도수 표기, 자료분포 파악 쉬움 => 탐색적 자료분석에 이용
 
     ```
+    hist(airquality$Temp)
+    hist(airquality$Temp, prob=T)
     ```
+
+    ** prob=T: 상대도수 이용 설정  
+    ** col: 막대 색 지정  
+    ** xlab: x축 라벨  
+    ** ylab: y축 라벨   
+    ** xlim: x축 범위  
+    ** ylim: y축 범위  
+    
+    ![](https://cdn.datamentor.io/wp-content/uploads/2017/11/r-histogram.png)
+
++ [상자그림](https://www.datamentor.io/r-programming/box-plot/)  
+: 자료분포 파악 쉬움 => 탐색적 자료분석에 이용
+
+    ```
+    boxplot(airquality$Ozone)
+    ```
+
+    ** horizontal: 가로 설정  
+    ** border: 경계선 색 지정  
+    ** notch: 중앙값 휘어짐 설정  
+
+    ![](https://cdn.datamentor.io/wp-content/uploads/2017/11/r-boxplot-1.png)
 
 ## 1.2 데이터 마트
-: 데이터의 일부분으로 특정 사용자가 관심 갖는 데이터들을 담은 상대적으로 작은 규모의 데이터 웨어하우스
+: 데이터 웨어하우스의 전체 데이터 중 **일부**를 **특정 사용자**의 요구/관심에 따라 제공
 
 ### reshape
 - 데이터 탐색 용이하게 하는 데이터 재정렬 기법
@@ -487,6 +549,9 @@
 
 ```
 ```
+
+** 밀집화(Aggregation): 데이터 축소/재정렬해 사용편의성 증대   
+ex) 엑셀의 피벗 테이블 
 
 ### sqldf
 - 표준 SQL 문장 사용 가능 
