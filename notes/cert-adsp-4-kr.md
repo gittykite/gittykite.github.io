@@ -594,16 +594,69 @@
 : 데이터 웨어하우스의 전체 데이터 중 **일부**를 **특정 사용자**의 요구/관심에 따라 제공
 
 ### reshape
-- 데이터 탐색 용이하게 하는 데이터 재정렬 기법
-- 밀집화와 다르게 데이터가 가진 정보 유지
-- melt 단계
-- cast 단계
+- 데이터 탐색 용이하게 하는 데이터 재정렬 기법  
+  * 데이터 구조 column-wise 하게 전환
+  * 밀집화와 다르게 데이터가 가진 정보 유지
+- melt 단계  
+  : id에 있는 변수 기준으로 나머지 변수 표준 데이터화  => 변수명:variable, 값:value
+  * melt(data, id=, na.rm =)
+  * 옵션  
+   : na.rm(결측치 제거)
+- cast 단계  
+  : 엑셀 피벗팅처럼 자료 변환  
+  * cast( data, y ~ x_dimension ~ x_measure) 
+  * 옵션  
+    : mean, range, margin, subset
 
 ```
+> install.packages("reshape") # 패키지 설치
+> library(reshape) # 패키지 로드
+
+> head(airquality) # 앞단 데이터 확인
+> names(airquality) = tolower(names(airquality)) # 소문자 헤더
+
+# melt 단계
+# month, day 기준으로 표준화 
+> apm = melt(airquality, id=c("month", "day"), na.rm=TRUE)
+
+# 변수별로 분리된 결과 출력
+> apm
+    month day  variable  value
+1       5   1     ozone   41.0
+2       5   2     ozone   36.0
+3       5   3     ozone   12.0
+...
+119     5   3   solar.r  149.0
+120     5   4   solar.r  313.0
+...
+567     9  29      temp   76.0
+568     9  30      temp   68.0
+
+# cast 단계
+# 분리된 날짜별 결과 표시
+> a <- cast(apm, day ~ month ~ variable)
+> a
+
+# 월별 각 변수 평균값 산출
+> m <- cast(apm, month ~ variable, mean)
+> m
+
+# 월별 최대/최소값 산출 (_X1:최소 , _X2:최대)
+> r <- cast(apm, month ~ variable, range)
+> r
+
+# 행/열 소계 산출 옵션
+> grandm <- cast(apm, month ~ variable, mean, margins=c("grand_row", "grand_col"))
+> grandm
+
+# 특정변수에 대한 서브셋 산출
+> sub <- cast(apm, day ~ month, mean, subset=variable=="ozone")
+> sub
 ```
 
-** 밀집화(Aggregation): 데이터 축소/재정렬해 사용편의성 증대   
-ex) 엑셀의 피벗 테이블 
+** 밀집화(Aggregation):  
+데이터 축소/재정렬해 사용편의성 증대   ex) 엑셀의 피벗 테이블 
+
 
 ### sqldf
 - 표준 SQL 문장 사용 가능 
