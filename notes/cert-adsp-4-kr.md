@@ -655,17 +655,33 @@
 ```
 
 ** 밀집화(Aggregation):  
-데이터 축소/재정렬해 사용편의성 증대   ex) 엑셀의 피벗 테이블 
+데이터 축소/재정렬해 사용편의성 증대   ex) 엑셀의 피벗 테이블  
 
+** 사용자 정의 함수로 가공된 변수 정의/산출 가능
 
 ### sqldf
 - 표준 SQL 문장 사용 가능 
-- 싱글쿼트 이용해 특수문자 입력 가능
+- 싱글쿼트 이용해 문자값 입력 가능
 - Mac 버전에서는 에러 발생할 수도
 
 ```
-sqldf("select * from iris where Species like 'se%' limit 10")
+> install.packages("sqldf")
+> library(sqldf)
+> data(iris)
+
+# Species가 se로 시작하는 데이터 10행 
+> sqldf("select * from iris where Species like 'se%' limit 10")
+
+# Species가 se로 시작하는 데이터 개수 
+> sqldf("select count(*) from iris where Species like 'se%'")
+> count(*)
+1   50
 ```
+
+** * : 모든 항목 
+** _ : 1문자 와일드카드  
+** % : 여러문자 와일드카드  
+** limit: 결과 행수 제한
 
 ### plyr
 - 데이터 분리/처리/결합 패키지
@@ -686,30 +702,142 @@ sqldf("select * from iris where Species like 'se%' limit 10")
     |배열   |배열|  aaply|
 
 ```
+> library(plyr)
+> set.seed(1)
+> d = data.frame(year= rep(2012:2014, each = 6), count = round(runif(9,0,20)))
+> print(d)
+
+> ddply(d, "year", function(x){
+    mean.count = mean(x$count)
+    sd.count = sd(x$count)
+    cv = sd.count/mean.count
+    data.frame(cv.count = cv)
+})
+   year  cv.count
+1 2012  0.5985621
+2 2013  0.4382254
+3 2014  0.3978489
+
+# 계산 후 새로 생긴 변수만 출력 
+> ddply(d, "year", summarise, mean.count = mean(count))
+    year  mean.count
+1   2012  10.50000
+2   2013  11.33333
+3   2014  14.16667
+
+# 계산에 사용된 변수도 출력
+> ddply(d, "year", transform, total.count = sum(count))
+    year  count  total.count
+1   2012    5       63
+2   2012    7       63
+...
+17  2014    13      85 
+18  2014    13      85
 ```
+
+** runif(num_of_random_num, min, max)   
+** d_ply: 그림그리기(plotting) 명령  
+** 여러 개 변수에 따라 데이터 분할 가능
 
 ### 데이터 테이블
-- 데이터프레임과 유사
+- 데이터프레임과 유사하나, 검색속도 더 빠름  
+  : 하나씩 비교하는 벡터방식 아닌 인덱스 이용한 바이너리 검색
 - 빠른 그룹화 / 순서화 / 짧은 문장 지원
 - 64Bit 환경에서 RAM 충분할 때 효율적
+- DataTable [ i, j, by]
+ 
+```
+> install.packages("data.table")
+> library(data.table)
 
+> DT = data.table(x=c("b", "a", "a"), v=rnorm(3))
+> DT
+   x           v
+1: b   0.9817528
+2: a  -0.3926954
+3: a  -1.0396690
+
+> CARS <- data.table(cars)
+
+> tables()
+     NAME NROW MB  COLS       KEY
+[1,] CARS   50  1  speed,dist
+[2,] DT      5  1  x,v
+
+
+> setkey(DT, x)   # 데이터 테이블 키 설정
+> DT              # 지정된 키 순서대로 정렬됨
+1: a  -1.0396690
+2: a  -0.3926954
+3: b   0.9817528
+
+> tables()
+     NAME NROW MB  COLS       KEY
+[1,] CARS   50  1  speed,dist
+[2,] DT      5  1  x,v         x
+
+# 키 설성 전 인덱싱
+> DT[2,]
+> DT[DT$x == "b", ]
+
+# 키 설정 후 인덱싱
+> DT["b",]
+> DT["b", mult="first"]
+> DT["b", mult="last"]
+
+# 벡터검색
+> tt <- system.time(ans1 <- DF[DF$x=="R" & DF$y == "h", ]
+> tt
+user system elapsed
+1.484 0.260  1.804
+
+# 바이너리 검색
+> ss <- system.time(ans2<-DT[J("R", "h")])
+> ss
+user  system elapsed
+0.004 0.000   0.004
+
+# 전체합산
+>DT[, sum(v)]
+
+# x 기준 합산
+>DT[, sum(v), by=x]
+
+# x, y 변수로 요약 & 그룹화
+>sss <- System.time(ss<-DT[,sum(v), by="x,y"])
+>sss
+user  system elapsed
+0.187  0.022   0.209
+>ss
+     x y       V1
+1:   A a 7352.143
+2:   A b 7349.215
+3:   A c 7427.265
+...
+675: Z y 7404.204
+676: Z z 7352.574
 ```
-```
+
+** rnorm: 정규분포에서 난수 생성
 
 ## 1.3 결측값 & 이상값 처리
 
 ### 데이터 탐색
-: 데이터 분석 전 다각도로 접근 => 대략의 데이터 특성 파악 & 통찰 
+: 데이터 분석 전 다각도로 접근 => 데이터 특성 대략적 파악 & 통찰 
 + 범주형 변수
   - 각 범주 빈도수 출력해 데이터 분포 파악 
 + 연속형 변수
-  - 기초 통계치 출력
-  - 공분산/상관계수 행렬 출력해 변수 간 선형 상관관계 강도 확인
+  - 기초 통계치 출력 (4분위/최소/최대/중앙/평균)
+  - 공분산/상관계수행렬 출력해 변수 간 선형 상관관계 강도 확인
 
 ```
-```
+data(iris)
+head(iris, 10)  # 처음 10줄 (기본6줄)
+str(iris)       # 데이터구조
+summary(iris)   # 기초통계량
 
-```
+cov(iris[, 1:4]) # 공분산
+cor(iris[, 1:4]) # 상관계수
 ```
 
 ### 결측값 처리
