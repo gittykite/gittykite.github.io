@@ -741,7 +741,7 @@
 
 ### 데이터 테이블
 - 데이터프레임과 유사하나, 검색속도 더 빠름  
-  : 하나씩 비교하는 벡터방식 아닌 인덱스 이용한 바이너리 검색
+  : 벡터검색(하나씩 비교) 아닌 바이너리 검색(인덱스 이용)
 - 빠른 그룹화 / 순서화 / 짧은 문장 지원
 - 64Bit 환경에서 RAM 충분할 때 효율적
 - DataTable [ i, j, by]
@@ -818,7 +818,8 @@ user  system elapsed
 676: Z z 7352.574
 ```
 
-** rnorm: 정규분포에서 난수 생성
+** rnorm(): 정규분포에서 난수 생성  
+** System.time(): 실행시간 측정   
 
 ## 1.3 결측값 & 이상값 처리
 
@@ -830,46 +831,145 @@ user  system elapsed
   - 기초 통계치 출력 (4분위/최소/최대/중앙/평균)
   - 공분산/상관계수행렬 출력해 변수 간 선형 상관관계 강도 확인
 
-```
-data(iris)
-head(iris, 10)  # 처음 10줄 (기본6줄)
-str(iris)       # 데이터구조
-summary(iris)   # 기초통계량
+    ```
+    data(iris)
+    head(iris, 10)  # 처음 10줄 (기본6줄)
+    str(iris)       # 데이터구조
+    summary(iris)   # 기초통계량
 
-cov(iris[, 1:4]) # 공분산
-cor(iris[, 1:4]) # 상관계수
-```
+    cov(iris[, 1:4]) # 공분산
+    cor(iris[, 1:4]) # 상관계수
+    ```
+
+  - ** 공분산(covariance)  
+  : 2개의 확률변수의 상관정도를 나타내는 값  
+    - 양/음의 상관관계 존재
+    - 분산과 별개의 값
+    - 변수 측정단위에 따라 크기 다름 => 상관관계 정도와 무관
+
+  - ** 상관계수(Correlation coefficient)  
+  : 두 변수간의 관계의 강도
+    - 0 < ρ ≤ +1 : 양의 상관관계
+    - ρ  =  0 : 선형 상관관계 아님 (상관관계 존재 가능)
+    - -1 ≤ ρ < 0 : 음의 상관관계  
+    -  +/-0.7 ~ +/-1:  강한 상관관계 
 
 ### 결측값 처리
-- 가능하면 제외하는 것이 좋으나 의미 있는 경우도 있음
-- 처리방법에 따라 전체 속도에 많은 영향
-- 자동화 할 경우 업무 효율성 매우 향상
-- 패키지: Amelia 2, Mice, mistools 등
-- NA
-- NaN
-- 방식: 삭제 / 대표값으로 대체 / imputation
+: 보통 제외하고 처리하는 것이 좋으나 의미 있는 경우도 있음
 
-is.na
-complete.cases
++ 처리방법에 따라 전체 속도에 많은 영향
+    => 자동화 할 경우 업무 효율성 매우 향상
++ R의 결측값
+  - NA (Not Available)
+  - NaN (Not a number): 무한대 / 0
++ 패키지: Amelia 2, Mice, mistools 등
++ 처리방식
+  -  삭제 / 대표값 대체 : na, complete.cases 함수 이용
 
-```
-```
+        ```
+        > x <- c(1, 2, NA)
+        > is.na(x)            # 결축치 여부 확인
+        [1] FALSE FALSE TRUE
+
+        > mean(x)             
+        [1] NA
+        > mean(x, na.rm=T)    # 결축치 제거 옵션
+        [1] 2
+
+        > complete.cases(airquality)   # 결측치 없으면 TRUE 반환
+
+        # 결측치 제거된 데이터셋
+        > airquality_ok <- airquality[complete.cases(airquality), ] 
+
+        # 특정 컬럼 결측치 제거된 데이터셋
+        > ozone_ok <- airquality$Ozone[complete.cases(airquality$Ozone), ] 
+        ```
+
+  -  전가 (imputation) : [Amelia](http://r-bong.blogspot.com/p/amelia-ii-part01-1-introduction.html) 이용
+
+        ```
+        > install.packages("Amelia")
+        > library(Amelia)
+
+        # 다중전가 생성
+        > a.out <- amelia(freetrade, m=3, ts="year", cs="country")
+
+        # 전가 데이터셋 저장 (아멜리아 출력목록)
+        > save(a.out, file = "inputations.RData")
+
+        # 전가 데이터셋 각각 저장 (csv 파일)
+        > write.amelia(obj=a.out, file.stem = "outdata")
+        outdata1.csv
+        outdata2.csv
+        outdata3.csv
+
+        # 결측지도 시각화
+        > missmap(a.out)
+
+        # 전가 처리 후 결측지도 시각화
+        > freetrade$tariff <- a.out$imputation[[5]]$tariff
+        > missmap(freetrade)
+        ```
+
+        ** m: 전가데이터셋 개수  
+        ** ts: Time Series 시계열 정보   
+        ** cs: Cross-sectional 분석정보   
+        
+        ** 결측지도(Missingness Map)  
+        : 결측 상태의 데이터셋 그리드와 컬러 그리드를 시각화 (열:변수, 행, 관측)
+
+        ![](https://4.bp.blogspot.com/-oJc3Xd-mbsw/WDQkK-XkPtI/AAAAAAAABkk/XydKVTfVkacaU2iYFjbPli0P_acNdnz-wCLcB/s1600/%25EA%25B7%25B8%25EB%25A6%25BC%2B12.png)
 
 ### 이상값 검색
-원인
-- 의도치 않게 잘못 입력한 경우
-- 의도치 않게 입력했으나 분석목적에 부합 안 해서 제거 필요한 경우
-- 의도지 않은 형상이지만 분석에 포함해야 하는 경우
-- 의도된 이상값
+: FDS(부정사용방지 시스템) 프로젝트 아닌 이상 많은 시간 투입 불필요  
+=> summary 사분위수(Q1, Q3) 및 변수별 플롯 확인해 특성 파악
 
-식별방법  
-- ESD 알고리즘 이용
-- MADM 알고리즘 이용
-- boxplot 이용
-- outliers 패키지
++ 원인
+  - a1: 의도치 않게 잘못 입력한 경우
+  - a2: 의도치 않게 입력했으나 분석목적에 부합 안 해서 제거 필요한 경우
+  - a3: 의도지 않은 형상이지만 분석에 포함해야 하는 경우
+  - b1: 의도된 이상값  
+    => 분석목적/영향 고려해 기준 수립하고, 기준에 따라 이상치 무시하고 진행해야
 
-```
-```
++ 식별방법  
+  - ESD 알고리즘 이용  
+  : 평균에서 k* 표준편차만큼 떨어져 있는 값 탐색 (보통 k=3)  
+  => 널리 알려진 방법이지만 이상값에 매우 민감 
+  - MADM 알고리즘 이용
+  - boxplot 이용
+
+    ```
+    > x = rnorm(100)
+    > boxplot(x)
+
+    > x = c(x, 19, 28, 30)  # 이상값 추가
+    > outwith = boxplot(x)
+
+    > outwith$out           # 이상값 출력
+    [1] 19 28 30
+    ```
+
+    ![](https://learningstatisticswithr.com/book/img/graphics2/boxplot1_annotated.png)
+
+  - outliers 패키지 이용
+
+    ```
+    > install.packages("outliers")
+    > library(outliers)
+
+    > set.seed(1234)
+    > y = rnorm(100)
+
+    > outlier(y)                 # 평균과 가장 먼 값 출력
+    [1] 2.548991
+
+    > outlier(y, opposite=TRUE)  # 평균과 가장 먼 값 출력 (반대방향)
+    [1] -2.345698
+
+    > dim(y) <-c(20, 5)          # 행렬화 (20 * 5)
+    > outlier(y)                 # 열별로 열 평균과 가장 먼 값 출력
+    ```
+
 
 # 2. 통계 분석
 * 모집단 / 표본 / 표본추출 방법
