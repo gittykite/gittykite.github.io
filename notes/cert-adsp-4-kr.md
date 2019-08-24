@@ -25,31 +25,28 @@
 - [2. 통계 분석](#2-%ed%86%b5%ea%b3%84-%eb%b6%84%ec%84%9d)
   - [2.1 통계학 개론](#21-%ed%86%b5%ea%b3%84%ed%95%99-%ea%b0%9c%eb%a1%a0)
     - [통계학](#%ed%86%b5%ea%b3%84%ed%95%99)
-    - [모집단](#%eb%aa%a8%ec%a7%91%eb%8b%a8)
-    - [표본 (Sample)](#%ed%91%9c%eb%b3%b8-sample)
-    - [모집단 대표성 확인 항목](#%eb%aa%a8%ec%a7%91%eb%8b%a8-%eb%8c%80%ed%91%9c%ec%84%b1-%ed%99%95%ec%9d%b8-%ed%95%ad%eb%aa%a9)
-    - [용어](#%ec%9a%a9%ec%96%b4)
     - [표본추출 방법](#%ed%91%9c%eb%b3%b8%ec%b6%94%ec%b6%9c-%eb%b0%a9%eb%b2%95)
     - [실험](#%ec%8b%a4%ed%97%98)
     - [측정 (Measurement)](#%ec%b8%a1%ec%a0%95-measurement)
-    - [자료의 종류 & 측정방법](#%ec%9e%90%eb%a3%8c%ec%9d%98-%ec%a2%85%eb%a5%98--%ec%b8%a1%ec%a0%95%eb%b0%a9%eb%b2%95)
     - [2.1.2 통계 분석 (Statistical Analysis)](#212-%ed%86%b5%ea%b3%84-%eb%b6%84%ec%84%9d-statistical-analysis)
-    - [기술통계 Descriptive Statistic](#%ea%b8%b0%ec%88%a0%ed%86%b5%ea%b3%84-descriptive-statistic)
+    - [통계적 추론 (Statistical Inference)](#%ed%86%b5%ea%b3%84%ec%a0%81-%ec%b6%94%eb%a1%a0-statistical-inference)
     - [확률](#%ed%99%95%eb%a5%a0)
-    - [용어](#%ec%9a%a9%ec%96%b4-1)
+    - [조건부 확률 & 독립 사건](#%ec%a1%b0%ea%b1%b4%eb%b6%80-%ed%99%95%eb%a5%a0--%eb%8f%85%eb%a6%bd-%ec%82%ac%ea%b1%b4)
+    - [확률변수(Random Variable)](#%ed%99%95%eb%a5%a0%eb%b3%80%ec%88%98random-variable)
+    - [확률변수의 통계치](#%ed%99%95%eb%a5%a0%eb%b3%80%ec%88%98%ec%9d%98-%ed%86%b5%ea%b3%84%ec%b9%98)
     - [확률분포](#%ed%99%95%eb%a5%a0%eb%b6%84%ed%8f%ac)
     - [추정](#%ec%b6%94%ec%a0%95)
     - [가설검정](#%ea%b0%80%ec%84%a4%ea%b2%80%ec%a0%95)
     - [비모수 검정 (Nonparametric Method)](#%eb%b9%84%eb%aa%a8%ec%88%98-%ea%b2%80%ec%a0%95-nonparametric-method)
   - [2.2 기초 통계 분석](#22-%ea%b8%b0%ec%b4%88-%ed%86%b5%ea%b3%84-%eb%b6%84%ec%84%9d)
-    - [기술통계](#%ea%b8%b0%ec%88%a0%ed%86%b5%ea%b3%84)
+    - [기술통계 Descriptive Statistic](#%ea%b8%b0%ec%88%a0%ed%86%b5%ea%b3%84-descriptive-statistic)
     - [회귀분석 (Regression Analysis)](#%ed%9a%8c%ea%b7%80%eb%b6%84%ec%84%9d-regression-analysis)
     - [모형 적절성 확인](#%eb%aa%a8%ed%98%95-%ec%a0%81%ec%a0%88%ec%84%b1-%ed%99%95%ec%9d%b8)
     - [최적회귀방정식 선택](#%ec%b5%9c%ec%a0%81%ed%9a%8c%ea%b7%80%eb%b0%a9%ec%a0%95%ec%8b%9d-%ec%84%a0%ed%83%9d)
   - [2.3 다변량 분석](#23-%eb%8b%a4%eb%b3%80%eb%9f%89-%eb%b6%84%ec%84%9d)
-    - [상관분석](#%ec%83%81%ea%b4%80%eb%b6%84%ec%84%9d)
-    - [다차원 척도법](#%eb%8b%a4%ec%b0%a8%ec%9b%90-%ec%b2%99%eb%8f%84%eb%b2%95)
-    - [주성분 분석](#%ec%a3%bc%ec%84%b1%eb%b6%84-%eb%b6%84%ec%84%9d)
+    - [상관분석 (Correlation Analysis)](#%ec%83%81%ea%b4%80%eb%b6%84%ec%84%9d-correlation-analysis)
+    - [다차원 척도법 (MIDS, Multidimensional Scaling)](#%eb%8b%a4%ec%b0%a8%ec%9b%90-%ec%b2%99%eb%8f%84%eb%b2%95-mids-multidimensional-scaling)
+    - [주성분 분석 (PCA, Principal Component Analysis)](#%ec%a3%bc%ec%84%b1%eb%b6%84-%eb%b6%84%ec%84%9d-pca-principal-component-analysis)
   - [2.4 시계열 예측](#24-%ec%8b%9c%ea%b3%84%ec%97%b4-%ec%98%88%ec%b8%a1)
     - [시계열 모형 종류](#%ec%8b%9c%ea%b3%84%ec%97%b4-%eb%aa%a8%ed%98%95-%ec%a2%85%eb%a5%98)
 - [3. 정형 데이터 마이닝](#3-%ec%a0%95%ed%98%95-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a7%88%ec%9d%b4%eb%8b%9d)
@@ -367,13 +364,18 @@
     |함수|내용|
     |---|---|
     | mean |평균 | 
+    | median |중앙값 | 
     | var |분산 | 
     | sd |표준편차| 
     | sum |합 | 
-    | median |중앙값 | 
     | log |자연로그 | 
     | cov |공분산 | 
     | cor |상관계수 | 
+    |max|최대|
+    |min|최소|
+    |quantile( x) |사분위수|
+    |quantile( x, 1/4) |1사분위수|
+    |quantile( x, 3/4) |3사분위수|
     | summary |요약(사분위수/최대/최소/중앙/평균) | 
 
 + 데이터 핸들링
@@ -1002,26 +1004,31 @@ user  system elapsed
 ### 통계학
 : 자료로부터 유용한 정보 이끌어내는 학문 = 자료의 수집 / 정리 / 해석
 
-### 모집단
-: 유용한 정보의 대상 = 우리가 알고자 하는 전체, 추출단위/원소로 구성
++ 모집단  
+  - 유용한 정보의 대상 = 우리가 알고자 하는 전체
+  - 추출단위/원소로 구성
 
-### 표본 (Sample)
-: 표본조사의 대상, 모집단의 일부에서 추출한 일부 => 대표성 확인/명시 필요 
++  표본 (Sample)  
+   - 표본조사의 대상
+   - 모집단의 일부에서 추출한 일부 => 대표성 확인/명시 필요 
 
-### 모집단 대표성 확인 항목
++ 모집단 대표성 확인 항목
   - 모집단의 정의
   - 표본크기/추출방식
   - 조사기간/방법
 
-### 용어
-|용어|의미|
-|---|---|
-|총조사 Census | 모집단 개체 전부 조사 => 비용/시간 소모 
-|표본조사 | 모집단 일부 조사 후 모집단에 대해 추론  
-|모수 Parameter | 알고자 하는 모집단의 값  
-|통계량 Static | 모수 추론 위해 구하는 표본의 값  
-|유한/무한 모집단 | 개체수에 따른 모집단 (무한집단은 보통 개념적)  
-
++ 용어
+  + 총조사 Census  
+  : 모집단 개체 전부 조사 => 큰 비용/시간 소모
+  + 표본조사  
+  : 모집단 일부 조사 => 모집단에 대해 추론  
+  + 모수 Parameter  
+  : 알고자 하는 모집단의 값  
+  + 통계량 Static   
+  : 모수 추론 위한 표본의 값  
+  + 유한/무한 모집단 
+    - 개체수에 따른 모집단 
+    - 무한 모집단은 보통 개념적 집단
 
 ### 표본추출 방법
 + 단순랜덤추출법 (Simple Random Sampling)
@@ -1042,42 +1049,42 @@ user  system elapsed
 	- 각 층에서 표본 랜덤 추출
 
 ### 실험
-: 특정 목적 하에 대상에게 처리를 가한 후 그 결과를 관측해 자료수집  
-=> 실험집단 + 통제집단 
+: 특정 목적으로 대상에게 처리 가함 => 결과를 관측해 자료수집
++ 실험집단  
+: 처리를 가하는 집단  
++ 통제집단  
+: 비교 위해 처리를 가하지 않는 집단   
+ex) 치료제 대신 위약 투여
 
 ### 측정 (Measurement)
-: 표본/실험에서 추출된 원소나 실험단위로부터 목적에 적합하도록 관측해 자료 얻는 것
+: 표본/실험에서 추출된 원소/실험단위 관측해 자료 얻는 것
 
-### 자료의 종류 & 측정방법
 + 질적자료 (qualitative data)
 
-    |명칭|내용|예시|
+    |측정방법|상세|예시|
     |---|---|---|
     |명목척도 <br> Nominal scale |대상의 소속집단 분류하는 척도 |ex) 성별, 거주지|
     |순서척도 <br> Ordinal scale |특성에 대한 서열관계 관측 척도 |ex) 선호도|
 
 + 양적자료 (quantitative data)
 
-    |명칭|내용|예시|
+    |측정방법|상세|예시|
     |---|---|---|
     |구간척도 <br> Interval Scale | 절대적 원점 없는 속성의 수량 척도 |ex) 온도, 지수|
     |비율척도 <br> Ratio Scale | 절대적 0값 존재하는 수량 척도 <br>  제일 정보 많이 갖는 척도 |ex) 나이, 연간소득|
 
 ### 2.1.2 통계 분석 (Statistical Analysis)
-: 특정 집단 & 불확실한 현상에 대한 자료수집 => 정보추출 => 통계분석 방법 이용해 의사결정(=통계적 추론) 하는 과정  
+: 특정 집단 & 불확실한 현상에 대한 자료수집 => 정보추출  => 통계분석방법  
+=> 의사결정 하는 과정  
 
-+ 통계적 추론 (Statistical Inference)
-
-    |명칭|상세|
-    |---|---|
-    |추정 <br> Estimation | 모집단의 특성값(모수) 추측 |
-    |가설검정 <br> Hypothesis Test | 모집단에 특정 가설 설정 후 가설채택 여부 결정 |
-    |예측 Forecasting | 미래의 불확실성 해결해 효율적 의사결정 하기 위한 추론 |
-
-### 기술통계 Descriptive Statistic  
-: 자료 정리/요약 위해 사용되는 기초통계 => 분석 전 대략적 이해/통찰 얻는 데 유리  
-  - 숫자 : 평균, 최빈값, % 등
-  - 그림 : 그래프, 차트 등
+### 통계적 추론 (Statistical Inference)  
+: 수집된 자료로 대상집단(모집단)에 대해 의사결정 하는 것
+ 
+|추론종류|상세|
+|---|---|
+|추정 <br> Estimation | 모집단의 특성값(모수) 추측 |
+|가설검정 <br> Hypothesis Test | 모집단에 가설 설정 => 가설채택 여부 결정 |
+|예측 <br> Forecasting | 미래의 불확실성 해결 => 효율적 의사결정|
 
 ### 확률
 : 특정 사건이 일어날 가능성의 척도
@@ -1085,16 +1092,16 @@ user  system elapsed
 - 전제 집합의 확률은 1이다
 - 서로 배반인 사건들의 합집합의 확률은 각 사건들의 확률의 합니다
 
-### 용어
-+ 표본공간 (Sample Space)  
- : 통계적 실험 시 발생가능한 모든 결과 집합  
-+ 사건 (Event)  
- : 표본공간의 부분집합  
-+ 근원사건  
- : 사건 중 원소가 오직 1개인 사건  
-+ 배반사건  
- : 교집합이 공집합인 사건들
+  + 표본공간 (Sample Space)  
+   : 통계적 실험 시 발생가능한 모든 결과 집합  
+  + 사건 (Event)  
+   : 표본공간의 부분집합  
+  + 근원사건  
+   : 사건 중 원소가 오직 1개인 사건  
+  + 배반사건  
+   : 교집합이 공집합인 사건들
 
+### 조건부 확률 & 독립 사건
 + 조건부 확률 (Connditional Probability)  
 : 사건 A가 일어났다는 가정하의 사건 B의 확률
   - P(B|A) = P(A∩B) / P(A)  
@@ -1107,8 +1114,33 @@ user  system elapsed
   => A 발생해도 B 발생확률 그대로   
   => B의 조건부확률이 원래 발생확률과 동일
 
+### 확률변수(Random Variable)  
+: 특정값이 나타날 가능성이 확률적으로 주어지는 변수 
+  - 이산형 확률변수
+    * 값: 유한하거나 셀 수 있음
+    * 사건의 확률 = 사건에 속한 점들의 확률의 합
+  - 연속형 확률변수
+    * 값: 연속적인 구간 내에 존재
+    * 사건의 확률 = 확률밀도함수의 면적  
+
+### 확률변수의 통계치
++ 이산형 확률변수의 기대값  
+   $$ {\displaystyle \operatorname {E} [X]=\sum _{i}p_{i}x_{i}}$$  
++ 연속형 확률변수의 기대값   
+   $$ {\displaystyle \operatorname {E} [X]=\int _{-\infty }^{\infty }xf(x)\ \operatorname {d} x}$$
++ 분산  
+  : 평균과의 차이값을 제곱해 평균낸 값 
+   $${\begin{aligned}\operatorname {Var}(X)&=\operatorname {E}\left[(X-\operatorname {E}[X])^{2}\right]\end{aligned}}$$
++ 표준편차  
+  : 분산을 제곱근 => 제곱된 차이값 보정 => 확률변수의 흩어진 정도
+   $${\displaystyle \sigma _{X}={\sqrt {\operatorname {Var}(X)}}}$$
++ 연속형 확률변수의 백분위수  
+  : 크기 있는 자료 순서대로 나열했을 때의 백분율 위치 값  
+  $${P(X \leqq x_{q}) = q /100}$$
+
 ### 확률분포
-: 확률변수들이 가지고 있는 확률의 구조
+: 확률변수의 값과 확률이 퍼져있는 분포   
+= 확률변수가 특정 값을 가질 확률을 나타내는 함수
 
 + 이산형 확률분포  (Discrete Probability distribution)
 
@@ -1124,25 +1156,27 @@ user  system elapsed
 
     |명칭|상세|
     |---|---|
-    |균일분포 |  모든 확률변수 X의 확률 균일한 확률분포|
-    |지수분포 |  어떤 사건이 발생할 때까지 경과 시간에 대한 연속확률분포|
+    |균일분포 |  모든 확률변수 X의 확률이 균일한 분포|
+    |지수분포 |  특정 사건발생 시점까지 경과시간에 대한 연속확률분포|
     |정규분포 |  평균이 M, 표준편차가 sigma인 x의 확률밀도함수|
-    |t-분포   | 평균이 0 을 중심으로 좌우가 동일한 분포, <br> 두 집단의 평균 동일성 검증 시 검정통계량으로 활용|
+    |t-분포   | 평균이 0 을 중심으로 좌우가 동일한 분포 <br> => 두 집단 평균 동일성 검증에 활용|
     |x^2-분포 | 모분산 가설검정에 사용 (모평균/모분산 모르는 모집단) <br> 두 집단 간 동질성 검정에 활용|
     |F-분포   | 두 집단간 분산의 동일성 검정|
+
++ 결합확률분포 (Joint Probability distribution)  
+: 다수의 확률변수 함께 고려하는 확률분포
+
+  - 이산형 -> 결합확률질량함수
+   $${\displaystyle p_{X,Y}(x,y)=\mathrm {P} (X=x\ \mathrm {and} \ Y=y)}$$  
+   $${\displaystyle \sum _{x}\sum _{y}P(X=x\ \mathrm {and} \ Y=y)=1\;}$$
+  - 연속형 -> 결합확률밀도함수
+   $${\displaystyle f_{X,Y}(x,y)=f_{Y\mid X}(y\mid x)f_{X}(x)=f_{X\mid Y}(x\mid y)f_{Y}(y)}$$  
+   $${\displaystyle \int _{x}\int _{y}f_{X,Y}(x,y)\;dy\;dx=1}$$
 
 + 정의역 Domain  
   : y = f(x) 에서 x의 집합
 + 치역 Range  
   : y = f(x)에서 f(x)의 집합 (함수의 출력값 집합)
-
-+ 확률변수
-+ 확률변수의 통계치
-+ 기대값 (이산형)
-+ 기대값 (연속형)
-+ 분산
-+ 표준편차
-+ 백분위수 (연속형)
 
 ### 추정 
 : 표본으로부터 미지의 모수 추측하는 것
@@ -1202,10 +1236,11 @@ user  system elapsed
 
 ## 2.2 기초 통계 분석
 
-### 기술통계
-: 데이터의 평균/분산 등 나타내는 것
-
-공분산/상관분석 => 데이터의 인과관계
+### 기술통계 Descriptive Statistic  
+: 자료 정리/요약 위해 사용되는 기초통계 => 분석 전 이해/통찰 얻는 데 유리  
+  - 숫자 : 평균, 최빈값, % 등
+  - 그림 : 그래프, 차트 등
+  - 공분산/상관분석 => 데이터의 인과관계
 
 ### 회귀분석 (Regression Analysis)
 : 여러 변수의 선형관계 모형화
@@ -1244,15 +1279,15 @@ user  system elapsed
    - Y = g(b0 + b1X + ... + bkXk) + c
   
 ### 모형 적절성 확인
-+ 모형이 통계적으로 유의미한지  
++ 모형의 통계적 유의미함  
 => 유의수준 5% 하에서 F통계량 p값이 0.05 미만인 경우 
-+ 회귀계수들이 유의미한지  
++ 회귀계수의 유의미함  
 => 계수의 t통계량 / p값 / 신뢰구간 확인
-+ 모형이 얼마나 설명력 갖는지  
++ 모형의 설명력   
 => 결정계수 확인 (범위:0~1, 클 수록 설명력 큼)
-+ 모형이 데이터르르 잘 적합하고 있는지  
++ 모형 데이터 적합성  
 => 잔차 그래프 & 회귀진단 이용 
-+ 데이터가 모형 가정 만족시키는지  
++ 데이터의 모형 가정 만족 여부  
   
     |가정|내용|
     |---|---|
@@ -1262,46 +1297,115 @@ user  system elapsed
     |비상관성| 관측치들의 잔차들끼리 무관|
     |정상성| 잔차항이 정규분포|
 
-
 ### 최적회귀방정식 선택
 1) 모든 가능한 조합의 회귀분석 (All possible regression)  
 : 모든 독립변수 조합에 대한 회귀 모형 고려해 AIC/BIC 기준 가장 적합한 회귀 모형 선택
-- AIC (Akaike info criterion)  
- = -2logL(0) + 2k     
- ** L(0):  가능도함수  
- ** k : 모형의 모수 개수  
-- BIC (Bayesian info criterion)
-= -2LogL(0) + klog(n)
- ** n: 자료의 개수 
+   - AIC (Akaike info criterion)  
+    = -2logL(0) + 2k     
+      * L(0):  가능도함수  
+      * k : 모형의 모수 개수  
+   - BIC (Bayesian info criterion)  
+   = -2LogL(0) + klog(n)
+     * n: 자료의 개수 
 
-1) 단게적 변수선택 (Stepwise Variable Selection)
+1) 단계적 변수선택 (Stepwise Variable Selection)
 
  - 전진선택법  (forward Selection)  
-  : 절편만 있는 상수모형으로 시작   
-  => 중요한 설명변수부터 모형에 추가   
-  => 가장 제곱합 기준으로 가장 설명 잘하는 변수 고려해 유의하면 추가
+    1) 절편만 있는 상수모형으로 시작   
+    2) 중요한 설명변수부터 모형에 추가   
+    3) 가장 제곱합 기준으로 가장 설명 잘하는 변수 고려해 유의하면 추가
+
+    ```
+
+    ```
+
  - 후진제거법 (backward elimination)  
-  : 제곱합 기준 가장 적은 영향 변수부터 하나씩 제거   
-  => 유의하지 않은 변수 없을 때까지 설명변수 제거
+    1) 제곱합 기준 가장 적은 영향 변수부터 하나씩 제거   
+    2) 유의하지 않은 변수 없을 때까지 설명변수 제거
+
+    ```
+
+    ```
+
  - 단계별방법 (stepwise method)   
-  : 전진선택법으로 변수 추가   
-  => 새로운 변수 추가로 중요도 약해진 변수는 제거  
-  => 추가/제거 변수 없을 때까지 반복
+    1) 전진선택법으로 변수 추가   
+    2) 새로운 변수 추가로 중요도 약해진 변수는 제거  
+    3) 추가/제거 변수 없을 때까지 반복
+
+    ```
+    # step(lm(종속변수~설명변수, data), scope=list(lower=~1, upper=~설명변수1+설명변수2...), direction="변수선택방법")
+    ```
+    ** scope: 분석 시 고려할 변수 범위 (1->상수항)  
+    ** direction: 변수선택방법 (forward, backward, both)  
 
 ## 2.3 다변량 분석
 : 변수가 여러 개 존재하는 데이터 분석
 
-### 상관분석
+### 상관분석 (Correlation Analysis)
 
-+ 피어슨 상관계수
-+ 스피어만 상관계수
++ 피어슨 상관계수(Pearson Correlation)  
+: 등간척도 이상으로 측정되는 두 변수 간 상관관계 측정 
 
-### 다차원 척도법
-: 여러 대상 간 관계수치 자료로 유사성 측정해 거리 형태로 시각화
+    ```
+    > install packages("Hmisc")
+    > library(Hmisc)
+    > data(mtcars)
+    
+    > drat <- mtcars$drat
+    > disp <- mtcars$disp
+    > cor(drat, disp)
 
-### 주성분 분석
-: 상관관게의 변수끼리 결합해 분산 극대화하는 변수 생성  
+    > rcorr(as.matrix(mtcars), type-"pearson")
+    > cov(mtcars)
+    ```
+
++ 스피어만 상관계수(Spearman Correlation)  
+: 서열척도의 두 변수 상관관계 측정 
+
+    ```
+    > rcorr(as.matrix(mtcars), type-"spearman")
+    ```
+
+** rcorr 함수  
+- 모든 변수들 사이의 상관계수
+- 가설 H0:p = 0 에 대한 p값 출력
+
+
+### 다차원 척도법 (MIDS, Multidimensional Scaling)
+: 여러 대상 간 거리가 주어질 때, 동일한 상대적 거리 가진 실수공간의 점들로 배치하는 방법  
+=> 특정 변수의 관측치 없어도 개체간 유사성 이용 가능  
+=> 관측치들 간 상대적 관계 이해하는 시각화에 주로 이용  
+
+```
+data(eurodist)
+data
+
+loc <- cmdsclae(eurodist) # 각 도시 좌표 계산
+loc
+
+x <- loc[,1]
+y <- loc[,2]
+plot(x, y, type="n", main="eurodist") # 산점도
+text(x, y, rownames(loc), cex=0.8)
+abline(v=0, h=0)
+```
+
+### 주성분 분석 (PCA, Principal Component Analysis)
+: 상관관계의 변수끼리 결합해 분산 극대화하는 변수 생성  
 => 선형결합으로 변수 축약해 희생되는 정보 최소화
+=> 차원 줄여 예측모델 만들 때 이용 가능
+
+```
+library(datasets)
+data(USArrests)
+summary(data)
+
+fit <- princomp(USArrests, cor=TRUE) # 주성분분석
+summary(fit)
+loadings(fit)
+
+plot(fit, type="lines") # 각 주성분 분산크기 도식화 = 스크리 그림(Scree plot)
+```
 
 ## 2.4 시계열 예측
 : 시계열 자료 분석해 미래의 수치 예측 <- 정상성 만족해야 분석 가능  
@@ -1420,9 +1524,9 @@ user  system elapsed
     ```
 
 ### 의사결정나무 모형
-1) 목표변수와 관계 있는 설명변수 선택  
+1) 목표변수와 관계된 설명변수 선택  
 2) 나무 생성  
-   - 분석목적/자료 구조에 따라 분리기준/정지규칙 설정
+   - 분리기준/정지규칙 설정 (분석목적/자료구조에 맞게)
 3) 가지치기
    - 부적절한 가지 제거  
 4) 모형평가
