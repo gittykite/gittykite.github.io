@@ -1125,19 +1125,26 @@ ex) 치료제 대신 위약 투여
 
 ### 확률변수의 통계치
 + 이산형 확률변수의 기대값  
-    ```math
-    {\displaystyle \operatorname {E} [X]=\sum _{i}p_{i}x_{i}}  
-    ```
+   ![](http://www.sciweavers.org/tex2img.php?eq=%7B%5Cdisplaystyle%20%5Coperatorname%20%7BE%7D%20%5BX%5D%3D%5Csum%20_%7Bi%7Dp_%7Bi%7Dx_%7Bi%7D%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)    
+   $${\displaystyle \operatorname {E} [X]=\sum _{i}p_{i}x_{i}}$$  
+
 + 연속형 확률변수의 기대값   
-   ${\displaystyle \operatorname {E} [X]=\int _{-\infty }^{\infty }xf(x)\ \operatorname {d} x}$
+    ![](http://www.sciweavers.org/tex2img.php?eq=%7B%5Cdisplaystyle%20%5Coperatorname%20%7BE%7D%20%5BX%5D%3D%5Cint%20_%7B-%5Cinfty%20%7D%5E%7B%5Cinfty%20%7Dxf%28x%29%5C%20%5Coperatorname%20%7Bd%7D%20x%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
+    $${\displaystyle \operatorname {E} [X]=\int _{-\infty }^{\infty }xf(x)\ \operatorname {d} x}$$
+
 + 분산  
-  : 평균과의 차이값을 제곱해 평균낸 값 
-   $`{\begin{aligned}\operatorname {Var}(X)&=\operatorname {E}\left[(X-\operatorname {E}[X])^{2}\right]\end{aligned}}`$
+  : 평균과의 차이값을 제곱해 평균낸 값  
+   ![](http://www.sciweavers.org/tex2img.php?eq=%7B%5Cbegin%7Baligned%7D%5Coperatorname%20%7BVar%7D%28X%29%26%3D%5Coperatorname%20%7BE%7D%5Cleft%5B%28X-%5Coperatorname%20%7BE%7D%5BX%5D%29%5E%7B2%7D%5Cright%5D%5Cend%7Baligned%7D%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
+   $${\begin{aligned}\operatorname {Var}(X)&=\operatorname {E}\left[(X-\operatorname {E}[X])^{2}\right]\end{aligned}}$$
+
 + 표준편차  
-  : 분산을 제곱근 => 제곱된 차이값 보정 => 확률변수의 흩어진 정도
+  : 분산을 제곱근 => 제곱된 차이값 보정 => 확률변수의 흩어진 정도  
+  ![](http://www.sciweavers.org/tex2img.php?eq=%7B%5Cdisplaystyle%20%5Csigma%20_%7BX%7D%3D%7B%5Csqrt%20%7B%5Coperatorname%20%7BVar%7D%28X%29%7D%7D%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
    $${\displaystyle \sigma _{X}={\sqrt {\operatorname {Var}(X)}}}$$
+
 + 연속형 확률변수의 백분위수  
   : 크기 있는 자료 순서대로 나열했을 때의 백분율 위치 값  
+  ![](http://www.sciweavers.org/tex2img.php?eq=%7BP%28X%20%5Cleqq%20x_%7Bq%7D%29%20%3D%20q%20%2F100%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
   $${P(X \leqq x_{q}) = q /100}$$
 
 ### 확률분포
@@ -1166,12 +1173,17 @@ ex) 치료제 대신 위약 투여
     |F-분포   | 두 집단간 분산의 동일성 검정|
 
 + 결합확률분포 (Joint Probability distribution)  
-: 다수의 확률변수 함께 고려하는 확률분포
+: 다수의 확률변수 함께 고려하는 확률분포  
 
-  - 이산형 -> 결합확률질량함수
+  - 이산형 -> 결합확률질량함수  
+   ![](http://www.sciweavers.org/tex2img.php?eq=%7B%5Cdisplaystyle%20p_%7BX%2CY%7D%28x%2Cy%29%3D%5Cmathrm%20%7BP%7D%20%28X%3Dx%5C%20%5Cmathrm%20%7Band%7D%20%5C%20Y%3Dy%29%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
+   ![](http://www.sciweavers.org/tex2img.php?eq=%7B%5Cdisplaystyle%20%5Csum%20_%7Bx%7D%5Csum%20_%7By%7DP%28X%3Dx%5C%20%5Cmathrm%20%7Band%7D%20%5C%20Y%3Dy%29%3D1%5C%3B%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
    $${\displaystyle p_{X,Y}(x,y)=\mathrm {P} (X=x\ \mathrm {and} \ Y=y)}$$  
    $${\displaystyle \sum _{x}\sum _{y}P(X=x\ \mathrm {and} \ Y=y)=1\;}$$
-  - 연속형 -> 결합확률밀도함수
+
+  - 연속형 -> 결합확률밀도함수  
+   ![](http://www.sciweavers.org/tex2img.php?eq=%7B%5Cdisplaystyle%20f_%7BX%2CY%7D%28x%2Cy%29%3Df_%7BY%5Cmid%20X%7D%28y%5Cmid%20x%29f_%7BX%7D%28x%29%3Df_%7BX%5Cmid%20Y%7D%28x%5Cmid%20y%29f_%7BY%7D%28y%29%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
+   ![](http://www.sciweavers.org/tex2img.php?eq=%7B%5Cdisplaystyle%20%5Cint%20_%7Bx%7D%5Cint%20_%7By%7Df_%7BX%2CY%7D%28x%2Cy%29%5C%3Bdy%5C%3Bdx%3D1%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)   
    $${\displaystyle f_{X,Y}(x,y)=f_{Y\mid X}(y\mid x)f_{X}(x)=f_{X\mid Y}(x\mid y)f_{Y}(y)}$$  
    $${\displaystyle \int _{x}\int _{y}f_{X,Y}(x,y)\;dy\;dx=1}$$
 
