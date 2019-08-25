@@ -1201,10 +1201,10 @@ ex) 치료제 대신 위약 투여
       ex) 표본평균 -> 모평균 추정, 표본분산 -> 모분산 추정
   + 구간추정 
     - 점추정의 정확성 부족 보완
-    - 모수가 특정 구간에 있을 것이라고 선언  
-    : 일정 신뢰수준으로 모수가 존재하는 신뢰구간(confidence interval) 선언 
+    - 신뢰구간(confidence interval) 선언  
+    => 모수가 일정 신뢰수준으로 존재하는 특정 구간  
     - 신뢰수준 (confidence level)  
-    : 한 모집단서 동일 방법/자료수 확률표본 무한히 추출해 구한 신뢰구간이 미지의 모수 포함할 확률 (주로 90%, 95%, 99% 이용)
+    : 동일 방법/자료수의 확률표본 무한히 추출해 구한 신뢰구간이 미지의 모수 포함할 확률 (주로 90%, 95%, 99% 이용)
 
 ### 가설검정 
 : 모집단에 대한 가설 설정 후 표본관찰 통해 가설 채택여부 결정
@@ -1266,18 +1266,81 @@ ex) 치료제 대신 위약 투여
    - Y = b0 + b1X + c
 
         ```
-        lm(y~x, data=dfrm)
+        set.seed(2)
+        x = runif(10, 0, 11)
+        y = 2 + 3*x + rnorm(10, 0, 0.2)
+
+        # 쌍으로 묶인 x,y 데이터 생성
+        xyframe = data.frame(x, y) 
+
+        # 단순회귀분석
+        lm(y~x, data=xyframe)
+
+        # Call:
+        # lm(formula = y ~ x, data = xyframe)
+        #
+        # Coefficients:
+        # (Intercept)          x  
+        #     2.213        2.979     
+
+        # 회귀방정식: y = 2.213x + 2.979    
         ```
 
  + 다중회귀
    - 설명변수: k개   
    - 반응변수와 관계: 선형 (1차 함수)
    - Y = b0 + b1X1 + b2X2 + ... + c
-
+     * 다중선형회귀 
+ 
         ```
-        speed2 <- cars$speed^2
-        cars <- cbind(speed2, cars)
-        lm(dist~speed+speed2, data = cars)
+        set.seed(2)
+        u = runif(10, 0, 11)
+        v = runif(10, 11, 20) 
+        w = runif(10, 1, 30)
+
+        # 반응변수 y와 3개의 독립변수 데이터 생성 
+        y = 3 + 0.1*u + 2*v - 3*w + rnorm(10, 0, 0.1) 
+        dtrame = data.frame(y, u, v, w)
+        
+        # 다중선형회귀
+        m <- lm(y ~ u+v+w)
+        m
+        
+        Call:
+        lm(formula = y ~ u + v + w)
+
+        Coefficients:
+        (Intercept)           u            v            w  
+            3.0417       0.1232       1.9890      -2.9978 
+
+        # 회귀식
+        # y = 3.0417 + 0.1232u + 1.989v -2.9978w
+        ```
+
+     * 통계량과 유의수준 확인
+        ```
+        summary(m)
+
+        # Residuals:
+        #     Min        1Q    Median        3Q       Max 
+        # -0.188562 -0.058632 -0.002013  0.080024  0.143757 
+        #
+        # Coefficients:
+        #             Estimate Std. Error  t value Pr(>|t|)    
+        # (Intercept)  3.041653   0.264808   11.486 2.62e-05 ***      
+        # u            0.123173   0.012841    9.592 7.34e-05 ***    
+        # v            1.989017   0.016586  119.923 2.27e-11 ***    
+        # w           -2.997816   0.005421 -552.981 2.36e-15 ***    
+        # ---
+        # Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+        #
+        # Residual standard error: 0.1303 on 6 degrees of freedom
+        # Multiple R-squared:      1,	Adjusted R-squared:      1     
+        # F-statistic: 1.038e+05 on 3 and 6 DF,  p-value: 1.564e-14     
+
+        # 회귀계수 모두 0.001 미만: 회귀계수 추정치가 통계적으로 유의미
+        # 결정계수=1, 수정결정계수=1 :데이터 설명력 높음
+        # F통계량과 p값 낮음: 회귀모형이 통계적으로 매우 유의미
         ```
  + 다항회귀
    - 설명변수: k개   
@@ -1285,9 +1348,27 @@ ex) 치료제 대신 위약 투여
    - Y = b0 + b1X1 + b2X2 + b11X1^2 + b22X2^2 + ... + c
 
         ```
-        df2 <- cbind(x^2, df1)
-        lm(y~x, data=df1)
+        data(cars)
+        
+        # 제곱속도 열 추가
+        speed2 <- cars$speed^2
+        cars <- cbind(speed2, cars)
+
+        # 다중회귀
+        lm(dist~speed+speed2, data = cars)
+
+        # Call:
+        # lm(formula = dist ~ speed + speed2, data = cars)
+        # 
+        # Coefficients:
+        # (Intercept)        speed       speed2  
+        #     2.47014      0.91329      0.09996  
+
+        # 회귀식
+        # y = 2.47014 + 0.91329speed + 0.09996speed^2
         ```
+
+        ** 산점도가 n차 방정식 (곡선패턴)인 경우 항 추가 => 모형 비교
 
  + 비선형회귀
    - 미지의 모수들이 선형관계 아닌 모형   
@@ -1296,7 +1377,7 @@ ex) 치료제 대신 위약 투여
 ### 모형 적절성 확인
 + 모형의 통계적 유의미함  
 => 유의수준 5% 하에서 F통계량 p값이 0.05 미만인 경우 
-+ 회귀계수의 유의미함  
++ 회귀계수의 통계적 유의미함  
 => 계수의 t통계량 / p값 / 신뢰구간 확인
 + 모형의 설명력   
 => 결정계수 확인 (범위:0~1, 클 수록 설명력 큼)
@@ -1313,72 +1394,140 @@ ex) 치료제 대신 위약 투여
     |정상성| 잔차항이 정규분포|
 
 ### 최적회귀방정식 선택
-1) 모든 가능한 조합의 회귀분석 (All possible regression)  
-: 모든 독립변수 조합에 대한 회귀 모형 고려해 AIC/BIC 기준 가장 적합한 회귀 모형 선택
+1) 가능한 모든 조합 회귀분석   
+: 모든 독립변수 조합의 회귀모형 => AIC/BIC 기준으로 선택
    - AIC (Akaike info criterion)  
-    = -2logL(0) + 2k     
+      * AIC = -2 log L(0) + 2k     
       * L(0):  가능도함수  
       * k : 모형의 모수 개수  
+      * 값 작을수록 적합
    - BIC (Bayesian info criterion)  
-   = -2LogL(0) + klog(n)
+     * BIC = -2 Log L(0) + K log(n)
      * n: 자료의 개수 
+     * 값 작을수록 적합
 
-1) 단계적 변수선택 (Stepwise Variable Selection)
+1) 단계적 변수선택 (Stepwise Variable Selection)  
+: 직접 변수 추가/제거하거나 [step 함수](https://www.rdocumentation.org/packages/stats/versions/3.6.1/topics/step)  이용  
 
- - 전진선택법  (forward Selection)  
-    1) 절편만 있는 상수모형으로 시작   
-    2) 중요한 설명변수부터 모형에 추가   
-    3) 가장 제곱합 기준으로 가장 설명 잘하는 변수 고려해 유의하면 추가
+   - 전진선택법  (forward Selection)  
+     1) 절편만 있는 상수모형으로 시작   
+     2) 중요한 설명변수부터 모형에 추가   
+     3) 가장 제곱합 기준으로 가장 설명 잘하는 변수 고려해 유의하면 추가
 
-    ```
+        ```
+        head(state.x77)
+        states <- as.data.frame(state.x77[,c("Murder","Population","Illiteracy","Income")])
+        
+        # 회귀분석 (종속변수:Murder, 설명변수:나머지)
+        # fit <- lm(Murder~Population+Illiteracy+Income,data = states) 
+        fit <- lm(Murder~.,data = states) 
 
-    ```
+        # 상수항만 포함된 회귀모형
+        fit.con <- lm(Murder~1, states)
 
- - 후진제거법 (backward elimination)  
-    1) 제곱합 기준 가장 적은 영향 변수부터 하나씩 제거   
-    2) 유의하지 않은 변수 없을 때까지 설명변수 제거
+        # 전진선택
+        fit.forward <- step(fit.con, scope=list(lower=~1, upper=~Population+Illiteracy+Income), direction="forward")
 
-    ```
+        # 출력되는 선택 과정
+        #              Df Sum of Sq    RSS     AIC
+        # + Illiteracy  1    329.98 337.76  99.516
+        # + Population  1     78.85 588.89 127.311
+        # + Income      1     35.35 632.40 130.875
+        # <none>                    667.75 131.594
+        #
+        # Step:  AIC=99.52
+        # Murder ~ Illiteracy
+        #
+        #              Df Sum of Sq    RSS     AIC
+        # + Population  1    48.517 289.25  93.763
+        # <none>                    337.76  99.516
+        # + Income      1     4.916 332.85 100.783
+        #
+        # Step:  AIC=93.76
+        # Murder ~ Illiteracy + Population
+        #
+        #          Df Sum of Sq    RSS    AIC
+        # <none>                289.25 93.763
+        # + Income  1  0.057022 289.19 95.753
 
-    ```
+        fit.forward
 
- - 단계별방법 (stepwise method)   
-    1) 전진선택법으로 변수 추가   
-    2) 새로운 변수 추가로 중요도 약해진 변수는 제거  
-    3) 추가/제거 변수 없을 때까지 반복
+        # 선택결과 출력 (AIC 작은 값 선택)
+        # Call:
+        # lm(formula = Murder ~ Illiteracy + Population, data = # states)
+        #
+        # Coefficients:
+        # (Intercept)   Illiteracy   Population  
+        # 1.6515497    4.0807366    0.0002242 
 
-    ```
-    # step(lm(종속변수~설명변수, data), scope=list(lower=~1, upper=~설명변수1+설명변수2...), direction="변수선택방법")
-    ```
-    ** scope: 분석 시 고려할 변수 범위 (1->상수항)  
-    ** direction: 변수선택방법 (forward, backward, both)  
+        # 선택된 회귀모형
+        # Murder = 1.6515497 + 4.0807366Illiteracy + 0.0002242Population
+        ```
+
+        ** step(lm(종속변수~설명변수, data),...) : 선형회귀 정의  
+        ** scope: 분석 시 고려할 변수 범위 (1->상수항, 최대->모든 설명변수)  
+        ** direction: 변수선택방법 (forward, backward, both)  
+
+   - 후진제거법 (backward elimination)  
+      1) 제곱합 기준 가장 적은 영향 변수부터 하나씩 제거   
+      2) 유의하지 않은 변수 없을 때까지 설명변수 제거
+
+        ```
+        # 후진제거법
+        fit.backward <- step(fit, scope=list(lower=~1, upper=~Population+Illiteracy+Income), direction="backward")
+        fit.backward
+        ```
+
+   - 단계적방법 (stepwise method)   
+     1) 전진선택법으로 변수 추가   
+     2) 새로운 변수 추가로 중요도 약해진 변수는 제거  
+     3) 추가/제거 변수 없을 때까지 반복
+
+        ```
+        # 단계적방법
+        fit.both <- step(fit.con, scope=list(lower=~1, upper=~Population+Illiteracy+Income), direction="both")
+        fit.both
+        ```
 
 ## 2.3 다변량 분석
-: 변수가 여러 개 존재하는 데이터 분석
 
 ### 상관분석 (Correlation Analysis)
+: 데이터 내의 두 변수 관계 분석
 
 + 피어슨 상관계수(Pearson Correlation)  
-: 등간척도 이상으로 측정되는 두 변수 간 상관관계 측정 
+  - 등간척도로 측정되는 두 변수 간 상관관계 측정
+  -  선형관계의 크기만 측정 가능 (한 변수를 단조증가 함수로 변환)
+  - 공분산이 언제나 -1 ~ 1 사이  
+   ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/93185aed3047ef42fa0f1b6e389a4e89a5654afa)
 
     ```
-    > install packages("Hmisc")
-    > library(Hmisc)
-    > data(mtcars)
-    
-    > drat <- mtcars$drat
-    > disp <- mtcars$disp
-    > cor(drat, disp)
+    install.packages("Hmisc")
+    library(Hmisc)
 
-    > rcorr(as.matrix(mtcars), type-"pearson")
-    > cov(mtcars)
+    data(mtcars)
+    drat <- mtcars$drat
+    disp <- mtcars$disp
+
+    # drat과 disp의 산점도 & 상관계수 출력
+    plot(drat, disp)
+    cor(drat, disp)
+
+    # 강한 음의 상관관계 (-1이나 1에 가까움)
+    # [1] -0.7102139    
+
+    # 피어슨 상관계수 & 상관계수 p값 출력
+    rcorr(as.matrix(mtcars), type="pearson")
+    cov(mtcars)
     ```
 
 + 스피어만 상관계수(Spearman Correlation)  
-: 서열척도의 두 변수 상관관계 측정 
+  - 서열척도의 두 변수 상관관계 측정  
+  - 비선형관계도 표현 가능     
+  : 두 변수를 순위로 변환 => 순위 사이의 피어슨 상관계수로 정의
+  - 자료에 이상점 있거나 표본크기 작을 때 유용
 
     ```
-    > rcorr(as.matrix(mtcars), type-"spearman")
+    rcorr(as.matrix(mtcars), type-"spearman")
     ```
 
 ** rcorr 함수  
@@ -1395,66 +1544,226 @@ ex) 치료제 대신 위약 투여
 data(eurodist)
 data
 
-loc <- cmdsclae(eurodist) # 각 도시 좌표 계산
+loc <- cmdscale(eurodist) # 각 도시 좌표 계산
 loc
 
 x <- loc[,1]
 y <- loc[,2]
-plot(x, y, type="n", main="eurodist") # 산점도
-text(x, y, rownames(loc), cex=0.8)
-abline(v=0, h=0)
+plot(x, y, type="n", asp=1, main="Metric MDS") # 산점도
+text(x, y, rownames(loc), cex=0.7)
+abline(v=0, h=0, lty=2, lwd=0.5)       # 그래프에 수직선 추가
 ```
+
+![](https://t1.daumcdn.net/cfile/tistory/99F4AB505BF557732D)
 
 ### 주성분 분석 (PCA, Principal Component Analysis)
 : 상관관계의 변수끼리 결합해 분산 극대화하는 변수 생성  
 => 선형결합으로 변수 축약해 희생되는 정보 최소화
 => 차원 줄여 예측모델 만들 때 이용 가능
 
-```
-library(datasets)
-data(USArrests)
-summary(data)
++ 주성분분석  
 
-fit <- princomp(USArrests, cor=TRUE) # 주성분분석
-summary(fit)
-loadings(fit)
+    ```
+    library(datasets)
+    data(USArrests)
+    summary(USArrests)
 
-plot(fit, type="lines") # 각 주성분 분산크기 도식화 = 스크리 그림(Scree plot)
-```
+    # 주성분분석
+    fit <- princomp(USArrests, cor=TRUE) 
+
+    summary(fit)
+
+    # 4개 주성분의 표준편차, 분산의 비율, 분산의 누적비율 출력
+    # Importance of components:
+    #                           Comp.1    Comp.2    Comp.3     Comp.4
+    # Standard deviation     1.5748783 0.9948694 0.5971291 0.41644938
+    # Proportion of Variance 0.6200604 0.2474413 0.0891408 0.04335752
+    # Cumulative Proportion  0.6200604 0.8675017 0.9566425 1.00000000
+
+    # 주성분1이 62%의 분산을 설명
+    # 주성분1,2가 86%의 분산을 설명
+    ```
+
+    ** cor옵션: 공분산행렬 아닌 상관계수 행렬로 주성분분석
+
++ 주성분 로딩벡터 출력
+
+    ```
+    # 주성분들의 로딩 벡터 출력
+    loadings(fit)
+
+    # Loadings:
+    #          Comp.1 Comp.2 Comp.3 Comp.4
+    # Murder   -0.536  0.418 -0.341  0.649
+    # Assault  -0.583  0.188 -0.268 -0.743
+    # UrbanPop -0.278 -0.873 -0.378  0.134
+    # Rape     -0.543 -0.167  0.818        
+    # 
+    #                Comp.1 Comp.2 Comp.3 Comp.4
+    # SS loadings      1.00   1.00   1.00   1.00
+    # Proportion Var   0.25   0.25   0.25   0.25
+    # Cumulative Var   0.25   0.50   0.75   1.00
+
+    # 주성분 결과
+    # Y1 = - 0.536Murder - 0.583Assault - 0.278UrbanPop - 0.543Rape
+    # Y2 = 0.418Murder + 0.188Assault -0.873UrbanPop -0.167Rape
+    # ...
+    ```
+
++ 스크리 그림 출력  
+: 각 주성분 분산크기 도식화 그래프
+
+    ```
+    # 스크리 그림(Scree plot)
+    plot(fit, type="lines") 
+    ```
+
+    ![](https://bookdown.org/egarpor/SSS2-UC3M/SSS2-UC3M_files/figure-html/unnamed-chunk-217-1.png)
+
++ 가중치 바이플롯 출력  
+  : 방향 비슷하고 수직에 가까울 수록 큰 가중치 적용된 것
+
+    ```
+    # 각 관측치 주성분들로 표현
+    fit$scores
+
+    #                     Comp.1      Comp.2      Comp.3       Comp.4
+    # Alabama        -0.98556588  1.13339238 -0.44426879  0.156267145
+    # Alaska         -1.95013775  1.07321326  2.04000333 -0.438583440
+    # Arizona        -1.76316354 -0.74595678  0.05478082 -0.834652924
+    # ...
+
+    # 관측치를 주성분1,2 좌표에 그림
+    biplot(fit) 
+    ```
+
+    ![](https://coolstatsblog.files.wordpress.com/2017/01/biplot.png)
 
 ## 2.4 시계열 예측
-: 시계열 자료 분석해 미래의 수치 예측 <- 정상성 만족해야 분석 가능  
+: 시계열 자료 분석해 미래 수치 예측  
 
-+ 정상성  
-: 시점에 상관없이 시계열 특성이 일정
++ 정상성 조건  
+: 시점에 상관없이 시계열 특성이 일정 (반드시 만족해야 분석 가능)
   - 평균이 일정
   - 분산이 시점에 의존 안 함
   - 공분산이 시차에만 의존 (시점자체에 의존 안 함)
+
 + 정상 시계열화
-  - 이상점(Outlier) 있는 경우 => 제거
-  - 개입(Intervention) 있는 경우 => 회귀분석 수행
-  - 추세 보이는 경우 => 차분(Difference)
-  - 시간에 따라 분산 일정하지 않은 경우 => 변환(Transformation)
+
+  |정상성 문제|조치|상세|
+  |---|---|---|  
+  |이상점|이상점 제거||
+  |개입<br>(Intervention)|회귀분석 수행||
+  |추세<br>(Trend)|차분<br>(Difference)|현 시점 자료값에서 전 시점 자료값 빼기|
+  |분산 불일정|변환<br>(Transformation)||
 
 ### 시계열 모형 종류
 + 자기회귀모형 (AR: Autoregressive)  
 : 현 시점의 자료가 p시점 전의 유한개의 과거자료로 설명 될 수 있다는 의미
-  - 자기상관함수(ACF, Auto-Correlation Function)
-  - 부분자기상관함수(PACF, Partial Auto-Correlation Function)로 식별 
+  - 식별방법
+    * 자기상관함수(ACF, Auto-Correlation Function)  
+    : 시차가 증가함에 따라 점차 감소
+    * 부분자기상관함수(PACF, Partial Auto-Correlation Function)     
+    : p +1  시차 이후 급격히 감소, 절단된 형태 
+  - 백색잡음과정(White noise process)  
+  : 대표적 정상 시계열, 시계열 분석에서 오차항 의미  
 
 + 이동평균모형(MA: Moving Average)  
 : 현시점 자료를 유한개의 백색잡음의 선형 결합으로 표현
+  - 항상 정상성 만족 (정상성 가정 불필요) 
+  - 식별방법
+    * 자기상관함수(ACF, Auto-Correlation Function)  
+    : p +1  시차 이후 급격히 감소, 절단된 형태 
+    * 부분자기상관함수(PACF, Partial Auto-Correlation Function)     
+    : 시차가 증가함에 따라 점차 감소
 
 + 자동회귀누적이동평균모형(ARIMA: AR Integrated MA)  
 : 기본적으로 비정상 시계열 모형  
  => 차분/변환 통해 AR/MA/ARMA 모형으로 정상화 가능
+  - ARIMA(p, d, q)
+    * p: AR 모형과 관련
+    * d: MA 모형과 관련
+    * q: ARMA로 정상화 시 몇 번 차분했는지
+  - d=0 => ARMA(p,q) 모형 => 정상성 만족
+  - p=0 => IMA(d, q) 모형 => d번 차분 => MA(q)
+  - q=0 => ARI(p, d) 모형 => d번 차분 => AR(p)
+  - 차분 
+
+    ```
+    plot(Nile)    # 비정상 시계열 (계절성 없지만 평균이 변화하는 추세)
+
+    # 1번 차분
+    Nile.diff1 <- diff(Nile, differences=1)
+    plot(Nile.diff1)
+
+    # 2번 차분
+    Nile.diff1 <- diff(Nile, differences=1)
+    plot(Nile.diff1)
+    
+    # => 차분할 수록 점차 정상성 만족
+    ```
+
+  - 모델 적합 및 결정
+
+    ```
+    # 자기상관함수 확인
+    acf(Nile.diff2, lag.max=20) # lag 수 너무 많으면 그래프로 모형식별 판단 어려움
+    acf(Nile.diff2, lag.max=20, plot=FALSE)
+
+    # 결과: lag=1, 8 제외하고 모두 신뢰구간 안에 존재    
+
+    # 부분자기상관함수 확인
+    pacf(Nile.diff2, lag.max=20) # lag 수 너무 많으면 그래프로 모형식별 판단 어려움
+    pacf(Nile.diff2, lag.max=20, plot=FALSE)
+
+    # 결과: lag=1~8에서 신뢰구간 넘어 음의 값 가지고, lag=9 에서 절단됨
+
+    # 종합결과
+    # ARMA(8, 0): 부분자기상관함수 그래프에서 lag=9 에서 절단
+    # ARMA(0, 1): 자기상관함수 그래프에서 lag=2 에서 절단
+    # ARMA(p, q): AR모형과 MA모형 혼합해 모형 식별하고 결정해야   
+
+    # ARIMA 모형 자동 결정 (forcast 패키지)
+    auto.arima(Nile)
+    ```
+
+  - ARIMA 모형 이용한 예측
+
+    ```
+    Nile.arima <- arima(Nile, order = c(1, 1, 1))
+    Nile.arima
+
+    Nile.forecasts <- forecast(Nile.arima, h=10) # h: 10개 연도만 예측
+    Nile.forecasts
+    plot(Nile.forecasts)
+    ```
 
 + 분해 시계열  
- : 일반적인 시계열 영향요인 분리해 분석
-  - 추세요인 (Trend factor)
-  - 계절요인 (Seasonal factor)
-  - 순환요인 (Cyclical factor)
-  - 불규칙요인 (Irregular factor)
+ : 일반적인 시계열 영향요인 분리해 분석  
+ => 정확하게 분리하기 어렵고 이론적 약점 있으나 경제분석/예측에 널리 사용됨
+ 
+  - 시계열 구성요소(분해식: Zt = f(Tt, St, Ct, It)  )  
+    - 추세요인 (Tt, Trend factor)  
+    : 자료가 특정 형태인 경우 ex) 선형, 이차식, 지수 등 
+    - 계절요인 (St, Seasonal factor)  
+    : 고정된 주기에 따라 자료 변하는 경우 ex) 요일, 월, 분기 등
+    - 순환요인 (Ct, Cyclical factor)  
+    : 경제/자연적 이유 아닌 알려지지 않은 주기로 자료 변하는 경우 
+    - 불규칙요인 (It, Irregular factor)  
+    : 위 세 가지 요인으로 설명불가능한 회귀분석에서 오차에 해당하는 요인  
+
+    ```
+    plot(ldeaths) # 연도별로 계절성 있는 사망자 수 데이터
+
+    #  시계열 자료 4가지 요인으로 분해
+    ldeaths.decompose <- decompose(ldeaths)
+    ldeaths.decompose$seasonal
+    plot(ldeaths.decompose)
+
+    # 계절요인 제거
+    ldeaths.decompose.adj <- ldeaths - ldeaths.decompose$seasonal
+    plot(ldeaths.decompose.adj)
+    ```   
 
 # 3. 정형 데이터  마이닝
 
