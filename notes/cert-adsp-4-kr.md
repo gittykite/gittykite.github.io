@@ -1125,12 +1125,14 @@ ex) 치료제 대신 위약 투여
 
 ### 확률변수의 통계치
 + 이산형 확률변수의 기대값  
-   $$ {\displaystyle \operatorname {E} [X]=\sum _{i}p_{i}x_{i}}$$  
+    ```math
+    {\displaystyle \operatorname {E} [X]=\sum _{i}p_{i}x_{i}}  
+    ```
 + 연속형 확률변수의 기대값   
-   $$ {\displaystyle \operatorname {E} [X]=\int _{-\infty }^{\infty }xf(x)\ \operatorname {d} x}$$
+   ${\displaystyle \operatorname {E} [X]=\int _{-\infty }^{\infty }xf(x)\ \operatorname {d} x}$
 + 분산  
   : 평균과의 차이값을 제곱해 평균낸 값 
-   $${\begin{aligned}\operatorname {Var}(X)&=\operatorname {E}\left[(X-\operatorname {E}[X])^{2}\right]\end{aligned}}$$
+   $`{\begin{aligned}\operatorname {Var}(X)&=\operatorname {E}\left[(X-\operatorname {E}[X])^{2}\right]\end{aligned}}`$
 + 표준편차  
   : 분산을 제곱근 => 제곱된 차이값 보정 => 확률변수의 흩어진 정도
    $${\displaystyle \sigma _{X}={\sqrt {\operatorname {Var}(X)}}}$$
