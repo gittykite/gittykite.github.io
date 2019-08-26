@@ -67,6 +67,11 @@
   - [3.4 연관 분석 (=장바구니 분석)](#34-%ec%97%b0%ea%b4%80-%eb%b6%84%ec%84%9d-%ec%9e%a5%eb%b0%94%ea%b5%ac%eb%8b%88-%eb%b6%84%ec%84%9d)
     - [연관규칙(Association Rule)](#%ec%97%b0%ea%b4%80%ea%b7%9c%ec%b9%99association-rule)
     - [연관규칙의 측정지표](#%ec%97%b0%ea%b4%80%ea%b7%9c%ec%b9%99%ec%9d%98-%ec%b8%a1%ec%a0%95%ec%a7%80%ed%91%9c)
+    - [연관분석 절차 (Apriori 알고리즘)](#%ec%97%b0%ea%b4%80%eb%b6%84%ec%84%9d-%ec%a0%88%ec%b0%a8-apriori-%ec%95%8c%ea%b3%a0%eb%a6%ac%ec%a6%98)
+    - [연관분석 장점](#%ec%97%b0%ea%b4%80%eb%b6%84%ec%84%9d-%ec%9e%a5%ec%a0%90)
+    - [연관분석 단점](#%ec%97%b0%ea%b4%80%eb%b6%84%ec%84%9d-%eb%8b%a8%ec%a0%90)
+    - [순차패턴](#%ec%88%9c%ec%b0%a8%ed%8c%a8%ed%84%b4)
+    - [연관규칙 도출 실습](#%ec%97%b0%ea%b4%80%ea%b7%9c%ec%b9%99-%eb%8f%84%ec%b6%9c-%ec%8b%a4%ec%8a%b5)
 
 # 1. R 기초와 데이터 마트
 * 분석 환경 이해
@@ -1921,11 +1926,56 @@ rpart.control()
 	- 평균연결법
 	- 와드연결법
 + 군집간 거리 정의
-	- 유클리드 거리
-	- 맨하튼/시가 거리
-	- 민코우스키 거리
-	- 표준화 거리
-	- 마할라노비스 거리
+  - 연속형 자료
+    ||||
+    |---|---|---|
+    |유클리드 거리| 수학적| 
+    |맨하튼/시가 거리| 수학적| 
+    |민코우스키 거리| 수학적| 
+    |표준화 거리| 통계적| 
+    |마할라노비스 거리| 통계적| 
+
+  - 명목형 자료  
+    * d(i,j) = (i와 j에서 다른 값 가지는 변수의 수)/(총 변수의 수)  
+    * 단순일치계수
+    * 자카드 계수
+
+  - 순서형 자료
+    * 순위상관계수    
+
+```
+data(USArrests)
+str(USArrests)
+
+# 거리/비유사성 행렬 도출
+d <- dist(USArrests, method="euclideand")
+d <- dist(USArrests, method="maximum")
+d <- dist(USArrests, method="manhattan")
+d <- dist(USArrests, method="binary")
+d <- dist(USArrests, method="minkowski")
+
+# 계층적 군집분석
+fit <- hclust(d, method="ave")
+fit <- hclust(d, method="ward")
+fit <- hclust(d, method="single")
+fit <- hclust(d, method="complete")
+fit <- hclust(d, method="average")
+fit <- hclust(d, method="centroid")
+
+par(mfrow=c(1,2))
+plot(fit)
+plot(fit, hang = -1)
+par(mfrow=c(1,1))
+
+groups <- cutree(fit, k=6)
+groups
+
+plot(fit)
+rect.hclust(fit, k=6, border="red")
+
+# 병합적 방법
+# 분할적 방법
+```
 
 ### k-평균 군집
 
@@ -1966,8 +2016,67 @@ ex) 장바구니 데이터 분석 등
 + 향상도(lift)  
 : B 구매한 고객 대비 A 구매후 B 구매하는 고개에 대한 확률
   - 향상도 = A & B 포함하는 거래수 / (A 포함 거래수 * B 포함 거래수)   
-    * 향상도 > 1 : 양의 상관관계 (연관성 높음)
     * 향상도 = 1 : 서로 독립
+    * 향상도 > 1 : 양의 상관관계 (연관성 높음)
     * 향상도 < 1 : 음의 상관관계 (연관성 없음)
+
+|지표|수식|의미|
+|---|---|---|
+|지지도|A & B 동시포함 거래수 / 전체거래수| 적용성|
+|신뢰도|A & B 동시포함 거래수 / A 포함 거래수| 연관성정도|
+|향상도|A & B 동시포함 거래수 / (A 거래수 * B 거래수) | 상관관계|
+
+=> 최소 지지도 정해서 낮은 값으로 낮춰가며 규칙 도츨 시 효율적
+
+### 연관분석 절차 (Apriori 알고리즘)
+1) 최소 지지도 설정
+2) 최소 지지도 넘는 모든 품목 탐색
+3) 탐색된 품목 중 최소 지지도 넘는 2가지 품목 집함 탐색
+4) 탐색된 품목 집합 결합해 최소 지지도 넘는 3가지 품목 집합 탐색
+5) 반복 수행해 최소지지도 넘는 빈발품목 집합 탐색
+
+### 연관분석 장점
++ 탐색적 기법 => 이해 쉬움
++ 비목적성 기법 => 분석방향/목적 없는 경우 유용
++ 사용 편리한 데이터 형태 => 거래 데이터 변환없이 분석 가능
++ 계산 용이성 => 분석 계산식이 간단한 편   
+
+### 연관분석 단점
++ 계산과정 증가 => 품목수에 따라 기하급수적 증가
++ 세분화 심한 경우 => 무의미한 결과 나올수도 
++ 품목의 비율차이 => 거래량 적은 품목 무시됨
+
+### 순차패턴
+: 구매시점 정보 존재 => 구매순서 고려해 연관성 측정 및 연관규칙 탐색  
+ex) 컴퓨터 신규구매 고객 중 25%가 다음달에 레이저 프린터 구입
+
+### 연관규칙 도출 실습
+
+```
+library(arules)
+data(Adult)
+
+# 연관규칙 발굴
+# : 지지도/신뢰도 설정 없어 무의미한 rhs(right hand side) 결과 발생
+rules <- apriori(Adult)
+
+# 발굴된 규칙 출력 
+inspect(head(rules))
+
+# 연관규칙 발굴
+adult.rules <- apriori(Adult, parameter=list(support=0.1, confidence=0.6), appearance = list(rhs=c("income=small", "income=large"), default="lhs"), control=list(verbose=F))
+
+adult.rules.sorted <- sort(adult.rules, by="lift")
+inspect(head(adult.rules.sorted))
+
+# 연관규칙 시각화
+library(arulesViz)
+
+# 연관규칙의 지지도/신뢰도/향상도 산점도
+plot(adult.rules.sorted, method="scatterplot")
+
+# 연관규칙 관계도
+plot(adult.rules.sorted, method="graph", control=list(type="items", alpha=0.5))
+```
 
 
