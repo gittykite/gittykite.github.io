@@ -59,10 +59,10 @@
     - [알고리즘과 분류 기준변수 선택법](#%ec%95%8c%ea%b3%a0%eb%a6%ac%ec%a6%98%ea%b3%bc-%eb%b6%84%eb%a5%98-%ea%b8%b0%ec%a4%80%eb%b3%80%ec%88%98-%ec%84%a0%ed%83%9d%eb%b2%95)
     - [앙상블 모형](#%ec%95%99%ec%83%81%eb%b8%94-%eb%aa%a8%ed%98%95)
     - [분류분석 모형 평가](#%eb%b6%84%eb%a5%98%eb%b6%84%ec%84%9d-%eb%aa%a8%ed%98%95-%ed%8f%89%ea%b0%80)
-  - [3.3 군집 분석](#33-%ea%b5%b0%ec%a7%91-%eb%b6%84%ec%84%9d)
-    - [계층적 군집](#%ea%b3%84%ec%b8%b5%ec%a0%81-%ea%b5%b0%ec%a7%91)
+  - [3.3 군집 분석 (Cluster Analysis)](#33-%ea%b5%b0%ec%a7%91-%eb%b6%84%ec%84%9d-cluster-analysis)
+    - [계층적 군집 (Hierarchical Clustering)](#%ea%b3%84%ec%b8%b5%ec%a0%81-%ea%b5%b0%ec%a7%91-hierarchical-clustering)
     - [k-평균 군집](#k-%ed%8f%89%ea%b7%a0-%ea%b5%b0%ec%a7%91)
-    - [혼합분포 군집](#%ed%98%bc%ed%95%a9%eb%b6%84%ed%8f%ac-%ea%b5%b0%ec%a7%91)
+    - [혼합분포 군집(Mixture Distribution Clustering)](#%ed%98%bc%ed%95%a9%eb%b6%84%ed%8f%ac-%ea%b5%b0%ec%a7%91mixture-distribution-clustering)
     - [자기조직화 지도 SOM(Self-Organizing Map)](#%ec%9e%90%ea%b8%b0%ec%a1%b0%ec%a7%81%ed%99%94-%ec%a7%80%eb%8f%84-somself-organizing-map)
   - [3.4 연관 분석 (=장바구니 분석)](#34-%ec%97%b0%ea%b4%80-%eb%b6%84%ec%84%9d-%ec%9e%a5%eb%b0%94%ea%b5%ac%eb%8b%88-%eb%b6%84%ec%84%9d)
     - [연관규칙(Association Rule)](#%ec%97%b0%ea%b4%80%ea%b7%9c%ec%b9%99association-rule)
@@ -1913,75 +1913,391 @@ rpart.control()
 + ROC 그래프
 + 이익도표 & 향상도 곡선
 
-## 3.3 군집 분석
-: 각 개체의 여러 변수 값 관측  
-=>  n개의 개체를 유사한 성격의 몇 개 군집으로 집단화  
-=> 군집들 특성 파악해 군집 간 관계 분석 (다변량 분석)
+## 3.3 군집 분석 (Cluster Analysis)
++ 반응(종속)변수 불필요 <- 개체간 유사성만으로 군집화
++ 과정 
+  * 각 개체의 여러 변수값 관측   
+  * 유사한 성격의 군집들로 집단화  
+  * 군집들 특성 파악  
+  * 군집 간 관계 분석  
++ 이상값 탐지, 사회/심리/경영 등 여러 분야에 이용
 
-### 계층적 군집
-+ 군집간 거리 측정법
-	- 최단연결법
-	- 최장연결법
-	- 중심연결법
-	- 평균연결법
-	- 와드연결법
+### 계층적 군집 (Hierarchical Clustering)
+: 가장 유사한 개체들 묶는 과정 반복해 특정 개수 군집 형성  
+=> 지역적 최적화이므로 전역적(global) 최적해 보장 불가
+
++ 군집 형성방법
+  - 병합적 방법 (Agglomerative)  
+  : 작은 군집 -> 큰 군집으로 병합 (군집 형성 후 개체 이동 불가)
+  - 분할적 방법 (Divisive)  
+  : 큰 군집 -> 작은 군집으로 분리
+
++ 군집간 거리 측정법  
+: 그룹/항목간 상대적 거리 가까울수록 유사성 높음 
+
+  |거리측정법|상세|
+  |---|---|---|
+  |최단연결법<br>= 단일연결법|각 군집 관측값 사이 최소거리 측정
+  |최장연결법<br>= 완전연결법|각 군집 관측값 사이 최대거리 측정
+  |중심연결법|- 두 군집의 중심간 거리 측정 <br>- 새 군집의 평균은 가중평균으로 도출|
+  |평균연결법|모든 항목과 평균거리 도출하며 군집화<br>=> 불필요한 계산 증가 가능<br> => 크기 큰 군집과 병합 유도 가능|  
+  |와드연결법| 군집내 오차제곱합 작아지도록 군집화<br>=> 크기 비슷한 군집과 병합하는 경향 <br> => 크기 큰 군집과 병합 유도 가능|
+
+  ![](https://media.springernature.com/original/springer-static/image/chp%3A10.1007%2F978-3-030-17767-6_12/MediaObjects/473416_1_En_12_Fig8_HTML.png) 
+
 + 군집간 거리 정의
   - 연속형 자료
-    ||||
+
+    |거리 정의|종류|상세|
     |---|---|---|
-    |유클리드 거리| 수학적| 
-    |맨하튼/시가 거리| 수학적| 
-    |민코우스키 거리| 수학적| 
-    |표준화 거리| 통계적| 
-    |마할라노비스 거리| 통계적| 
+    |유클리드 거리| 수학적| n차원 공간의 두 점 사이 최단 거리 <br> => 대각선
+    |맨하튼/시가 거리| 수학적| 격자형 공간 통과하는 최단거리 <br> => 너비 + 높이 
+    |민코우스키 거리| 수학적| 맨하탄 거리 & 유클리디안 거리 한번에 표현 <br> => 설정값 따라 계산치 변화
+    |표준화 거리| 통계적<br>표본분산 대각행렬| 변수의 측정단위 표준화
+    |마할라노비스 거리| 통계적<br>표본공분산 행렬| 변수 표준화 + 변수 분포 고려
 
   - 명목형 자료  
-    * d(i,j) = (i와 j에서 다른 값 가지는 변수의 수)/(총 변수의 수)  
-    * 단순일치계수
-    * 자카드 계수
-
+    * 거리  
+    : d(i,j) = (i와 j에서 다른 값 가지는 변수의 수)/(총 변수의 수)  
+    * 단순일치계수(SMC, Simple Matching Coefficient)  
+    : 일치하는 변수의 수 / 총 변수의 수 
+    * 자카드 계수(Jaccard coefficient)  
+    : A ∩ B / A ∪ B 
   - 순서형 자료
-    * 순위상관계수    
+    * 순위상관계수(rank correlation coefficient)   
+      ex) 스피어만 상관계수  
 
-```
-data(USArrests)
-str(USArrests)
++ 계층적 군집 함수
+  - hclust 함수 (병합적 방법)
 
-# 거리/비유사성 행렬 도출
-d <- dist(USArrests, method="euclideand")
-d <- dist(USArrests, method="maximum")
-d <- dist(USArrests, method="manhattan")
-d <- dist(USArrests, method="binary")
-d <- dist(USArrests, method="minkowski")
+    ```
+    data(USArrests)
+    str(USArrests)
 
-# 계층적 군집분석
-fit <- hclust(d, method="ave")
-fit <- hclust(d, method="ward")
-fit <- hclust(d, method="single")
-fit <- hclust(d, method="complete")
-fit <- hclust(d, method="average")
-fit <- hclust(d, method="centroid")
+    # 거리/비유사성 행렬 도출
+    d <- dist(USArrests, method="maximum")
+    d <- dist(USArrests, method="manhattan")
+    d <- dist(USArrests, method="binary")
+    d <- dist(USArrests, method="minkowski")
+    d <- dist(USArrests, method="euclidean")
 
-par(mfrow=c(1,2))
-plot(fit)
-plot(fit, hang = -1)
-par(mfrow=c(1,1))
+    # 계층적 군집분석
+    fit <- hclust(d, method="ward.D") # ward 옵션명 갱신됨
+    fit <- hclust(d, method="single")
+    fit <- hclust(d, method="complete")
+    fit <- hclust(d, method="centroid")
+    fit <- hclust(d, method="average")
+    fit <- hclust(d, method="ave")
 
-groups <- cutree(fit, k=6)
-groups
+    # 그래프 표시 프레임 설정
+    par(mfrow=c(1,2))    # make frame -> 1 row, 2 col
 
-plot(fit)
-rect.hclust(fit, k=6, border="red")
+    # 댄드로그램 시각화
+    plot(fit)
+    plot(fit, hang = -1)
 
-# 병합적 방법
-# 분할적 방법
-```
+    # 계층적 군집 결과로 그룹화
+    groups <- cutree(fit, k=6)   # h=tree 높이, k=그룹 수  
+    groups
+
+    # 댄드로그램 시각화 (그룹별 사각형 표시)
+    par(mfrow=c(1,1))
+    plot(fit)
+    rect.hclust(fit, k=6, border="red")
+
+    # 그룹 일부만 표시
+    rect.hclust(fit, h=50, which=c(2,7), border=3:4) 
+    ```
+    ![](https://z-images.s3.amazonaws.com/thumb/d/dc/Rplot06.png/600px-Rplot06.png)
+
+  - agnes 함수 (병합적 방법)
+
+    ```
+    library(cluster)
+
+    # 계층적 군집 수행 (거리:맨해튼 거리)
+    agn1 <- agnes(USArrests, metric="manhattan", stand=TRUE)
+    par(mfrow=c(1,2))
+    plot(agn1)
+
+    # 계층적 군집 수행 (거리: daisy 함수로 계산)
+    agn2 <- agnes(daisy(USArrests), diss=TRUE, method="complete")
+    plot(agn2) 
+
+    # 계층적 군집 수행
+    agn3 <- agnes(USArrests, method ="flexible", par.meth=0.6)
+    plot(agn3)
+    par(mfrow=c(1,1))
+    ```
+
+    ** daisy함수  
+    : 수치형 자료 아니어도 적용 가능한 거리측정 함수    
+    (metric="euclidean", "manhattan", "gower"(범주형 자료용)
 
 ### k-평균 군집
+: 초기값 k개(목표 군집수) 지정해 초기군집 형성 => 군집평균 계산 반복 => 최종군집 형성 
 
-### 혼합분포 군집
++ 군집과정
+
+  1) k개 개체를 군집중심으로 임의 선택
+  2) 각 자료를 가장 가까운 군집중심에 할당  
+    (할당방식: 군집중심점(평균)과 오차제곱합 최소화) 
+  3) 군집내 자료 평균 계산 -> 군집중심 갱신
+  4) 군집중심 변화 거의 없거나 최대 반복수까지 갱신 반복
+
++ 특징
+  - 초기값 서로 멀수록 바람직
+  - 초기값에 따라 결과 크게 변화  
+  => set.seed()로 초기값 고정 가능  
+  - 부분최적화 수행  
+    * 탐욕적 알고리즘으로 간주 
+    * 안정된 군집 보장
+    * 전역적 최적해 보장 불가
+  - 장점
+    * 알고리즘 단순 
+    * 빠른 처리속도 
+    * 계층군집보다 대량자료 소화 
+  - 단점
+    * 연속 변수만 이용가능
+    * 잡음/이상값에 민감  
+    => 탐색적 자료분석으로 제거 후 군집  
+    => k-중앙값 군집으로 보완가능  
+    * [볼록하지 않은(non-convex)](http://sanghyukchun.github.io/63/)  군집 존재 시 성능저하   
+    ex) U자형 군집  
+
++ 집단내 제곱합 그래프
+
+    ```
+    # 잔차제곱합 그래프 정의
+    wssplot <- function(data, nc=15, seed=1234){
+        wss <- (nrow(data) - 1) * sum(apply(data, 2, var))
+        for(i in 2:nc){
+            set.seed(seed)
+            wss[i] <- sum(kmeans(data, centers=i)$withinss)
+            }
+        plot(1:nc, wss, type="b", xlab="Number of Clusters", ylab="Within groups sum of squares")    
+    }
+
+    # 잔차제곱합 그래프 출력
+    wssplot(USArrests)
+    ```
+    ![](https://i1.wp.com/www.dodomira.com/wp-content/uploads/2016/02/some-of-square.png?resize=660%2C489)
+
++ 군집수 결정
+
+    ```
+    library(NbClust)
+    set.seed(1234)
+
+    # 지수별 최적 군집수 투표결과 출력
+    nc <- NbClust(USArrests, min.nc=2, max.nc=15, method="kmeans")
+    talbe(nc$Best.n[1,])
+
+    # 0 1 2 3 10 12 14 15   # 군집수
+    # 2 1 4 15 1  1  1  1   # 해당 군집수 추천한 지수 개수
+    ```
+
++ k-군집 수행
+
+  ```
+  set.seed(1234)
+
+  # k-군집 생성(군집수: 3개)
+  fit.km <- kmeans(USArrests, 3, nstart=25)
+
+  fit.km$size
+  fit.km$centers
+
+  # 군집별 크기
+  # [1] 14 16 20
+
+  # 군집 & 변수별 중심(평균)값
+  #      Murder  Assault UrbanPop     Rape
+  # 1  8.214286 173.2857 70.64286 22.84286
+  # 2 11.812500 272.5625 68.31250 28.37500
+  # 3  4.270000  87.5500 59.75000 14.39000
+
+  # 시각화
+  plot(USArrests, col=fit.km$cluster)
+  points(fit.km$center, col=1:3, pch=8, cex=1.5)
+
+  # 군집별 변수 요약값 출력
+  aggregate(USArrests[-1], by=list(fit.km$cluster), mean)
+
+  # 군집결과 정오분류표 출력
+  names(USArrests)[1] <- "State"
+  ct.km <- table(USArrests$State, fit.km$cluster)
+  ct.km
+
+  # 수정된 순위지수 (군집간 일치도) 출력
+  library(flexclust)
+  randIndex(ct.km)      
+
+  # 순위지수 범위
+  # -1: no agreement
+  #  1: perfect agreement
+  ```
+
++ k-평균군집 수행 (kcca 함수)
+
+    ```
+    library(flexclust)
+    data("Nclus")
+
+    # k-평균군집 생성
+    cl <- kcca(Nclus, k=4, family=("kmeans"))
+
+    # 시각화
+    image(cl)
+    points(Nclus)
+
+    barplot(cl)     # 군집별 중심과 전체군집 중심 비교  
+    stripes(cl)     # 군집내 자료와 군집평균 거리 줄무늬로 표시
+    ```
+
+    ** familiy 옵션: kmeans, kmedians, angle, jaccard, ejaccard
+
++ k-평균군집 수행 (cclust 함수)
+
+    ```
+    # k-평균군집 생성
+    library(cclust)
+    cl.1 <- cclust(Nclus, 4, 20, method="kmeans")
+    
+    # 2차원 군집그래프 
+    library(cluster)
+    clusplot(Nclus, cl.1$cluster)
+    ```
+
+### 혼합분포 군집(Mixture Distribution Clustering)
+: 모형(model)기반 군집 <- k개의 모수적 모형의 가중합으로 표현되는 모집단 모형을 가정
++ 군집방식   
+  : k개 모형 중 어디서 유래됐는지의 확률에 따라 군집화 
++ 복잡한 모집단(다봉형/원형 등) 분포 근사 가능 
+  - 충분히 많은 정규분포 고려 필요
+  - 모형이 꼭 정규분포일 필요는 없음 
++ 모수와 가중치 추정  
+  : [EM (기대값 최대화) 알고리즘](https://zetawiki.com/wiki/%EA%B8%B0%EB%8C%93%EA%B0%92_%EC%B5%9C%EB%8C%80%ED%99%94_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98) 사용 
+  - 진행과정
+    * E단계: 잠재변수 Z 기대치 계산
+    * M단계: 잠재변수 Z 기대치로 모수 추정
+    * 도출: EM 반복해 수렴값 도출  => 최대가능도 추정치
+  - 잠재변수 Z  
+   : 각 자료가 속하는 집단(클래스)의 정보
+  - 각 집단은 정규분포 따른다고 가정
++ 특징 
+  - k-평균군집과 유사한 절차에 확률분포 도입한 방식
+  - 데이터 클 경우 수렴에 시간소모
+  - 데이터 작을 경우 추정도 하락
+  - 이상값 자료에 민감 => 사전에 제거 필요
++ normalmixEM 함수
+
+    ```
+    library(mixtools)
+    
+    # 미국 올드스페이스풀 간헐천 분출 간의 시간 자료
+    data(faithful)
+    attach(faithful)
+
+    # 정규혼합분포 추정 (EM알고리즘 이용)
+    wait1 <- normalmixEM(waiting, lambda=.5, mu = c(55, 80), sigma=5)
+    # number of iterations = 9
+
+    # 혼합분포 결과 요약
+    summary(wait1)
+    
+    # summary of normalmixEM object:
+    #          comp 1   comp 2
+    # lambda  0.36085  0.63915
+    # mu     54.61364 80.09031
+    # sigma   5.86909  5.86909
+    # loglik at estimate:  -1034.002 
+
+    # 혼합분포 시각화
+    plot(wait1, density=TRUE, cex.axis=1.4, cex.lab=1.4, cex.main=1.8, main2="Time between Faithful eroptions", xlab2="Minutes")
+    # 모수 추정 과정에서 반복 2회만에 로그-가능도함수가 최대가 됨
+    ```
+
+
++ Mclust 함수
+
+    ```
+    library(mclust)
+
+    # 군집분석
+    mc <- Mclust(iris[,1:4], G=3)
+
+    # 혼합분포 모수추정치 & 각 군집별 해당 자료 요약결과 출력
+    summary(mc, parameters=TRUE)
+
+    # model-based clustering plots
+    plot.Mclust(mc)
+
+    # 각 개체가 분류된 그룹 확인
+    str(mc)
+    mc$classification
+
+    # 새로운 자료 분류
+    predict(mc, data=)
+    ```
 
 ### 자기조직화 지도 SOM(Self-Organizing Map)
+: 고차원 데이터 -> 저차원 뉴런으로 정렬 -> 지도 형태로 형상화한 비지도 신경망   
+
++ 특성
+  - 입력변수 정보와 관계가 지도 상에 그대로 나타남   
+    * 이해 용이  
+    * 변수 위치관계 보존
+  - 역전파 방식 아닌 전방패스(Feed Forward Flow) 사용 
+    * 속도 빠름  
+    * 실시간 학습처리 가능 (잠재적)
+  - 패턴발견/이미지 분석 등에 뛰어남 
+
++ 구성  
+: 2개의 인공신경망 층으로  구성
+  - 입력층
+    * 입력벡터 받는 층
+    * 뉴런 수: 입력변수의 개수 
+  - 경쟁층
+    * 입력벡터 군집되는 층
+    * 2차원 격차로 구성
+    * 뉴런 수: 목표 군집 개수
++ 학습 알고리즘
+
+  1) SOM 노드에 대한 연결강도 초기화
+  2) 입력벡터 제시 
+  3) 유클리드 거리 사용해 입력벡터와 프로토타입 벡터의 유사도 계산  
+     * 프로토타입 벡터: 경쟁층의 각 뉴런 의미  
+  4) BMU 탐색
+     * BMU: 가장 가까운 프로토타입 벡터
+  5) BMU와 그 이웃의 연결강도(connection weight) 재조정
+     * 연결강도: 승자독점 학습규칙 적용
+     * 위상학적 이웃(topological neighbors)
+  6) 2단계부터 반복 수행
+     * 경쟁층에는 승자 뉴런만 나타남
+     * 승자와 유사한 연결강도 갖는입력패턴이 동일한 경쟁 뉴런으로 배열
+
++ som 함수
+: som(data, grid=somgrid(), rlen=100, alpha=c(0.05, 0.01), init, toroidal=FALSE, keep.data=TRUE)
+  - 인수
+    * grid
+    * rlen
+    * alpha
+    * radius
+    * init
+    * toroidal
+    * keep.data 
+  - 값 
+    * grid
+    * changes
+    * codes
+    * classif
+    * toroidal
+    * data 
+
+    ```
+
+    ```
 
 ## 3.4 연관 분석 (=장바구니 분석)
 : 유용한 규칙/피턴 등 연관규칙 발굴해 품목간의 관계/연관성 탐색  
@@ -2078,5 +2394,4 @@ plot(adult.rules.sorted, method="scatterplot")
 # 연관규칙 관계도
 plot(adult.rules.sorted, method="graph", control=list(type="items", alpha=0.5))
 ```
-
 
