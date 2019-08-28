@@ -1909,35 +1909,168 @@ rpart.control()
 	- 예측/분류 정확성  
         : 분석모형의 정확성 
 + 훈련/검증용 자료 추출
-	- 홀드아웃 방법 Holdout method  
-            * 원천 데이터를 훈련/검증용으로 랜덤하게 분류
-            * 보통 70%를 훈련용으로 이용
-	- 교차검증 Cross-Validation
-            * 주어진 데이터로 성과 반복 측정해 평균낸 결과로 평가
-            * k-fold 교차검증  
-                : k개 하부집합으로 분할 -> k번째 하부집합을 검증용으로 이용 -> k번 반복측정 후 평균 내 최종평가
-	- 붓스트랩 Bootstrap  
-            * 복원추출법 기반: 관측치를 한번 이상 훈련용 자료로 사용
-            * 보통 0.632 붓스트랩을 이용 (63.2% 관측치를 훈련용 자료로 사용)
-            * 데이터량 크지 않은 경우 모형평가에 가장 적합
+  - 홀드아웃 방법 Holdout method  
+    * 원천 데이터를 훈련/검증용으로 랜덤하게 분류
+    * 보통 70%를 훈련용으로 이용
+
+    ```
+    data(iris)
+    nrow(iris)
+    # [1] 150
+
+    set.seed(1234)
+
+    # 홀드아웃 수행
+    idx <- sample(2, nrow(iris), replace=TRUE, prob=c(0.7, 0.3))
+    trainData <- iris[idx==1,]
+    testData <- iris[idx==2,]
+
+    nrow(trainData)
+    # [1] 112
+    nrow(testData)
+    # [1] 38
+    ```    
+
+  - 교차검증 Cross-Validation
+    * 주어진 데이터로 성과 반복 측정해 평균낸 결과로 평가
+    * k-fold 교차검증  
+    : k개 하부집합으로 분할 -> k번째 하부집합을 검증용으로 이용 -> k번 반복측정 후 평균 내 최종평가
+
+    ```
+    data(iris)
+    set.seed(1234)
+    k=10
+
+    # 데이터 무작위 섞음
+    iris <- iris[sample(nrow(iris)),]
+
+    # k 묶음 생성
+    folds <- cut(seq(1, nrow(iris)), breaks=k, labels=FALSE)
+    
+    # 교차검증 수행
+    trainData = list(0)
+    testData = list(0)
+    for(i in 1:k){
+        testIdx <- which(folds==i, arr.ind=TRUE)
+        testData[[i]] <- iris[testIdx, ]
+        trainData[[i]] <- iris[-testIdx,]
+    }
+    ```
+
+  - 붓스트랩 Bootstrap  
+    * 복원추출법 기반: 관측치를 한번 이상 훈련용 자료로 사용
+    * 보통 0.632 붓스트랩을 이용  
+      : 관측치의 63.2%를 훈련용 자료로 사용
+    * 데이터량 크지 않은 경우 모형평가에 가장 적합
 + 오분류표 (confusion matrix)
 
-TP
-TN
-FP
-FN
+    |실제값|예측치|오분류값|예측|
+    |---|---|---|---|
+    |True|True|TP (True Positive)| 성공|
+    |False|False|TN(True Negative)| 성공|
+    |False|True|FP (False Positive)| 실패|
+    |True|False|FN (False Negative)| 실패|
 
-- 정분류율
-- 오분류율
-- 민감도
-- 특이도
-- 정확도
-- 재현율
-- F1 지표 | 정확도와 재현율에 같은 가중치 부여해 평균|
-- Fb 지표 | 양수 b만큼 재현율에 가중치 부여해 평균|
+    ```
+    ...
+    library(nnet)
+    library(rpart)
+    nn.iris <- nnet(Species~., data=trainData, size=2, range=0.1, decay=52-4, maxit=200)
+    dt.iris <- rpart(Species~., data=trainData)
+    
+    m_pred <- predict(nn.iris, testData, type="class")
+    dt_pred <- predict(nn.iris, testData, type="class")
 
-+ ROC 그래프
-+ 이익도표 & 향상도 곡선
+    library(caret)
+    nn_con = confusionMatrix(nn_pred, testData$Species)
+    dt_con = confusionMatrix(nn_pred, testData$Species)
+    nn_con$table
+
+    accuracy <- c(nn_con$overall['Accuracy'], dt_con$overall['Accuracy'])
+    percision <- c(nn_con$byClass['Pos Pred Value'], dt_con$byClass['Pos Pred Value'])
+    recall <- c(nn_con$byClass['Sensitivity'], dt_con$byClass['Sensitivity'])
+    f1 <- 2 * (percision * recall) / (percision + recall)
+
+    result <- data.frame(rbind(accuracy, precision, recall, f1))
+    names(result) <- c("Nueral Network", "Decision Tree")
+    result
+    ```
+
++ 오분류표 활용 지표
+  - 정분류율
+    * accuracy = (TP+TN) / (P+N)
+    * 전체 관측치 중 예측 적중한 정도
+    * 범주 분포 균형 이룰 때 효과적
+  - 오분류율 
+    * erroar rate = (FP+FN) / (P+N)
+    * 전체 관측치 중 예측 실패한 정도
+  - 민감도 
+    * sensitivity = TP / P
+    * 실제값 TURE인 관축치 중 예측 적중한 정도
+    * 범주불균형 문제 대응
+  - 특이도 
+    * spcificity = TN / N
+    * 실제값 False인 관축치 중 예측 적중한 정도
+    * 범주불균형 문제 대응
+  - 정확도 인 관축치 중 예측 적중한 정도
+    * Percision = TP / (TP+FP)
+    * 예측값 TRUE인 관축치 중 예측 적중한 정도
+  - 재현율 
+    * Recall = TP / (TP+FN) = TP / P
+    * 실제값 TRUE인 관측치 중 에측 적중한 정도
+    * 민감도와 동일
+    * 모형의 완전성 평가
+  - F1 지표 
+    * 정확도와 재현율에 같은 가중치 부여해 평균 = 조화평균
+    * F1 = (2 * Percision * Recall) / (Percision + Recall)
+  - Fb 지표 
+    * 양수 b만큼 재현율에 가중치 부여해 평균
+    * Fb = ((1 + b) ^2 * Percision * Recall) / (b^2 * Percision + Recall)
+
+    ```
+    library(Epi)
+    nerual_ROC <- ROC(form=case~net_pred, data=testData, plot="ROC")
+    dtree_ROC <- ROC(form=case~dt_pred, data=testData, plot="ROC")
+    ```
+
++ ROC(receiver Operating Characteristic) 그래프
+  - x축에 FP지수(1-특이도), y축에 민감도 나타내 모형평가
+  - AUC 면적 넓을수록 좋은 모형  
+    * AUC (Area Under the ROC Curve) : ROC 그래프의 밑부분
+  - 완벽하게 분리한 경우  
+    * x=0, y=1 -> AUC = 1     
+
++ 이익도표   
+: 목표범주에 속하는 개체들이 각 등급에 얼마나 분포되어 있는지 누적값 연결한 도표  
+  - 분류분석모형으로 분류된 관측치가 각 등급별로 얼마나 포함되는지 표시   
+
+    ```
+    library(ROCR)
+    n_r <- prediction(testData$net_pred, testData$case)
+    d_r <- prediction(testData$dt_pred, testData$case)
+    
+    # 이익 도표
+    n_p <- performance(n_r, "tpr", "fpr")
+    d_p <- performance(d_r, "tpr", "fpr")
+    plot(n_p, col="red")
+    par(new=TRUE)
+    plot(d_p, col="blue")
+
+    # random 모델 그래프
+    abline(a=0, b=1)
+    ```
+
++ 향상도 곡선  
+: 랜덤모델과 비교해 성과가 얼마나 향상되었는지 등급별로 파악하는 그래프
+  - 상위등급으로 갈수록 크고 하위등급으로 갈수록 작은 것이 바람직
+  - 등급과 무관하게 값 차이 없는 경우 예측력 낮은 것
+
+    ```
+    # 향상도 곡선
+    n_lift <- performance(n_r, "lift", "rpp")
+    plot(n_lift, col="red")
+    abline(v=0.2)
+    ```
 
 ## 3.3 군집 분석 (Cluster Analysis)
 + 반응(종속)변수 불필요 <- 개체간 유사성만으로 군집화
@@ -2303,7 +2436,7 @@ FN
      * 경쟁층에는 승자 뉴런만 나타남
      * 승자와 유사한 연결강도 갖는입력패턴이 동일한 경쟁 뉴런으로 배열
 
-+ som 함수
++ som 함수  
 : som(data, grid=somgrid(), rlen=100, alpha=c(0.05, 0.01), init, toroidal=FALSE, keep.data=TRUE)
   - 인수
     * grid
@@ -2338,8 +2471,8 @@ ex) 장바구니 데이터 분석 등
 -  유용성  
    : 사소한/일반적 사실 아닌 분명하고 유용해야  
     ex) [컴퓨터 구매 -> 마우스/키보드 구매]는 당연하므로 유용한 규칙 아님  
--  일반적인 형태   
-   : 조건과 반응 (if- A then B)
+-  보통 조건과 반응 형태  
+   : if- A then B
 
 ### 연관규칙의 측정지표
 : 도출된 연관규칙의 유의미함 평가지표
@@ -2420,4 +2553,3 @@ plot(adult.rules.sorted, method="scatterplot")
 # 연관규칙 관계도
 plot(adult.rules.sorted, method="graph", control=list(type="items", alpha=0.5))
 ```
-
