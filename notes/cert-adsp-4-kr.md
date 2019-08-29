@@ -28,7 +28,7 @@
     - [표본추출 방법](#%ed%91%9c%eb%b3%b8%ec%b6%94%ec%b6%9c-%eb%b0%a9%eb%b2%95)
     - [실험](#%ec%8b%a4%ed%97%98)
     - [측정 (Measurement)](#%ec%b8%a1%ec%a0%95-measurement)
-    - [2.1.2 통계 분석 (Statistical Analysis)](#212-%ed%86%b5%ea%b3%84-%eb%b6%84%ec%84%9d-statistical-analysis)
+  - [2.1.2 통계 분석 (Statistical Analysis)](#212-%ed%86%b5%ea%b3%84-%eb%b6%84%ec%84%9d-statistical-analysis)
     - [통계적 추론 (Statistical Inference)](#%ed%86%b5%ea%b3%84%ec%a0%81-%ec%b6%94%eb%a1%a0-statistical-inference)
     - [확률](#%ed%99%95%eb%a5%a0)
     - [조건부 확률 & 독립 사건](#%ec%a1%b0%ea%b1%b4%eb%b6%80-%ed%99%95%eb%a5%a0--%eb%8f%85%eb%a6%bd-%ec%82%ac%ea%b1%b4)
@@ -53,12 +53,12 @@
   - [3.1 데이터 마이닝 개요](#31-%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a7%88%ec%9d%b4%eb%8b%9d-%ea%b0%9c%ec%9a%94)
     - [데이터 마이닝 대표 6기능](#%eb%8d%b0%ec%9d%b4%ed%84%b0-%eb%a7%88%ec%9d%b4%eb%8b%9d-%eb%8c%80%ed%91%9c-6%ea%b8%b0%eb%8a%a5)
   - [3.2 분류 분석](#32-%eb%b6%84%eb%a5%98-%eb%b6%84%ec%84%9d)
-    - [로지스틱 회귀 모형](#%eb%a1%9c%ec%a7%80%ec%8a%a4%ed%8b%b1-%ed%9a%8c%ea%b7%80-%eb%aa%a8%ed%98%95)
+    - [로지스틱 회귀 모형 (Logistic Regression Analysis)](#%eb%a1%9c%ec%a7%80%ec%8a%a4%ed%8b%b1-%ed%9a%8c%ea%b7%80-%eb%aa%a8%ed%98%95-logistic-regression-analysis)
     - [신경망 모형](#%ec%8b%a0%ea%b2%bd%eb%a7%9d-%eb%aa%a8%ed%98%95)
     - [의사결정나무 모형](#%ec%9d%98%ec%82%ac%ea%b2%b0%ec%a0%95%eb%82%98%eb%ac%b4-%eb%aa%a8%ed%98%95)
     - [알고리즘과 분류 기준변수 선택법](#%ec%95%8c%ea%b3%a0%eb%a6%ac%ec%a6%98%ea%b3%bc-%eb%b6%84%eb%a5%98-%ea%b8%b0%ec%a4%80%eb%b3%80%ec%88%98-%ec%84%a0%ed%83%9d%eb%b2%95)
     - [앙상블 모형](#%ec%95%99%ec%83%81%eb%b8%94-%eb%aa%a8%ed%98%95)
-    - [분류분석 모형 평가](#%eb%b6%84%eb%a5%98%eb%b6%84%ec%84%9d-%eb%aa%a8%ed%98%95-%ed%8f%89%ea%b0%80)
+    - [분류 분석 모형 평가](#%eb%b6%84%eb%a5%98-%eb%b6%84%ec%84%9d-%eb%aa%a8%ed%98%95-%ed%8f%89%ea%b0%80)
   - [3.3 군집 분석 (Cluster Analysis)](#33-%ea%b5%b0%ec%a7%91-%eb%b6%84%ec%84%9d-cluster-analysis)
     - [계층적 군집 (Hierarchical Clustering)](#%ea%b3%84%ec%b8%b5%ec%a0%81-%ea%b5%b0%ec%a7%91-hierarchical-clustering)
     - [k-평균 군집](#k-%ed%8f%89%ea%b7%a0-%ea%b5%b0%ec%a7%91)
@@ -1079,7 +1079,7 @@ ex) 치료제 대신 위약 투여
     |구간척도 <br> Interval Scale | 절대적 원점 없는 속성의 수량 척도 |ex) 온도, 지수|
     |비율척도 <br> Ratio Scale | 절대적 0값 존재하는 수량 척도 <br>  제일 정보 많이 갖는 척도 |ex) 나이, 연간소득|
 
-### 2.1.2 통계 분석 (Statistical Analysis)
+## 2.1.2 통계 분석 (Statistical Analysis)
 : 특정 집단 & 불확실한 현상에 대한 자료수집 => 정보추출  => 통계분석방법  
 => 의사결정 하는 과정  
 
@@ -1256,7 +1256,6 @@ ex) 치료제 대신 위약 투여
   - 스피어만의 순위상관계수 
 
 ## 2.2 기초 통계 분석
-
 ### 기술통계 Descriptive Statistic  
 : 자료 정리/요약 위해 사용되는 기초통계 => 분석 전 이해/통찰 얻는 데 유리  
   - 숫자 : 평균, 최빈값, % 등
@@ -1496,7 +1495,6 @@ ex) 치료제 대신 위약 투여
         ```
 
 ## 2.3 다변량 분석
-
 ### 상관분석 (Correlation Analysis)
 : 데이터 내의 두 변수 관계 분석
 
@@ -1652,27 +1650,28 @@ abline(v=0, h=0, lty=2, lwd=0.5)       # 그래프에 수직선 추가
 : 시점에 상관없이 시계열 특성이 일정 (반드시 만족해야 분석 가능)
   - 평균이 일정
   - 분산이 시점에 의존 안 함
-  - 공분산이 시차에만 의존 (시점자체에 의존 안 함)
+  - 공분산이 시차에만 의존 (시점에는 의존 안 함)
 
 + 정상 시계열화
-
-  |정상성 문제|조치|상세|
-  |---|---|---|  
-  |이상점|이상점 제거||
-  |개입<br>(Intervention)|회귀분석 수행||
-  |추세<br>(Trend)|차분<br>(Difference)|현 시점 자료값에서 전 시점 자료값 빼기|
-  |분산 불일정|변환<br>(Transformation)||
+  - 이상점 -> 제거
+  - 개입 (Intervention) -> 회귀분석 수행
+    * 개입 (Intervention): 
+  - 분산 불일정 -> 변환 
+    * 변환 (Transformation): 
+  - 추세 (Trend) -> 차분
+    * 차분(Difference): 현 시점 자료값에서 전 시점 자료값 빼기
 
 ### 시계열 모형 종류
 + 자기회귀모형 (AR: Autoregressive)  
-: 현 시점의 자료가 p시점 전의 유한개의 과거자료로 설명 될 수 있다는 의미
+: 현 시점 자료가 p시점 전의 유한개의 과거자료로 설명 가능
   - 식별방법
     * 자기상관함수(ACF, Auto-Correlation Function)  
     : 시차가 증가함에 따라 점차 감소
     * 부분자기상관함수(PACF, Partial Auto-Correlation Function)     
     : p +1  시차 이후 급격히 감소, 절단된 형태 
   - 백색잡음과정(White noise process)  
-  : 대표적 정상 시계열, 시계열 분석에서 오차항 의미  
+    * 대표적 정상 시계열
+    * 시계열 분석에서 오차항 의미  
 
 + 이동평균모형(MA: Moving Average)  
 : 현시점 자료를 유한개의 백색잡음의 선형 결합으로 표현
@@ -1778,33 +1777,42 @@ abline(v=0, h=0, lty=2, lwd=0.5)       # 그래프에 수직선 추가
 
 1) 목적 정의
 2) 데이터 준비
-3) 데이터 가공
+3) 데이터 가공  
+   - 모델개발 단계에서 부하 커짐  
+   => 데이터 가공 및 개발환경 구축 선행 필요   
+   - ex) 분류모델링 시 CRM 마트 형식으로 데이터 가공
 4) 데이터 마이닝 기법의 적용  
-: 준비한 데이터 + S/W로 목적정보 추출
+   - 데이터 + S/W로 목적정보 추출  
+   - 목적과 데이터에 맞는 S/W 기법 이용해야
 5) 검증  
-: 테스트 마케팅, 과거 데이터 활용
+   - 추출된 정보 검증
+   - 테스트 마케팅, 과거 데이터 활용
+6) 종료
+   - IT부서와 자동화 방안 협의 
+   - 보고서 작성  
+      => 추가수익 ROI 등 기대효과 경영진에 전달
 
 ### 데이터 마이닝 대표 6기능
 + 분류 Classification
 	- 새로운 현상을 기존 분류/정의에 배정
 	- 선분류된 검증집합에 의해 완성
-	- 주로 의사결정나무, 메모리기반 추론, 링크 분석 등 이용
+	- ＝＞ 의사결정나무, 메모리기반 추론, 링크 분석 등 이용
 + 추정 Estimation
 	- 연속된 변수 값 추정
 	- 입력 데이터 사용해 미지의 결과값 추정
-	- 주로 신경망 모형 이용
+	- ＝＞ 신경망 모형 이용
 + 예측 Prediction
 	- 미래 양상/값 추정
 	- 기존 결과로 검증 불가 (현상 발생해야 확인가능)
-	- 장바구니 분석, 메모리기반 추론, 의사결정나무, 신경망 등 이용
+	- ＝＞장바구니 분석, 메모리기반 추론, 의사결정나무, 신경망 등 이용
 + 연관 분석 Association Analysis
 	- 아이템의 연관성 파악
 	- 분석결과는 연관 규칙으로 나타남
-	- 장바구니 분석 등 이용 
+	- ＝＞장바구니 분석 등 이용 
 + 군집 Clustering
 	- 이질적인 모집단을 동질성 있는 그룹으로 세분화
 	- 선분류 기준 없음 (분류와의 차이)
-	- 주로 데이터마이닝/모델링 준비단계로 사용
+	- ＝＞ 데이터마이닝/모델링 준비단계로 사용
 + 기술 Description
 	- 데이터가 가지고 있는 의미 기술
 	- 데이터가 암시하는 바를 설명 & 설명에 대한 답 제시
@@ -1813,26 +1821,167 @@ abline(v=0, h=0, lty=2, lwd=0.5)       # 그래프에 수직선 추가
 : 타겟값 기준으로 입력 데이터 학습 => 새로운 데이터의 그룹 분류
   
 
-### 로지스틱 회귀 모형
-- 반응변수가 범주형
+### 로지스틱 회귀 모형 (Logistic Regression Analysis)
+: 반응변수가 범주형인 경우 이용되는 회귀 분석  
+=> 관심범주에 속할 확률 선형화
+
++ 특성
+  - 새로운 설명/예측변수 값이 각 범주에 속할 확률 추정 (예측모형)
+  - 추정된 확률을 기준치에 따라 분류 (분류모형)  
+    * π(X) > 기준값: Y=1 집단
+    * π(X) < 기준값: Y=0 집단  
+    * 사후확률: 모형 적합으로 추정된 확률
+  - 기준값 결정
+    * 사전정보 이용
+    * 손실함수 이용
+    * 지표(정분류율, 민감도, 특이도 등) 이용
+  - 오즈 관점 해석 가능  
+    * $exp(b1)$ = x1에 대한 성공 오즈의 단위당 증가율  
+    (나머지 변수 (x1...xk) 주어질 때) 
+  - 프로빗 모형과 유사  
+    : 표준정규분포의 누적분포함수로 성공 확률 나타낸 모형  
+    * $$ 𝛷(π(X))^-1 = β0 + β1X1 + ... + βkXk$$
+
++ 수식
+  - 로짓함수  
+     : 비선형적인 관계를 선형식으로 일반화
+     $$log(π(X)) = log(π(X)) / (1 − π(X)) = β0+β1X1 + ... + βkXk$$  
+
+  - 다중로지스틱 함수 
+     $$π(X) = exp(β0 + β1X1 + ... + βkXk) / (1 + exp(β0 + β1X1 + ... + βkXk))$$   
+     $$ = F(β0 + β1X1 + ... + βkXk)$$ 
+    * b1 > 0: S자 형태 (설명변수 1개일 때)
+    * b1 < 0: 역S자 형태 (설명변수 1개일 때)
+    * 표준로지스틱 분포의 누적분포함수로 성공의 확률 설명/추정 
+
++ glm 함수
+
+    ```   
+    data(iris)
+    a <- subset(iris, Species=="setosa" | Species=="versicolor")
+
+    # Species 변수 범주화
+    a$Species <- factor(a$Species)
+    str(a)
+
+    # 로지스틱 회귀 수행
+    b <- glm(Species~Sepal.Length, data=a, family=binomial) # binominal -> 이항분포
+    summary(b)
+
+    # 결과
+    # Call:
+    # glm(formula = Species ~ Sepal.Length, family = binomial, data = a)
+
+    # Deviance Residuals: 
+    #     Min        1Q    Median        3Q       Max  
+    # -2.05501  -0.47395  -0.02829   0.39788   2.32915  
+
+    # Coefficients:
+    #             Estimate Std. Error z value Pr(>|z|)    
+    # (Intercept)   -27.831      5.434  -5.122 3.02e-07 ***       
+    # Sepal.Length    5.140      1.007   5.107 3.28e-07 ***         # ***: Sepal.Length가 유의미
+    # ---                                                           # 회귀계수: 5.140
+    # Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+    # (Dispersion parameter for binomial family taken to be 1)
+
+    #     Null deviance: 138.629  on 99  degrees of freedom         # 완전모형으로부터의 이탈도
+    # Residual deviance:  64.211  on 98  degrees of freedom         # Sepal.Length가 추가된 적합모형(귀무가설) 이탈도
+    # AIC: 68.211
+
+    # Number of Fisher Scoring iterations: 6
+
+    
+    coef(b)
+    # (Intercept) Sepal.Length 
+    #  -27.831451     5.140336 
+
+    exp(coef(b))["Sepal.Length"]
+    # Sepal.Length 
+    #     170.7732 
+
+    # 오즈 증가량 계산
+    # : Sepal.Length 1단위 증가 시 Versicolor(Y=2)일 오즈 exp(5.140) ≈ 170배 증가
+
+    # 결과 반환값 확인
+    ls(b)            # 반환항목 리스트
+    b$coef
+    b$fitted
+    b$resid
+    b$effects
+    ```   
+
++ confint 함수
+
+    ```   
+    # 회귀계수 신뢰구간
+    confint(b, parm = "Sepal.Length")
+    #     2.5 %   97.5 % 
+    # 3.421613 7.415508 
+    
+    # 오즈 증가량 신뢰구간
+    exp(confint(b, parm = "Sepal.Length"))
+    #     2.5 %     97.5 % 
+    # 30.61878 1661.55385 
+    ```   
+
++ fitted 함수
+
+    ```  
+    # 적합결과 확인
+    fitted(b)[c(1:5, 96:100)]
+    
+    #         1          2          3          4          5         96         97 
+    # 0.16579367 0.06637193 0.02479825 0.01498061 0.10623680 0.81282396 0.81282396 
+    #         98         99        100 
+    # 0.98268360 0.16579367 0.81282396 
+
+    # 예측 (편의로 초기 데이터 a 이용)
+    predict(b, newdata=a[c(1, 50, 51, 100), ], type="response")
+    
+    #         1        50        51       100 
+    # 0.1657937 0.1062368 0.9997116 0.8128240 
+    ```   
+
++ cdplot 함수
+
+    ```  
+    cdplot(Species~Sepal.Length, data=a)
+    plot(a$Sepal.Length, a$Species, xlab="Sepal.Length")
+    x = seq(min(a$Sepal.Length), max(a$Sepal.Length), 0.1)
+    lines(x, 1 + (1/(1+(1/exp(-27.831+5.140*x)))), type="1", col="red")
+    ```   
 
 ### 신경망 모형
-: 입력된 개별신호 강도에 따라 가중되며 활성함수가 인공신경망의 출력 계산  
+: 입력된 개별신호 강도에 따라 가중 -> 활성함수 -> 출력 계산  
 => 많은 데이터 학습/훈련 거쳐 원하는 결과 나오도록 가중치 조정 됨
 + 단층신경망 (=퍼셉트론)  
-: 은닉층 없는 단층신경망 네트워크 
-+ 활성함수
+  : 은닉층 없는 단층신경망 네트워크 
+  - $${\displaystyle z = w'x+ w_{0} = w_{0} + \sum _{i=1}^{m}w_{i}x_{i}}$$
+    * w=(w1,...wd)': 가중치 (의사결정경계 방향표시 모수)
+    * W0: 절편 (bias, 의사결정 경계위치 결정 모수)
+    * 가중치와 절편의 갱신: 오차제곱합 최소화 되도록 갱신
++ 활성함수  
+: z에 적용되어 최종목표값 계산하는 함수
 
   |함수명|결과|결과범위|
-  |---|---|---| 
-  |부호/threshold 함수 |이진형| y = -1, 1|
-  |계단 함수|이진형| y= 0, 1
+  |---|---|---|
+  |부호/threshold 함수 |이진형| y = -1, (z <0) <br> y = 1, (z >= 0)|
+  |계단 함수|이진형|y = 0, (z <0) <br> y = 1, (z >= 0)
   |시그모이드 함수|연속형| 0<= y <= 1|
-  |Softmax 함수 | 출력값 z 여러 개(L개)||
+  |Softmax 함수 | 출력값 z 여러 개(L개)|목표치 다범주인 경우 <br>범주 속할 사후확률 제공|
   |tanh 함수| 연속형|-1 <= y <= 1|
   |가우스 함수|연속형|0<= y <=1|
 
+  - Sigmoid 함수
+    $${\displaystyle S(x)={\frac {1}{1+e^{-x}}}}$$ 
+  - Softmax 함수      
+    $$y_{i}={\frac {e^{x_{i}}}{\sum _{j=1}^{c}e^{x_{j}}}}$$
+  - tanh 함수   
+    $${\displaystyle f(x)=\tanh x={\frac {e^{x}-e^{-x}}{e^{x}+e^{-x}}}}$$    
+
 + 은닉층 결정
+  -  
 + 노드 수 결정
 
     ```
@@ -1886,29 +2035,33 @@ rpart.control()
 
 + 데이터 조절 방법
   - 배깅  
-    : 원 데이터 집합에서 크기 같은 표본 여러번 단순임의 복원추출   
-    => 분류기 생성 => 결과 앙상블  
-    ** 반복추출하므로 같은 데이터 여러번 추출되거나 아예 추출 안 되는 경우 발생 가능
+    : 크기 같은 표본 복원추출 => 분류기 생성 => 결과 앙상블(집계)  
+    * 복원추출  
+    : 같은 데이터 여러번 추출되거나 아예 추출 안 되는 경우 발생
   - 부스팅  
-    : 분류가 잘못된 데이터 더 큰 가중 주고 표본 추출  
-    붓스트랩 표본 추출 => 분류기 생성 => 결과로 각 데이터 추출확률 조정 (반복)  
-    ex) AdaBossting (adaptive boosting) 알고리즘
+    : 분류 잘못된 데이터에 더 큰 가중 주고 표본추출 
+    * 붓스트랩 표본 추출 => 분류기 생성 => 각 개체 추출확률 조정 (반복)  
+    * 붓스트랩(Bootstrap)  
+    : 중복 허용해 m개 추출 후 추출값의 통계값 산출
+    * ex) AdaBossting (adaptive boosting) 알고리즘
   - 랜덤 포레스트  
     * 배깅에 랜덤 과정 추가한 방법  
-    * 원 자료에서 붓스트랩 샘플 추출  
+    * 붓스트랩 표본 추출  
     * 노드별 예측변수 최적분할 안 함  
-      (예측변수 임의 추출 후 추출값 내에서 최적분할)  
-    * 새로운 자료 예측 (분류 -> 다수결, 회귀 -> 평균)
+      : 예측변수 임의 추출 후 추출값 내에서 최적분할  
+    * 새로운 자료 예측 
+      * 분류 -> 다수결
+      * 회귀 -> 평균
 
-### 분류분석 모형 평가
-+ 기준
+### 분류 분석 모형 평가
++ 평가기준
 	- 일반화 가능성  
         : 같은 모집단의 타 데이터에 확장적용 시 결과 안정적인지
 	- 효율성  
         : 분석모형의 효율성 (필요 입력변수 적을수록 효율적) 
 	- 예측/분류 정확성  
         : 분석모형의 정확성 
-+ 훈련/검증용 자료 추출
++ 훈련/검증용 자료 추출방식
   - 홀드아웃 방법 Holdout method  
     * 원천 데이터를 훈련/검증용으로 랜덤하게 분류
     * 보통 70%를 훈련용으로 이용
@@ -1934,7 +2087,7 @@ rpart.control()
   - 교차검증 Cross-Validation
     * 주어진 데이터로 성과 반복 측정해 평균낸 결과로 평가
     * k-fold 교차검증  
-    : k개 하부집합으로 분할 -> k번째 하부집합을 검증용으로 이용 -> k번 반복측정 후 평균 내 최종평가
+    : k개 하부집합으로 분할 -> k번째 하부집합으로 검증 -> k번 반복측정해 평균으로 최종평가
 
     ```
     data(iris)
@@ -1962,6 +2115,7 @@ rpart.control()
     * 보통 0.632 붓스트랩을 이용  
       : 관측치의 63.2%를 훈련용 자료로 사용
     * 데이터량 크지 않은 경우 모형평가에 가장 적합
+
 + 오분류표 (confusion matrix)
 
     |실제값|예측치|오분류값|예측|
@@ -1970,31 +2124,6 @@ rpart.control()
     |False|False|TN(True Negative)| 성공|
     |False|True|FP (False Positive)| 실패|
     |True|False|FN (False Negative)| 실패|
-
-    ```
-    ...
-    library(nnet)
-    library(rpart)
-    nn.iris <- nnet(Species~., data=trainData, size=2, range=0.1, decay=52-4, maxit=200)
-    dt.iris <- rpart(Species~., data=trainData)
-    
-    m_pred <- predict(nn.iris, testData, type="class")
-    dt_pred <- predict(nn.iris, testData, type="class")
-
-    library(caret)
-    nn_con = confusionMatrix(nn_pred, testData$Species)
-    dt_con = confusionMatrix(nn_pred, testData$Species)
-    nn_con$table
-
-    accuracy <- c(nn_con$overall['Accuracy'], dt_con$overall['Accuracy'])
-    percision <- c(nn_con$byClass['Pos Pred Value'], dt_con$byClass['Pos Pred Value'])
-    recall <- c(nn_con$byClass['Sensitivity'], dt_con$byClass['Sensitivity'])
-    f1 <- 2 * (percision * recall) / (percision + recall)
-
-    result <- data.frame(rbind(accuracy, precision, recall, f1))
-    names(result) <- c("Nueral Network", "Decision Tree")
-    result
-    ```
 
 + 오분류표 활용 지표
   - 정분류율
@@ -2012,7 +2141,7 @@ rpart.control()
     * spcificity = TN / N
     * 실제값 False인 관축치 중 예측 적중한 정도
     * 범주불균형 문제 대응
-  - 정확도 인 관축치 중 예측 적중한 정도
+  - 정확도 
     * Percision = TP / (TP+FP)
     * 예측값 TRUE인 관축치 중 예측 적중한 정도
   - 재현율 
@@ -2025,7 +2154,52 @@ rpart.control()
     * F1 = (2 * Percision * Recall) / (Percision + Recall)
   - Fb 지표 
     * 양수 b만큼 재현율에 가중치 부여해 평균
-    * Fb = ((1 + b) ^2 * Percision * Recall) / (b^2 * Percision + Recall)
+    * Fb = ((1 + b) ^2 * Percision * Recall) / (b^2 * Percision + Recall)  
+
++ confusionMatrix 함수
+
+    ```
+    ...
+    library(nnet)
+    library(rpart)
+
+    # 신경망 학습    
+    nn.iris <- nnet(Species~., data=trainData, size=2, range=0.1,   decay=52-4, maxit=200)
+    # 의사결정나무 학습
+    dt.iris <- rpart(Species~., data=trainData)
+
+    # 모형별 예측치 도출
+    m_pred <- predict(nn.iris, testData, type="class")
+    dt_pred <- predict(nn.iris, testData, type="class")
+
+    # 모형별 오분류표 도출
+    install.packages("e1071")
+    library(caret)
+    nn_con = confusionMatrix(nn_pred, testData$Species)
+    dt_con = confusionMatrix(nn_pred, testData$Species)
+    nn_con$table
+
+    # 정분류율
+    accuracy <- c(nn_con$overall['Accuracy'], dt_con$overall  ['Accuracy'])
+    # 정확도 　
+    percision <- c(nn_con$byClass['Pos Pred Value'], dt_con$byClass  ['Pos Pred Value'])
+    # 재현율　
+    recall <- c(nn_con$byClass['Sensitivity'], dt_con$byClass  ['Sensitivity'])
+    # F1지표 　
+    f1 <- 2 * (percision * recall) / (percision + recall)
+
+    # 결과출력: 신경망이 의사결정나무 모형보다 적중률 높음
+    result <- data.frame(rbind(accuracy, precision, recall, f1))
+    names(result) <- c("Nueral Network", "Decision Tree")
+    result
+    ```
+
++ ROC(receiver Operating Characteristic) 그래프
+  - x축에 FP지수(1-특이도), y축에 민감도 나타내 모형평가
+  - AUC 면적 넓을수록 좋은 모형  
+    * AUC (Area Under the ROC Curve) : ROC 그래프의 밑부분
+  - 분류 완벽한 경우  
+    * x=0, y=1 -> AUC = 1     
 
     ```
     library(Epi)
@@ -2033,32 +2207,34 @@ rpart.control()
     dtree_ROC <- ROC(form=case~dt_pred, data=testData, plot="ROC")
     ```
 
-+ ROC(receiver Operating Characteristic) 그래프
-  - x축에 FP지수(1-특이도), y축에 민감도 나타내 모형평가
-  - AUC 면적 넓을수록 좋은 모형  
-    * AUC (Area Under the ROC Curve) : ROC 그래프의 밑부분
-  - 완벽하게 분리한 경우  
-    * x=0, y=1 -> AUC = 1     
+    ![]()
 
-+ 이익도표   
++ 이익도표(Gain Chart)   
 : 목표범주에 속하는 개체들이 각 등급에 얼마나 분포되어 있는지 누적값 연결한 도표  
   - 분류분석모형으로 분류된 관측치가 각 등급별로 얼마나 포함되는지 표시   
 
     ```
     library(ROCR)
+
+    # 모형별 예측
     n_r <- prediction(testData$net_pred, testData$case)
     d_r <- prediction(testData$dt_pred, testData$case)
     
-    # 이익 도표
+    # 모형별 이익 도표
     n_p <- performance(n_r, "tpr", "fpr")
     d_p <- performance(d_r, "tpr", "fpr")
+    
+    # 모형별 도표 한꺼번에 시각화
+    # 신경망 (색:검정)
     plot(n_p, col="red")
+    # 의사결정나무 (색:검정)
     par(new=TRUE)
     plot(d_p, col="blue")
-
-    # random 모델 그래프
+    # random 모델 그래프 (색:검정)
     abline(a=0, b=1)
     ```
+
+    ![]()
 
 + 향상도 곡선  
 : 랜덤모델과 비교해 성과가 얼마나 향상되었는지 등급별로 파악하는 그래프
@@ -2066,11 +2242,13 @@ rpart.control()
   - 등급과 무관하게 값 차이 없는 경우 예측력 낮은 것
 
     ```
-    # 향상도 곡선
+    # 향상도 곡선 (신경망 모형)
     n_lift <- performance(n_r, "lift", "rpp")
     plot(n_lift, col="red")
     abline(v=0.2)
     ```
+
+    ![]()
 
 ## 3.3 군집 분석 (Cluster Analysis)
 + 반응(종속)변수 불필요 <- 개체간 유사성만으로 군집화
@@ -2377,6 +2555,7 @@ rpart.control()
     # 모수 추정 과정에서 반복 2회만에 로그-가능도함수가 최대가 됨
     ```
 
+    ![](https://i.stack.imgur.com/t1V54.jpg)
 
 + Mclust 함수
 
@@ -2407,8 +2586,8 @@ rpart.control()
   - 입력변수 정보와 관계가 지도 상에 그대로 나타남   
     * 이해 용이  
     * 변수 위치관계 보존
-  - 역전파 방식 아닌 전방패스(Feed Forward Flow) 사용 
-    * 속도 빠름  
+  - 전방패스(Feed Forward Flow) 방식 
+    * 신경망 역전파 방식보다 속도 빠름  
     * 실시간 학습처리 가능 (잠재적)
   - 패턴발견/이미지 분석 등에 뛰어남 
 
@@ -2425,37 +2604,125 @@ rpart.control()
 
   1) SOM 노드에 대한 연결강도 초기화
   2) 입력벡터 제시 
-  3) 유클리드 거리 사용해 입력벡터와 프로토타입 벡터의 유사도 계산  
-     * 프로토타입 벡터: 경쟁층의 각 뉴런 의미  
-  4) BMU 탐색
-     * BMU: 가장 가까운 프로토타입 벡터
-  5) BMU와 그 이웃의 연결강도(connection weight) 재조정
-     * 연결강도: 승자독점 학습규칙 적용
-     * 위상학적 이웃(topological neighbors)
-  6) 2단계부터 반복 수행
+  3) 입력벡터 & 프로토타입 벡터 유사도 계산 => BMU 탐색  
+     * 프로토타입 벡터  
+        : 경쟁층의 각 뉴런  
+     * BMU  
+       : 가장 가까운 프로토타입 벡터 (유클리드 거리 이용)
+  4) BMU와 위상학적 이웃의 연결강도 재조정
+     * 조정시 승자독점 학습규칙 이용
+     * mi(t+1) = mi(t) + a(t)hei(t)[x-mi(t)]  
+       - t:시간
+       - a(t): 학습률
+       - hei(t): BMU 중심에 있는 이웃커널  
+  5) 2단계부터 반복 수행
      * 경쟁층에는 승자 뉴런만 나타남
      * 승자와 유사한 연결강도 갖는입력패턴이 동일한 경쟁 뉴런으로 배열
 
 + som 함수  
 : som(data, grid=somgrid(), rlen=100, alpha=c(0.05, 0.01), init, toroidal=FALSE, keep.data=TRUE)
-  - 인수
-    * grid
-    * rlen
-    * alpha
-    * radius
-    * init
-    * toroidal
-    * keep.data 
-  - 값 
-    * grid
-    * changes
-    * codes
-    * classif
-    * toroidal
-    * data 
+
+    |인수|상세|비고|
+    |---|---|---|
+    | grid | 결과 표시 그리드
+    | rlen | 학습횟수 |기본값: 100
+    | alpha | 학습률 |기본값: 0.05, 0.01
+    | radius | 이웃의 초기반경
+    | init | SOM 학습으로 얻은 <br> 코드북 벡터의 옵션 행렬 ??? | 기본: 랜덤한 객체
+    | toroidal | 맵의 엣지 조인 여부
+    | keep.data | 반환데이터 저장 
+
+    |반환인자|상세|
+    |---|---|
+    | grid| somegrid 객체 ???
+    | changes| 코드벡터로부터 평균편차의 벡터 ???
+    | classif| 승자 유닛 ???
+    | toroidal| toroidal 맵 사용여부 ???
+    | data| 데이터 행렬
 
     ```
+    library(kohonen)
+    data("wines")
+    str(wines)
 
+    wines.sc <- scale(wines)
+    set.seed(7)
+
+    # SOM 군집
+    wine.som <- som(data = wines.sc, grid=somgrid(5, 4, "hexagonal"), rlen=100, alpha=(0.05, 0.01), toroidal=FALSE, keep.data=TRUE)
+
+    summary(wine.som)
+    plot(wine.som, main="Wine data")
+    ```
+
++ plot.kohonen 함수  
+: plot.kohonen(x, type=c("changes"...), classif, labels=NULL, pchs=NULL, main=NULL, palette.name=heat.colors, nclors, zlim=NULL, property, heatkey=TRUE, contin, ...) 
+
+    |인수|상세|비고|
+    |---|---|---|
+    |x| 코호넨 객체
+    |type| 플롯 타입| changes, codes, counts, mapping, prediction, property    
+    |classif| predict.kohonen에서 반환된 분류 객체
+    |labels| 플롯 라벨 |타입이 분류인 경우
+    |pchs| 플롯 심볼 |타입이 분류인 경우
+    |palette.name| type 위한 유닛 배경색
+    |ncolors| 색상 수 |기본값: 20
+    |zlim| 유닛 배경색 범위
+    |property| type의 속성값
+    |heatkey| 히트키 생성 여부 ??? | 타입이 count/property 인 경우
+    |contin| 데이터 연속형/범주형 여부
+
+    ```
+    par(mfrow=c(1,3))
+    plot(wine.som, type="counts", main="wine data: counts")
+    plot(wine.som, type="quality", main="wine data: mapping Quality")
+    plot(wine.som, type="mapping", main="mapping plot", labels=wine.classes, col=wine.classes)
+
+    # 색상 지정
+    color1 <- tricolor(wine.som$grid)
+    color2 <- tricolor(wine.som$grid, phi=c(pi/6, 0, -pi/6))
+    color3 <- tricolor(wine.som$grid, phi=c(pi/6, 0, -pi/6), offset=.5)
+
+    plot(wine.som, type="mapping", bg=rgb(color1))
+    plot(wine.som, type="mapping", bg=rgb(color2))
+    plot(wine.som, type="mapping", bg=rgb(color3))
+
+    # 거리계산
+    par(mfrow=c(1,2))
+    dists <- unit.distances(wine.som$grid, toroidal=FALSE)
+    
+    # 6색 표시
+    plot(wine.som, type="property", property=dists[1,], main="Distances to unit1", zlim=c(0,6), palette=rainbow, ncolors=7, contin=TRUE)
+    # 2색 표시
+    plot(wine.som, type="property", property=dists[1,], main="Distances to unit1", zlim=c(0,2), palette=rainbow, ncolors=2, contin=TRUE)
+    ```
+
++ 유사도 변화
+
+    ```
+    ...
+    # SOM 군집(학습:100회,500회)
+    wine.som <- som(data = wines.sc, grid=somgrid(5, 4, "hexagonal"), rlen=100, alpha=(0.05, 0.01), toroidal=FALSE, keep.data=TRUE)
+    wine.som_1 <- som(data=wines.sc, grid = somgrid(5, 4, "hexagonal"), rlen=500, alpha=c(0.05, 0.01), toroidal=FALSE, keep.data=TRUE)
+
+    # 유사도 변화 그래프 비교
+    par(mfrow=c(1,2))
+    plot(wine.som, type="changes", main="Wine Data: SOM(Learning no=100)")
+    plot(wine.som_1, type="changes", main="Wine Data: SOM(Learning no=500)")
+    ```
+
++ ggplot
+
+    ```
+    library(ggplot2)
+
+    wines.sc = as.data.frame(wines)
+    wines.sc$clusterX <- wine.som$grid$pts[wine.som$unit.Classif, "x"]
+    wines.sc$clusterX <- wine.som$grid$pts[wine.som$unit.Classif, "y"]
+
+    # SPSS Modeler와 유사하게 도식화
+    p <- ggplot(wines.sc, aes(clusterX, clusterY))
+    p + geom_jitter(position=position_jitter(width=0.4, height=0.3))
     ```
 
 ## 3.4 연관 분석 (=장바구니 분석)
