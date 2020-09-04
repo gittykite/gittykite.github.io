@@ -1,3 +1,7 @@
+---
+title:  ADsP 과목1. 데이터 이해
+---
+
 # ADsP :: 과목1. 데이터 이해
 
 - [ADsP :: 과목1. 데이터 이해](#adsp--%ea%b3%bc%eb%aa%a91-%eb%8d%b0%ec%9d%b4%ed%84%b0-%ec%9d%b4%ed%95%b4)

@@ -1,3 +1,7 @@
+---
+title:  ADsP 과목3. 데이터 분석 기획
+---
+
 # ADsP :: 과목3. 데이터 분석 기획
 
 Value = Analyst + Analytics Model + Data
