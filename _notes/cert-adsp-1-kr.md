@@ -1,10 +1,13 @@
 ---
-title:  ADsP 과목1. 데이터 이해
+title: ADsP 과목1. 데이터 이해
+category: 데이터분석
+tags:
+  - ADsP
+  - 자격증/시험
 ---
 
-# ADsP :: 과목1. 데이터 이해
+## Index
 
-- [ADsP :: 과목1. 데이터 이해](#adsp--%ea%b3%bc%eb%aa%a91-%eb%8d%b0%ec%9d%b4%ed%84%b0-%ec%9d%b4%ed%95%b4)
 - [1장 데이터의 이해](#1%ec%9e%a5-%eb%8d%b0%ec%9d%b4%ed%84%b0%ec%9d%98-%ec%9d%b4%ed%95%b4)
   - [1.1 데이터와 정보](#11-%eb%8d%b0%ec%9d%b4%ed%84%b0%ec%99%80-%ec%a0%95%eb%b3%b4)
     - [데이터](#%eb%8d%b0%ec%9d%b4%ed%84%b0)
@@ -177,6 +180,7 @@ title:  ADsP 과목1. 데이터 이해
 ** RTE: Real Time Enterprise
 
 ### 사회기반구조로서의 DB 활용
+
 |시기|활용방식|
 |---|---|
 |90년대|SOC(사회간접자본)의 EDI(전자문서교환)증가로 VAN/DB 구축|
@@ -275,6 +279,7 @@ title:  ADsP 과목1. 데이터 이해
 ** 3V: Volume + Variety +Velocity
 
 ### 빅데이터의 출현 배경
+
 |분야| 배경| 사례|
 |---| ---| ---|
 |산업계| 고객 데이터 축적 <br> **=> 가치창출 가능한 규모 도달**| ex) Tesco, Acxiom|
@@ -290,6 +295,7 @@ title:  ADsP 과목1. 데이터 이해
 ![MapReduce Process](https://www.todaysoftmag.com/images/articles/tsm33/large/a11.png)
 
 ### ICT 발전과 빅데이터 출현
+
 |시기|기술/환경|데이터 형태|데이터규모|
 |---|---|---|---|
 |80년대 | 메인프레임| 구조화/정형 데이터|-|
@@ -387,6 +393,7 @@ title:  ADsP 과목1. 데이터 이해
 ** NSA: US National Security Agency
 
 ### 빅데이터 활용 기본 테크닉
+
 |명칭|상세|
 |---|---|
 |연관규칙 학습 <br> Association Rule Learning|변인 간 상관관계 분석|
@@ -400,6 +407,7 @@ title:  ADsP 과목1. 데이터 이해
 ## 2.4 위기요인 & 통제방안
 
 ### 빅데이터 위기요인
+
 |요인|상세|사례|
 |---|---|---|
 |사생활 침해|M2M 시대 <br> (정보수집 센서 증가)|ex) 스마트 미터, <br> 익명화 데이터|
@@ -409,6 +417,7 @@ title:  ADsP 과목1. 데이터 이해
 ** M2M: Machine to Machine
 
 ### 빅데이터 위기요인 통제방안
+
 |요인|통제방안|
 |---|---|
 |사생활 침해|정보 제공 동의제 => 사용자 책임제|
