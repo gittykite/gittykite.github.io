@@ -12,7 +12,7 @@ tags:
 : 메세지는 운송 컨테이너고 엔터티가 실질적인 화물
 + 엔터티 헤더
   - HTTP 메세지의 내용물을 기술
-  - 주요 헤더: Content-Type, Content-Length, Last-Modified, Allow, ETag 등
+  - 주요 헤더: `Content-Type`, `Content-Length`, `Last-Modified`, `Allow`, `ETag` 등
 + 엔터티 본문
   - 미가공된 데이터를 내포
   - 헤더 필드의 끝 의미하는 빈 CRLF 줄 다음부터 시작 (콘텐츠 종류/언어 무관) 
@@ -20,35 +20,34 @@ tags:
 ### Content-Length 헤더
 + 특성 
   - 엔터티 본문 길이 바이트 단위로 표시
-  - 인코딩/압축 여부와 무관하게 크기 표현 가능  
-    => 인코딩/압축 후의 본문 길이값 표시
+  - 인코딩/압축 여부와 무관하게 크기 표현 가능 => 인코딩/압축 후의 본문 길이값 표시
   - 청크 인코딩으로 전송하지 않는 한 필수값
 + 기능
   - 서버 충돌로 인한 메세지 잘림 검출  
     * 길이값 모를 경우 커넥션이 정상적으로 닫혔는지 알 수 없음
-    * 캐싱 프록시 서버는 오류 방지 위해 Content-Length 값 있어야 캐시함
-    * Content-Length 값 잘못된 경우 버그 발생 가능  
+    * 캐싱 프록시 서버는 오류 방지 위해 `Content-Length` 값 있어야 캐시함
+    * `Content-Length` 값 잘못된 경우 버그 발생 가능  
       => HTTP/1.1의 사용자 에이전트는 길이값 오류 시 사용자에게 안내
   - 지속커넥션의 공유메세지 분할
     * 커넥션 지속 시 커넥션 닫힌 위치로 메세지 끝 인식 불가   
-      => Content-Length 값 필수  
+      => `Content-Length` 값 필수  
       but) 청크 인코딩 사용 시 데이터가 일정 크기로 분할되므로 전체 길이값 몰라도 됨
 + 길이값 판별 규칙 (순서대로 적용)
-  1) 본문이 없는 특정 타입 HTTP 메세지에서는 Content-Length 헤더 무시됨  
+  1) 본문이 없는 특정 타입 HTTP 메세지에서는 `Content-Length` 헤더 무시됨  
      ex) HEAD 응답 
-  2) 메세지에 Transfer-Encoding 헤더 포함 시 '0 Byte 청크' 패턴으로 끝나야  
+  2) 메세지에 `Transfer-Encoding` 헤더 포함 시 '0 Byte 청크' 패턴으로 끝나야  
      cf) 커넥션 닫혀서 먼저 끝나지 않는 한
   3) Content-Length 값 허용된 메세지에
-     * Transfer-Encoding 헤더 없는 경우 => Content-Length 값에 본문 길이값을 저장
-     * Transfer-Encoding 헤더 있는 경우 => Content-Length 값 무시
-  4) 메세지가 multipart/byteranges 타입이고 Content-Length 값 미정의 시 
+     * `Transfer-Encoding` 헤더 없는 경우 => `Content-Length` 값에 본문 길이값을 저장
+     * `Transfer-Encoding` 헤더 있는 경우 => `Content-Length` 값 무시
+  4) 메세지가 `multipart/byteranges` 타입이고 Content-Length 값 미정의 시 
      * 메세지의 각 부분은 각자 스스로 크기를 정의
      * 수신자가 해당 미디어 타입 해석할 수 있을 때만 송신해야
   5) 위 규칙에 미해당 시 엔티티는 커넥션이 닫힐 때 종료
      * 서버만 메세지 끝났음 알리기 위해 커넥션 닫을 수 있음
-  6) HTTP/1.0 어플리케이션과 호환 시 유효한 Content-Length 값 필수
-     * 길이값 판별 불가능 시 400(Bad Request) 응답 전송 권고
-     * 유효한 content-Length 값 요구 시 411(Length Required) 응답 전송 권고
+  6) HTTP/1.0 어플리케이션과 호환 시 유효한 `Content-Length` 값 필수
+     * 길이값 판별 불가능 시 `400(Bad Request)` 응답 전송 권고
+     * 유효한 `content-Length` 값 요구 시 `411(Length Required)` 응답 전송 권고
 
 ### 엔터티 요약
 + 특성
@@ -70,7 +69,7 @@ tags:
     * 엔터티 본문의 MIME 타입을 기술
     * 인코딩 전의 엔터티 본문 유형을 명시
     * MIME 타입 외에 추가적인 매개변수 지원  
-      ex) Content-Type: text/html; charset=EUC-KR
+      ex) `Content-Type: text/html; charset=EUC-KR`
   - MIME 타입은 
     * 데이터 매체의 기저 형식 표준 명칭임
     * IANA(Internet Assigned Numbers Authority)에서 등록
@@ -81,8 +80,8 @@ tags:
   |---|---|
   |text/html| HTML 문서|
   |text/plain| 플레인 텍스트 문서|
-  |mage/gif| GIF 이미지|
-  |mage/jpeg| JPEG 이미지|
+  |image/gif| GIF 이미지|
+  |image/jpeg| JPEG 이미지|
   |audio/x-wav| WAV 음향데이터|
   |model/vrml| 삼차원 VRML 모델|
   |application/vnd.ms-powerpoint| MS 파워포인트 프레젠테이션|
@@ -97,18 +96,18 @@ tags:
   - 멀티파트 폼 제출
     * 가변 길이 텍스트 필드와 업로드 객체는 각각 멀티파트 본문 구성하는 하나의 파트로 전송됨
     * 멀티파트 본문은 여러 다른 종류와 길이값으로 채워진 폼을 허용
-    * ex) Content-Type: multipart/form-data; boundary=[abcdefghijklmnopqrstuvxyz]
-    * ex) Content-Type: multipart/mixed; boundary=BbC04y
+    * ex) `Content-Type: multipart/form-data; boundary=[abcdefghijklmnopqrstuvxyz]`
+    * ex) `Content-Type: multipart/mixed; boundary=BbC04y`
   - 멀티파트 범위 응답
     * 범위요청에 대한 응답 또한 멀티파트가 될 수 있음  
-      => Content-Type: multipart/byteranges 헤더와 각각 다른 범위 담은 멀티파트 본문이 함께 전송됨
+      => `Content-Type: multipart/byteranges` 헤더와 각각 다른 범위 담은 멀티파트 본문이 함께 전송됨
 
 ### 콘텐츠 인코딩
 + 과정
-  1) 서버가 Content-Type과 Content-Length 헤더 포함된 응답메세지를 생성
+  1) 서버가 `Content-Type`과 `Content-Length` 헤더 포함된 응답메세지를 생성
   2) 콘텐츠 인코딩 서버(원 서버나 프록시)가 인코딩된 메세지를 생성
-     * Content-encoding 헤더를 추가
-     * Content-Length 헤더를 수정
+     * `Content-encoding` 헤더를 추가
+     * `Content-Length` 헤더를 수정
   3) 수신자가 인코딩된 메세지 수신 및 디코딩 처리 통해 원본 취득
 + 유형
   - HTTP 몇 개의 표준 콘텐츠 인코딩 유형 및 확장 인코딩을 허용
@@ -124,11 +123,11 @@ tags:
 
 + Accept Encoding 헤더
   - 클라이언트가 지원하는 인코딩 목록을 전달
-  - 없거나 값이  `*`인 경우 어떤 인코딩도 수용하는 것으로 간주
+  - 값 없거나 값이  `*`인 경우 어떤 인코딩도 수용하는 것으로 간주
   - 각 인코딩에 Q(quality)값 설정해 선호도 표시 가능
     * 선호도 범위: 0.0 (비선호) ~ 1.0 (선호)
     * 토큰이 `*`인 경우 '나머지 모든 인코딩'을 의미  
-      ex) Accept-Encoding: gzip;q=1.0, identity;q=0.5, *;q=0
+      ex) `Accept-Encoding: gzip;q=1.0, identity;q=0.5, *;q=0`
 
 ### 전송 인코딩 
 + 특성
@@ -146,18 +145,18 @@ tags:
 + 헤더
   - Transfer-Encoding  
     : 안전한 전송 위해 어떤 인코딩이 메세지에 적용됐는지 수신자에게 안내  
-    ex) Transfer-Encoding: chunked
+    ex) `Transfer-Encoding: chunked`
   - TE  
     * 어떤 확장 전송 인코딩 사용 가능한지 서버에게 안내   
     * Q값으로 선호도 표시 가능
     * HTTP/1.1은 청크인코딩 선호도에 0.0 설정 금지  
-    ex) TE: trailers, chunked
+    ex) `TE: trailers, chunked`
 + 규칙 (적용 필수)
-  - 전송 인코딩 집합은 반드시 chunked 포함해야 (메세지가 커넥션 종료로 끝나는 경우 제외)
+  - 전송 인코딩 집합은 반드시 `chunked` 포함해야 (메세지가 커넥션 종료로 끝나는 경우 제외)
   - 청크 송 인코딩 사용 시 메세지 본문에 적용된 마지막 전송 인코딩 있어야
   - 청크 전송 인크딩은 반드시 메세지 본문에 한 번 이상 적용돼야 => 수신자가 메세지 길이값 인식 가능
   - 비 HTTP/1.1 어플리케이션에 전송하지 않아야
-  - 서버는 이해할 수 없는 전송 인코딩 수신 시 501(Unimplemented)로 응답해야
+  - 서버는 이해할 수 없는 전송 인코딩 수신 시 `501(Unimplemented)`로 응답해야
 
 ### 청크 인코딩(Chunked Encoding)
 + 특성
@@ -177,10 +176,10 @@ tags:
   - 청크 스트림  
   - 마지막 청크: 길이가 0  
   - 트레일러  
-    * 메세지 헤더에 Trailer 헤더가 있을 때만 존재
+    * 메세지 헤더에 `Trailer` 헤더가 있을 때만 존재
     * TE 헤더가 트레일러 수용 가능 표시하거나 클라이언트가 무시 가능한 선택적 메타데이터인 경우 추가 가능
-    * 메세지 헤더는 청크 인코딩 메세지 다음에 오게 될 헤더들을 Trailer 헤더에 나열  
-      but) Transfer-Encoding, Trailer, Content-Length 헤더는 나열 불가
+    * 메세지 헤더는 청크 인코딩 메세지 다음에 오게 될 헤더들을 `Trailer` 헤더에 나열  
+      but) `Transfer-Encoding`, `Trailer`, `Content-Length` 헤더는 나열 불가
 
   ![](http://tlog.tammolo.com/static/9bd54aaca7973a515749170d45e9be2b/53236/Untitled-1a66f7aa-a936-4342-8661-3dee423175ec.png)
 
@@ -212,14 +211,14 @@ tags:
     
     |요청유형|검사기|상세|
     |---|---|---|
-    |If-Modified-Since|Last-Modified| 지난 Last-Modified 헤더에 기술된 시각 이후 변경점 존재하는 경우 리소스 사본 전송하라|
-    |If-Unmodified-Since|Last-Modified| 지난 Last-Modified 헤더에 기술된 시각 이후 변경점 존재하는 경우 리소스 사본 전송하라|
-    |If-Match|ETag|지난 ETag 헤더에 기술된 값과 엔터티 태그가 일치하는 경우 리소스 사본 전송하라|
-    |If-None-Match|ETag|지난 ETag 헤더에 기술된 값과 엔터티 태그가 불일치하는 경우 리소스 사본 전송하라|
+    |If-Modified-Since|Last-Modified| 지난 `Last-Modified`헤더에 기술된 시각 이후 변경점 존재하는 경우 리소스 사본 전송하라|
+    |If-Unmodified-Since|Last-Modified| 지난 `Last-Modified` 헤더에 기술된 시각 이후 변경점 존재하는 경우 리소스 사본 전송하라|
+    |If-Match|ETag|지난 `ETag` 헤더에 기술된 값과 엔터티 태그가 일치하는 경우 리소스 사본 전송하라|
+    |If-None-Match|ETag|지난 `ETag` 헤더에 기술된 값과 엔터티 태그가 불일치하는 경우 리소스 사본 전송하라|
 
 + 신선도
   - 콘텐츠가 유효하다고 가정할 수 있는 캐시 가능 기간 정보
-  - 서버가 Expires(절대시간)나 Cache-Control(상대시간) 헤더 통해 안내 가능
+  - 서버가 `Expires`(절대시간)나 `Cache-Control`(상대시간) 헤더 통해 안내 가능
 + Cache-Control 헤더
   - 서버에서 떠난 후로부터의 총시간 초단위로 계산
   - 시계 동기화에 비의존적이므로 더 정확
@@ -242,7 +241,9 @@ tags:
     |응답|must-revalidate|응답은 제공 전에 반드시 서버 통해 재검사 해야|
     |응답|proxy-revalidate|공유된 캐시는 반드시 응답을 원 서버 통해 재검사 해야 <br>(개인 캐시는 무시 가능)|
     |응답|max-age = `n`|문서는 캐시 가능하고 n초보다 오래되지 않은 경우 신선함|
-    |응답|s-max-age = `n`|공유된 캐시에 적용 가능한 문서의 최대 수명을 정의<br>max-age 지시자 덮어씀<br>(개인 캐시는 무시 가능)|
+    |응답|s-max-age = `n`|공유된 캐시에 적용 가능한 문서의 최대 수명을 정의<br>`max-age` 지시자 덮어씀<br>(개인 캐시는 무시 가능)|
+    
+    > stale: 신선하지 않은
 
 ### 범위 요청
 + 특성
@@ -262,7 +263,7 @@ tags:
 + Range 헤더
   - 여러 범위로 요청 가능 (각 범위는 순서 없고 겹칠 수 있음)  
   - 하나의 요청으로 여러 범위 요청 시 응답은 하나의 멀티파트 본문으로 반환  
-    => Content-Type: multipart/byteranges 헤더 포함
+    => `Content-Type: multipart/byteranges` 헤더 포함
   - 주의! 인스턴스 조작의 일종임 
     => 클라이언트와 서버가 동일 버전 문서 소지해야 의미 있음
   - ex)
@@ -287,16 +288,16 @@ tags:
     * 델타 보내고 있음을 명시
     * 최신 버전에 대한 새 식별자 명시 
   - 클라이언트가 수신된 델타를 사본에 적용해 최신버전 생성
-    * ETag에 최신 버전정보 갱신 
+    * `ETag`에 최신 버전정보 갱신 
 + 헤더
 
   |명칭|상세|
   |---|---|
-  |Etag| 문서의 각 인스턴스의 유일한 식별자 <br> 서버가 응답에 담아 전송 <br> 클라이언트가 다음번 요청 시 If-Match, If-None-Match 헤더에 사용|
+  |Etag| 문서의 각 인스턴스의 유일한 식별자 <br> 서버가 응답에 담아 전송 <br> 클라이언트가 다음번 요청 시 `If-Match`, `If-None-Match` 헤더에 사용|
   |If-None-Match| 클라이언트가 보내는 요청 헤더 <br> 서버와 클라이언트의 문서 버전이 불일치하는 경우에만 요청|
   |A-IM| 수용 가능한 인스턴스 조작의 종류 명시하는 클라이언트 요청 헤더|
-  |IM| 적용된 인스턴스 조작 종류 명시하는 서버 응답 헤더 <br> 응답 코드가 226(IM Used)일 경우 전송|
-  |Delta-Base|델타 생성 위해 사용된 기저 문서의 Etag 명시하는 서버 응답 헤더 <br> (클라이언트 요청의 If-None-Match 헤더의 ETag와 동일해야)|
+  |IM| 적용된 인스턴스 조작 종류 명시하는 서버 응답 헤더 <br> 응답 코드가 `226(IM Used)`일 경우 전송|
+  |Delta-Base|델타 생성 위해 사용된 기저 문서의 Etag 명시하는 서버 응답 헤더 <br> (클라이언트 요청의 `If-None-Match` 헤더의 `ETag`와 동일해야)|
 
 + 인스턴스 조작
   - 반환 전 압축률 높이기 위해 복수의 인스턴스 조작 가능
@@ -304,12 +305,12 @@ tags:
   |명칭|상세|
   |---|---|
   |vcdiff|vcdiff 알고리즘 이용한 델타 <br> diff 알고리즘보다 강력해서 텍스트 파일 외에도 적용 가능 <br> 일반적으로 diff -e 보다 더 작은 델타 생성|
-  |diffe|유닉스의 diff -e 명령 사용한 델타 <br> 유닉스 ed 편집기 사용해 델타 적용 가능 <br> 파일에 대한 줄 단위 비교 수행 => 바이너리 파일에 이용 불가|
+  |diffe|유닉스의 `diff -e` 명령 사용한 델타 <br> 유닉스 ed 편집기 사용해 델타 적용 가능 <br> 파일에 대한 줄 단위 비교 수행 => 바이너리 파일에 이용 불가|
   |gdiff|gdiff 알고리즘 이용한 델타|
   |gzip|gzip 알고리즘 이용한 압축 |
   |deflate|deflate 알고리즘 이용한 압축|
   |range|현재 응답이 범위선택에 대한 결과(partial 콘텐츠)임을 안내하기 위한 서버 응답|
-  |identity|클라이언트가 identity 인스턴스 조작 수용의사 있음 안내하기 위한 클라이언트 요청 <br>A-IM 헤더에서 사용|
+  |identity|클라이언트가 identity 인스턴스 조작 수용의사 있음 안내하기 위한 클라이언트 요청 <br>`A-IM` 헤더에서 사용|
 
 
 ## 16장 국제화
