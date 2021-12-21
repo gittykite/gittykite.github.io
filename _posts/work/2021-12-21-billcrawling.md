@@ -1,7 +1,7 @@
 ---
 title: "[Python] 국회의원 발의법률안 API + 크롤링"
 categories:
-  - 코딩
+  - code
 tags:
   - Python
   - 크롤링
@@ -15,7 +15,7 @@ tags:
 + 파이썬: 3.8.6
 + 패키지
   - pandas: 데이터 조작 및 저장
-  - bs4 (beautifulsoup): 크롤링
+  - bs4 (beautifulsoup): 크롤링 라이브러리
   - lxml: bs4가 의존하는 XML 조작 라이브러리
   - requests: API 요청 처리
 
@@ -37,7 +37,7 @@ conda install pandas bs4 lxml requests
 열린국회에 접속하면 국회에서 제공하는 API 목록을 확인할 수 있으며, API별 메타데이터, 샘플URL 등을 확인할 수 있다. 
 
 열린국회 홈페이지  
-https://open.assembly.go.kr/portal/mainPage.do
+> https://open.assembly.go.kr/portal/mainPage.do
 
 인증키 발급을 위해서는 회원가입이 필요하며, 로그인 후 [OPEN API 서비스](https://open.assembly.go.kr/portal/openapi/main.do)에 접속해 [마이페이지](https://open.assembly.go.kr/portal/openapi/openApiActKeyPage.do)에 들어가면 신규발급 또는 기존 인증키 확인이 가능하다.  
 
@@ -86,7 +86,7 @@ https://open.assembly.go.kr/portal/mainPage.do
 ### 1.2. 모듈로드 및 API 클래스 작성
 우선 사용할 모듈들의 import 구문을 아래와 같이 작성한다.
 
-```
+```python
 # 모듈 로드
 # 기본모듈
 import datetime
@@ -102,7 +102,7 @@ from bs4 import BeautifulSoup
 ```
 
 상수 변수 적용을 위한 데코레이터도 추가해준다.
-```
+```python
 # 데코레이터
 def constant(func):
     def func_set(self, value):
@@ -114,7 +114,7 @@ def constant(func):
 ```
 
 재활용 가능성이 높은 유틸리티 함수를 아래와 같이 작성하였다. 타임스탬프는 파일 저장 시 파일명을 설정할 때, 데이터프레임 변환은 다른 API를 추가할 때 활용할 수 있을 것이다.
-```
+```python
 # 유틸리티 함수
 # 타임스탬프(초단위)
 def now_timestamp():
@@ -143,7 +143,7 @@ def xml_to_df(xml, row_tag="row", headers_dic={}):
 ```
 
 OPEN API 이용 시 주로 활용되는 변수들을 묶어 작성한 아래 클래스를 추가한다.
-```
+```python
 # OpenAPI 공통 클래스
 class OpenAPI:
     # 초기화 함수
@@ -208,7 +208,7 @@ class OpenAPI:
 ```
 
 위의 클래스를 상속한 의안정보시스템 OpenAPI 클래스를 아래와 같이 작성한다.
-```
+```python
 # 의안정보시스템 OpenAPI 클래스
 class LIKMS(OpenAPI):
     def __init__(self, api_key):
@@ -230,8 +230,7 @@ class LIKMS(OpenAPI):
 
 ### 1.3. 국회의원발의 법률안 데이터 요청하기
 의안정보시스템 OpenAPI 클래스에 국회의원발의 법률안 API의 요청인자와 출력변수의 기본값을 잡아주는 함수를 추가한다. 인증키는 객체 생성 시에만 설정되도록 클래스 변수를 적용하였다.
-
-```
+```python
     # 조회요청 파라미터 딕셔너리
     def search_params_dic(self):
         params_dic = {
@@ -271,7 +270,7 @@ class LIKMS(OpenAPI):
 ```
 
 사용하는 API의 종류를 결정하는 서비스 코드는 향후 확장을 고려해 딕셔너리 함수로 의안정보시스템 OpenAPI 클래스에 추가하였다.
-```
+```python
     # 서비스코드 취득
     def get_svc_code(self, svc_name):
         svc_code_dic = {
@@ -307,7 +306,7 @@ class LIKMS(OpenAPI):
 ```
 
 아래와 같이 객체를 생성하고 테스트 해본다.
-```
+```python
 # TEST 1
 # 의안정보시스템 OpenAPI 클래스 객체 생성
 api_likms = LIKMS("발급한_인증키_값")
@@ -328,7 +327,7 @@ print(xml)
 
 ### 1.4. 국회의원발의 법률안 데이터 CSV로 저장하기
 특정 대수에 발의된 모든 국휘의원발의 법률안 데이터를 저장하기 위해 아래와 같이 while 반복문이 포함된 저장함수를 추가한다. API는 XML 형태로 결과를 출력하므로 이를 데이터프레임으로 변환해 페이지가 끝날 때까지 리스트에 저장하고. 리스트에 담긴 데이터는 pandas의 concat 함수를 이용해 병합한 뒤 CSV 파일로 저장한다. (경로를 따로 지정하지 않았으므로 동일 디렉토리에 저장됨)
-```
+```python
 # 국회의원 발의법률안 저장 (대수별)
 def save_bills(api_likms, assembly_age, index=1, size=1000):
     print("####### save_bills START ######")
@@ -375,7 +374,7 @@ def save_bills(api_likms, assembly_age, index=1, size=1000):
 ```
 
 아래 코드를 테스트 추가해 20대 국회에서 발의된 의원발의 법률안 정보를 저장해본다.
-```
+```python
 # TEST 2
 assembly_age = "20"
 save_bills(api_likms, assembly_age)
@@ -392,7 +391,7 @@ $ ####### save_bills END ######
 
 ### 2.1. 발의의원 데이터 크롤링 함수 작성
 아래와 같이 발의의원 목록 페이지에서 의원정보를 긁어오는 크롤링 함수를 의안정보시스템 OpenAPI 클래스에 추가한다. 
-```
+```python
     # 발의의원 데이터 크롤링 함수
     def search_proposers(self, bill_id):
         member_list = []
@@ -430,7 +429,7 @@ $ ####### save_bills END ######
 ```
 
 의원 목록은 periodDiv 라는 id의 div 태그에 담겨있고, 각 의원의 정보는 의원 소개 페이지로 연결되는 a 태그에 담겨있으므로 find_all 함수를 이용해 한꺼번에 추출할 수 있으며. 의원의 이름과 정당은 a 태그의 텍스트에서, 의원ID는 의원 소개 페이지 URL에서 추출할 수 있다. (참고: 대표발의 의원은 첫번째로 표시되며, 소개 페이지가 현직 의원의 경우에만 표시되어 빈 데이터 처리 추가 필요)
-```
+```html
 	<div id="periodDiv" class="layerpop layer830x500">
 		<p class="layti">
 					제안자 목록
@@ -462,7 +461,7 @@ $ ####### save_bills END ######
 ```
 
 아래 코드를 실행해 기존에 저장된 20대 국회의원발의 법률안 CSV에 발의의원 데이터를 추가하고 새로운 파일로 저장한다. (전체 데이터 추가 시 오랜 시간이 소요되므로 데이터를 축소해서 테스트 할 것)
-```
+```python
 # TEST 3
 csv_path = "TEST2에서_저장한_CSV_파일_축소본.csv"
 df_total = pd.read_csv(csv_path)
@@ -502,7 +501,7 @@ df_merge.to_csv(merge_csv_path, mode="w")
 |파일-미첨부|http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_O2X1D0J6C1T4Q0C9C5X0S3N3B4X3B2
 |비고-요구됨|http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_N2H1K0G6W2I2R1W6G3T6L2S8Z3N4N5
 
-```
+```python
     # 의안 파일 다운로드 함수
     def save_bill_files(self, bill_id, title_max=10, save_bill_flag=False, save_cost_estimate_flag=True, save_no_estimate_flag=False):
         # 파일명 및 경로 설정
@@ -605,7 +604,7 @@ df_merge.to_csv(merge_csv_path, mode="w")
 ### 2.3. 검토보고서 다운로드
 의안정보시스템 OpenAPI 클래스에 아래와 같이 검토보고서, 심사보고서, 위원회결의안을 다운로드 하는 함수를 추가한다.
 
-```
+```python
     # 검토보고서 다운로드
     def save_bill_report(self, bill_id, title_max=20, advisor_review_flag=True, committee_review_flag=False, committee_bill_flag=False):
         # 파일명 및 경로 설정
@@ -737,7 +736,7 @@ df_merge.to_csv(merge_csv_path, mode="w")
 ### 2.4. 반복처리
 우선 처리상태 확인을 쉽게 하기 위해 프로그레스 바 함수를 유틸리티 함수 영역에 추가한다. (출처: https://stackoverflow.com/questions/3173320/text-progress-bar-in-the-console/34325723)
 
-```
+```python
 # 프로그레스바 출력 함수
 def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
     """
@@ -762,7 +761,7 @@ def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, 
 ```
 
 아래와 같이 반복문을 이용한 일괄 다운로드 함수 2가지를 추가한다.
-```
+```python
 # 의안원문 및 비용추계서 일괄 다운로드
 def save_cost_estimates(api_likms, assembly_age, save_bill_flag, save_cost_estimate_flag, save_no_estimate_flag):
     # CSV 파일 로드
@@ -853,7 +852,7 @@ def save_bill_reports(api_likms, assembly_age, advisor_review_flag, committee_re
 ```
 
 실행 코드를 추가해 테스트를 진행 한다 (축소본 이용하지 않는 경우 장시간 소요되며, sleep 시간이 짧을 경우 타임아웃 발생할 수 있음에 유의)  
-```
+```python
 # TEST 4
 # 20대 국회의원발의 법률안 검토보고서 저장 테스트
 save_cost_estimates(api_likms, "20", True, True, True)
@@ -864,7 +863,10 @@ save_bill_reports(api_likms, "20", True, True, True)
 
 ## 3. 전체코드
 사용된 전체코드는 다음과 같다.
-```
+<details markdown="1">
+<summary>접기/펼치기</summary>
+
+```python
 # 모듈 로드
 # 기본모듈
 import datetime
@@ -1532,3 +1534,5 @@ save_cost_estimates(api_likms, "20", True, True, True)
 # 20대 국회의원발의 법률안 검토보고서 저장 테스트
 save_bill_reports(api_likms, "20", True, True, True)
 ```
+
+</details>
