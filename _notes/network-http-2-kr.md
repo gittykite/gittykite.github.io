@@ -1,8 +1,8 @@
 ---
 title: HTTP 완벽가이드 - 2. 연결 및 서버 아키텍처
-category: 통신/보안
+category: Study
 tags:
-  - HTTP
+  - Network
 ---
 
 ## 4장 커넥션 관리
@@ -89,6 +89,7 @@ tags:
   | TCP slow-start | 데이터 전송 성공한 커넥션에 높은 속도(전송가능 패킷 수) 허용 | 혼잡제어 효과|
   | nagle 알고리즘 | 작은 패킷은 버퍼에 저장해 한꺼번에 전송 <br> <-> [silly window synndrome](https://programming119.tistory.com/147)  | - 작은 메세지의 긴 지연 <br> - 확인응답 편승 지연 악화 <br> - TCP_NODELAY 파라미터로 off 가능 |
   |TIME_WAIT 지연 및 포트 고갈 |커넥션 종료 시 일정 기간(2MSL) 재연결 방지 | - 이전 커넥션 패킷 유입 방지 <br> - 성능시험 시 발생 가능|
+
   - silly window syndrome  
     : 1 Byte 패킷 대량 전송하는 반사회적 전송행위
   - 포트고갈  
@@ -313,6 +314,7 @@ tags:
     : HTTP메세지에서 신원식별정보(OS, From, Referer, Cookie) 제거해 익명성 보장  
 
 ### 프록시의 배치
+
 |명칭|배치 위치|상세|
 |---|---|---|
 |출구 프록시 |LAN의 출구 |로컬 네트워크와 외부망 사이 트래픽 제어 가능 <br>ex) 방화벽, 인터넷 요금 절약, 어린이 필터 |
@@ -347,6 +349,7 @@ tags:
   |웹서버 수정|HTTP 리다이렉션 명령(305코드) 이용해 프록시로 리다이렉트 가능|
 
 ### 클라이언트 프록시 설정
+
 |방법|상세|
 |---|---|
 |수동 설정 |프록시 사용을 명시적으로 설정 |
@@ -554,6 +557,7 @@ tags:
 
 ### 캐시 제어
 + 방식
+
   |명칭/헤더|상세|
   |---|---|
   |Cache-Control: no-store <br> Cache-Control: no-cache <br> Pragma: no-cache|no-store:사본 생성 금지 <br> no-cache: 재검사 필수 <br> Pragma: HTTP/1.0+ 호환용|

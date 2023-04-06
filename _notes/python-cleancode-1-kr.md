@@ -1,11 +1,9 @@
 ---
 title: 파이썬 클린 코드 - 1. 좋은 코드와 객체지향
-category: 설계/방법론
+category: Python
 tags:
-  - Python
+  - Architecture
 ---
-
-# 파이썬 클린 코드
 
 |항목|상세|
 |---|---|
@@ -14,8 +12,6 @@ tags:
 |Title | [Clean Code in Python: Refactor your legacy code base](https://www.amazon.com/Clean-Code-Python-Refactor-legacy/dp/1788835832)|
 |Author | Mariano Anaya|
 |Published | 2018 (2019)|
-
-### 개요
 
 |챕터|내용|
 |---|---|
@@ -30,9 +26,7 @@ tags:
 |9. 일반적인 디자인 패턴|유지보수 위한 파이썬 디자인 패턴|
 |10. 클린 아키텍처|내용 전반 정리|
 
-# 파이썬 클린 코드 - 1. 좋은 코드와 객체지향
-
-## 서문 
+# 0. 서문 
 + 예제 관련 (p.4-5)
   - 모든 주제는 예제를 통해 설명 (파이썬 3.7 기준, 플랫폼 비종속적)
   - 예제는 대부분 표준 라이브러리 & 순수 파이썬으로 작성
@@ -46,9 +40,9 @@ tags:
     * 사용된 정의/비고/권장사항은 주의깊게 살펴야
     * 권장사항은 절대적 법칙 아니므로 실용적 측면에서 바라봐야
 
-## chapter 1 소개, 코드 포매팅과 도구
+# 1. 소개, 코드 포매팅과 도구
 
-### 클린 코드란
+## 1.1 클린 코드란
 + 의미 (p.18-19)
   - 유일하고 엄격한 정의는 없으며 공식적으로 측정할 방법도 없음
     * 체커(checker)로 문법을 체크하거나, 린터(linter)로 취약점을 찾거나, 정적 분석기로 분석할 수는 있음 
@@ -82,7 +76,7 @@ tags:
     * [PEP-8(Python Enhancement Proposal)](https://www.python.org/dev/peps/pep-0008/)
     * [How to Write Beautiful Python Code With PEP 8](https://realpython.com/python-pep8/)
 
-### 프로젝트 코딩 스타일 가이드 (p.21-23)
+## 1.2 프로젝트 코딩 스타일 가이드
   - 코드가 일관되게 구조화 => 가독성 높아지고 이해 용이
   - 모든 팀원이 표준화된 구조 사용 => 신속한 패턴파악 및 오류감지 가능 
     * ex) Perception in Chess (1973)  
@@ -105,7 +99,7 @@ tags:
   - 버그 및 실수 쉽게 파악 가능
   - 코드 품질 도구 이용 시 잠재적 버그 파악 가능 
 
-### Docstring과 어노테이션
+## 1.3 Docstring과 어노테이션
 + p.23
   - 코드를 문서화하는 것은 주석을 추가하는 것과 다름
   - 주석보다는 문서화를 통해 데이터 타입 설명하고 예제 제공해야
@@ -141,7 +135,7 @@ tags:
 + 참고
   - [파이썬 (doc) 스타일 가이드에 대한 정리](https://medium.com/@kkweon/%ED%8C%8C%EC%9D%B4%EC%8D%AC-doc-%EC%8A%A4%ED%83%80%EC%9D%BC-%EA%B0%80%EC%9D%B4%EB%93%9C%EC%97%90-%EB%8C%80%ED%95%9C-%EC%A0%95%EB%A6%AC-b6d27cd0a27c)
 
-### 어노테이션 (p.26-27)
+### 어노테이션
 + 정의
   - 함수 인자로 어떤 값이 와야 하는지 힌트를 주는 것
   - 변수의 예상 타입 및 메타데이터 지정 가능
@@ -212,7 +206,7 @@ tags:
   - 참고
     * [PYTHON 3.9에 등장한 상큼한 8가지 FEATURES](https://tech.madup.com/Python3.9/) 
 
-### 기본 품질 향상 (p.30-31)
+## 1.4 기본 품질 향상
 + 방법   
   - 개발자의 노력
     * 코드리뷰에 시간 투자

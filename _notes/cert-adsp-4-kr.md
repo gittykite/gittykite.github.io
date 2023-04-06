@@ -1,9 +1,8 @@
 ---
-title: ADsP 과목4. 데이터 분석
-category: 데이터분석
+title: "[ADsP] 과목4. 데이터 분석"
+category: certificate
 tags:
   - ADsP
-  - 자격증/시험
 ---
 
 ## Index

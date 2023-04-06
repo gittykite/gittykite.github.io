@@ -1,9 +1,8 @@
 ---
-title: ADsP 과목1. 데이터 이해
-category: 데이터분석
+title: "[ADsP] 과목1. 데이터 이해"
+category: certificate
 tags:
   - ADsP
-  - 자격증/시험
 ---
 
 ## Index

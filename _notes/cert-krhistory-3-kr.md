@@ -1,9 +1,8 @@
 ---
-title: 한국사 고급 3. 조선
-category: 공무원
+title: "[한국사] 고급 3. 조선"
+category: certificate
 tags:
-  - 한국사
-  - 자격증/시험
+  - history
 ---
 
 ## Index
