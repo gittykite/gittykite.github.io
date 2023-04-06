@@ -1,10 +1,9 @@
 ---
 title: "[Python] 국회의원 발의법률안 API + 크롤링"
 categories:
-  - code
-tags:
   - Python
-  - 크롤링
+tags:
+  - Crawling
 ---
 
 ## 0. 파이썬 환경구축
