@@ -2,7 +2,9 @@
 layout: archive
 title: "Sitemap"
 permalink: /sitemap/
-author_profile: false
+author_profile: true
+sidebar:
+    nav: "categories"
 ---
 
 <h2>Pages</h2>
