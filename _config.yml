@@ -19,7 +19,7 @@ locale                   : "ko-KR" #"en-US" => _data/ui-text.yml
 title                    : "Kitelog"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
-name                     : "Kite Sooyeun Kim"
+name                     : "Sooyeun Kim"
 description              : "Log what I have learned"
 url                      : "https://gittykite.github.io/" # the base hostname & protocol
 baseurl                  : # the subpath of your site, e.g. "/blog"
@@ -93,7 +93,7 @@ analytics:
 
 # Site Author
 author:
-  name             : "Kite Sooyeun Kim"
+  name             : "Sooyeun Kim"
   avatar           : /assets/images/picme.png
   bio              : "An archiving developer."
   location         : 
